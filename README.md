@@ -1,42 +1,33 @@
-# 🚗 AutoManado — Rental & Jual Mobil Manado
+# Welcome Manado Transport
 
-Marketplace rental dan jual-beli mobil untuk Kota Manado, Sulawesi Utara.
-Tahap ini berisi **tampilan/frontend** dengan data contoh (mock) — sudah bisa
-langsung diakses tanpa Supabase. Integrasi database & panel admin menyusul.
+Website booking transportasi untuk subdomain **transport.welcomemanado.com** — Next.js 14 (App Router) + Tailwind CSS.
 
-## Tech Stack
-- Next.js 14 (App Router, TypeScript)
-- Tailwind CSS
-- lucide-react
+Data armada & booking dikelola dari **admin_wm** melalui **api_wm** (Laravel):
+- `GET /transportations` — daftar armada
+- `GET /transportations/slug/{slug}` — detail per slug
+- `POST /transportation-bookings` — simpan booking (lalu lanjut WhatsApp)
+- `GET /gallery-items` — galeri aktivitas
 
-## Menjalankan
+## Menjalankan lokal
+
 ```bash
+# API (di folder api_wm)
+php artisan serve            # http://localhost:8000
+
+# Website
 npm install
-npm run dev
-```
-Buka http://localhost:3000
-
-## Build
-```bash
-npm run build
-npm start
+npm run dev                  # http://localhost:3000
 ```
 
-## Struktur Halaman
-- `/` Beranda (hero, statistik, armada unggulan, testimoni)
-- `/katalog` Katalog + filter + search
-- `/mobil/[slug]` Detail mobil + kalkulator sewa + tombol WhatsApp
-- `/promo` Promo & diskon
-- `/tentang` Tentang AutoManado
+## Environment (.env.local)
 
-## WhatsApp
-Semua tombol pesan mengarah ke `6282348135155` lewat `lib/whatsapp.ts`.
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api   # prod: https://api.welcomemanado.my.id/api
+NEXT_PUBLIC_WHATSAPP_NUMBER=628xxxxxxxxxx
+NEXT_PUBLIC_SITE_URL=https://transport.welcomemanado.com
+```
 
-## Langkah berikutnya (belum dikerjakan)
-- Integrasi Supabase (cars, testimonials) + RLS
-- Supabase Auth + middleware proteksi `/admin`
-- Admin dashboard CRUD + upload foto
-- JSON-LD LocalBusiness, OG image dinamis
+## Deploy
 
-Data contoh ada di `lib/data.ts`. Ganti `cars`/`testimonials` dengan query
-Supabase saat integrasi database dilakukan.
+Vercel (framework Next.js), custom domain `transport.welcomemanado.com`
+(DNS: CNAME `transport` → `cname.vercel-dns.com`). Set ketiga env var di atas.

@@ -2,36 +2,43 @@
 
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-import { faqs } from "@/lib/faqs";
+import { useLang } from "@/lib/i18n/LanguageProvider";
 
 export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
+  const { dict } = useLang();
 
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="space-y-2">
-        {faqs.map((f, i) => {
+      <div className="space-y-3">
+        {dict.faq.items.map((f, i) => {
           const isOpen = open === i;
           return (
             <div
               key={i}
-              className={`overflow-hidden rounded-xl border transition ${
+              className={`overflow-hidden rounded-2xl border transition ${
                 isOpen
-                  ? "border-teal/30 bg-teal/5 dark:bg-teal/10"
-                  : "border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
+                  ? "border-red-200 bg-red-50/50 dark:border-red-900/40 dark:bg-red-900/10"
+                  : "border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900"
               }`}
             >
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
               >
-                <span className={`text-sm font-semibold ${isOpen ? "text-teal" : "text-gray-800 dark:text-gray-100"}`}>
+                <span
+                  className={`text-sm font-black tracking-tight ${
+                    isOpen
+                      ? "text-red-600"
+                      : "text-slate-800 dark:text-slate-100"
+                  }`}
+                >
                   {f.q}
                 </span>
                 {isOpen ? (
-                  <Minus className="h-4 w-4 shrink-0 text-teal" />
+                  <Minus className="h-4 w-4 shrink-0 text-red-600" />
                 ) : (
-                  <Plus className="h-4 w-4 shrink-0 text-gray-400 dark:text-gray-500" />
+                  <Plus className="h-4 w-4 shrink-0 text-slate-400 dark:text-slate-500" />
                 )}
               </button>
               <div
@@ -40,7 +47,7 @@ export default function Faq() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                  <p className="px-6 pb-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                     {f.a}
                   </p>
                 </div>

@@ -15,7 +15,7 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
 
   if (!images.length) {
     return (
-      <div className="flex aspect-[16/10] items-center justify-center rounded-2xl border border-gray-200 bg-gray-50 text-gray-400 dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex aspect-[16/10] items-center justify-center rounded-[2rem] border border-slate-100 bg-slate-50 text-slate-400 dark:border-slate-800 dark:bg-slate-800">
         Foto belum tersedia
       </div>
     );
@@ -24,7 +24,7 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
   return (
     <>
       <div
-        className="group relative aspect-[16/10] cursor-zoom-in overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700"
+        className="group relative aspect-[16/10] cursor-zoom-in overflow-hidden rounded-[2rem] border border-slate-100 shadow-sm dark:border-slate-800"
         onClick={() => setLightbox(true)}
       >
         <Image
@@ -67,10 +67,10 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`group relative aspect-[4/3] overflow-hidden rounded-lg border-2 transition ${
+              className={`group relative aspect-[4/3] overflow-hidden rounded-xl border-2 transition ${
                 i === active
-                  ? "border-teal shadow-sm"
-                  : "border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600"
+                  ? "border-red-600 shadow-sm"
+                  : "border-slate-100 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-600"
               }`}
               title={LABELS[i] ?? `Foto ${i + 1}`}
             >
@@ -131,7 +131,7 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
                 key={i}
                 onClick={(e) => { e.stopPropagation(); setActive(i); }}
                 className={`h-2 rounded-full transition-all ${
-                  i === active ? "w-6 bg-teal" : "w-2 bg-white/40"
+                  i === active ? "w-6 bg-red-600" : "w-2 bg-white/40"
                 }`}
               />
             ))}

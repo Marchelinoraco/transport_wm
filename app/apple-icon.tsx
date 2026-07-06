@@ -22,7 +22,7 @@ export default function AppleIcon() {
           letterSpacing: -3,
         }}
       >
-        AM
+        WM
       </div>
     ),
     { ...size }

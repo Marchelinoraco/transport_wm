@@ -23,7 +23,7 @@ export default function Icon() {
           letterSpacing: -1,
         }}
       >
-        AM
+        WM
       </div>
     ),
     { ...size }

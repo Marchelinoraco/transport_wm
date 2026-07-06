@@ -27,7 +27,7 @@ export const post: BlogPost = {
     },
     {
       type: "p",
-      text: "Artikel ini merangkum semua yang perlu Anda tahu: pilihan layanan, estimasi tarif per tipe mobil, tujuan populer dari bandara, hingga cara memesan dalam hitungan menit lewat WhatsApp bersama [AutoManado](/rental-mobil-manado).",
+      text: "Artikel ini merangkum semua yang perlu Anda tahu: pilihan layanan, estimasi tarif per tipe mobil, tujuan populer dari bandara, hingga cara memesan dalam hitungan menit lewat WhatsApp bersama [Welcome Manado Transport](/rental-mobil-manado).",
     },
     { type: "h2", text: "Kenapa sewa mobil langsung dari Bandara Sam Ratulangi?" },
     {
@@ -75,7 +75,7 @@ export const post: BlogPost = {
     { type: "h2", text: "Estimasi tarif sewa mobil di Manado" },
     {
       type: "p",
-      text: "Berikut kisaran tarif sewa **per hari** berdasarkan tipe mobil yang tersedia di AutoManado. Harga final (termasuk opsi sopir & BBM) selalu dikonfirmasi via WhatsApp sebelum booking:",
+      text: "Berikut kisaran tarif sewa **per hari** berdasarkan tipe mobil yang tersedia di Welcome Manado Transport. Harga final (termasuk opsi sopir & BBM) selalu dikonfirmasi via WhatsApp sebelum booking:",
     },
     {
       type: "table",
@@ -109,7 +109,7 @@ export const post: BlogPost = {
     {
       type: "ol",
       items: [
-        "Buka [katalog mobil AutoManado](/katalog) dan pilih unit yang sesuai kebutuhan.",
+        "Buka [katalog mobil Welcome Manado Transport](/katalog) dan pilih unit yang sesuai kebutuhan.",
         "Klik tombol WhatsApp di halaman mobil — pesan otomatis terisi.",
         "Beri tahu jadwal kedatangan, nomor penerbangan (opsional), dan tujuan Anda.",
         "Tim kami konfirmasi ketersediaan, tarif final, dan titik penjemputan di bandara.",
@@ -119,7 +119,7 @@ export const post: BlogPost = {
     {
       type: "cta",
       text: "Mau dijemput di Bandara Sam Ratulangi? Kirim jadwal kedatangan Anda, tim kami balas cepat (< 10 menit pada jam kerja).",
-      wa: "Halo AutoManado, saya butuh sewa mobil + penjemputan di Bandara Sam Ratulangi. Boleh info ketersediaan & tarif?",
+      wa: "Halo Welcome Manado Transport, saya butuh sewa mobil + penjemputan di Bandara Sam Ratulangi. Boleh info ketersediaan & tarif?",
     },
     { type: "h2", text: "Tips agar sewa mobil dari bandara makin lancar" },
     {
@@ -134,7 +134,7 @@ export const post: BlogPost = {
     },
     {
       type: "p",
-      text: "Dengan persiapan sederhana ini, perjalanan Anda di Sulawesi Utara akan jauh lebih mulus sejak menit pertama tiba. Selamat menjelajah Manado bersama [AutoManado](/rental-mobil-manado)!",
+      text: "Dengan persiapan sederhana ini, perjalanan Anda di Sulawesi Utara akan jauh lebih mulus sejak menit pertama tiba. Selamat menjelajah Manado bersama [Welcome Manado Transport](/rental-mobil-manado)!",
     },
   ],
 };

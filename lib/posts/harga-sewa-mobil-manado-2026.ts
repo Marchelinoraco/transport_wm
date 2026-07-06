@@ -32,7 +32,7 @@ export const post: BlogPost = {
     { type: "h2", text: "Daftar harga sewa mobil di Manado 2026" },
     {
       type: "p",
-      text: "Berikut kisaran tarif harian berdasarkan model yang tersedia di [katalog AutoManado](/katalog):",
+      text: "Berikut kisaran tarif harian berdasarkan model yang tersedia di [katalog Welcome Manado Transport](/katalog):",
     },
     {
       type: "table",
@@ -100,7 +100,7 @@ export const post: BlogPost = {
     {
       type: "cta",
       text: "Ingin penawaran harga sesuai tanggal & kebutuhan Anda? Kirim detailnya, kami balas dengan harga final yang transparan.",
-      wa: "Halo AutoManado, saya mau tanya harga sewa mobil di Manado. Boleh info tarif & ketersediaan?",
+      wa: "Halo Welcome Manado Transport, saya mau tanya harga sewa mobil di Manado. Boleh info tarif & ketersediaan?",
     },
     { type: "h2", text: "Tips dapat harga sewa termurah di Manado" },
     {
@@ -116,7 +116,7 @@ export const post: BlogPost = {
     },
     {
       type: "p",
-      text: "Dengan memahami struktur harga di atas, Anda bisa menyusun anggaran perjalanan di Manado dengan lebih tenang. Saat siap, cukup buka [katalog AutoManado](/katalog) dan hubungi kami via WhatsApp — harga final dikonfirmasi langsung, tanpa biaya tersembunyi.",
+      text: "Dengan memahami struktur harga di atas, Anda bisa menyusun anggaran perjalanan di Manado dengan lebih tenang. Saat siap, cukup buka [katalog Welcome Manado Transport](/katalog) dan hubungi kami via WhatsApp — harga final dikonfirmasi langsung, tanpa biaya tersembunyi.",
     },
   ],
 };

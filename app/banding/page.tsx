@@ -4,120 +4,145 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCompare } from "@/components/CompareProvider";
 import { formatRupiah, waLink } from "@/lib/whatsapp";
+import { useLang } from "@/lib/i18n/LanguageProvider";
+import SectionHeader from "@/components/SectionHeader";
 import { X, GitCompareArrows, MessageCircle, ArrowLeft, Check, Minus } from "lucide-react";
 
 export default function BandingPage() {
   const { items, remove, clear } = useCompare();
+  const { dict } = useLang();
 
   if (items.length === 0) {
     return (
-      <section className="mx-auto max-w-7xl px-4 py-24 text-center">
-        <GitCompareArrows className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" />
-        <h1 className="mt-6 text-3xl font-bold text-gray-900 dark:text-white">Belum Ada Mobil Dibandingkan</h1>
-        <p className="mt-3 text-gray-500 dark:text-gray-400">
-          Pilih 2-3 mobil dari katalog (klik ikon banding di kartu mobil) untuk
-          membandingkan spesifikasinya berdampingan.
+      <section className="mx-auto max-w-7xl px-4 py-28 text-center lg:px-6">
+        <span className="mx-auto grid h-20 w-20 place-items-center rounded-3xl bg-slate-50 dark:bg-slate-800">
+          <GitCompareArrows className="h-9 w-9 text-slate-300 dark:text-slate-600" />
+        </span>
+        <h1 className="mt-8 text-3xl font-black tracking-tighter text-slate-900 dark:text-white md:text-4xl">
+          {dict.compare.emptyTitle}
+        </h1>
+        <p className="mx-auto mt-4 max-w-md text-slate-500 dark:text-slate-400">
+          {dict.compare.emptyDesc}
         </p>
         <Link
           href="/katalog"
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 font-semibold text-white transition hover:bg-teal/90"
+          className="mt-10 inline-flex items-center gap-2 rounded-2xl bg-red-600 px-7 py-3.5 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-red-600/20 transition hover:-translate-y-0.5 hover:bg-red-700 active:scale-95"
         >
-          <ArrowLeft className="h-4 w-4" /> Ke Katalog
+          <ArrowLeft className="h-4 w-4" /> {dict.compare.toCatalog}
         </Link>
       </section>
     );
   }
 
   const rows: { label: string; render: (c: (typeof items)[number]) => React.ReactNode }[] = [
-    { label: "Tipe", render: (c) => c.type },
-    { label: "Kategori", render: (c) => <span className="capitalize">{c.category}</span> },
-    { label: "Status", render: (c) => <span className="capitalize">{c.status}</span> },
-    { label: "Harga Sewa/hari", render: (c) => c.price_rent ? <span className="font-semibold text-teal">{formatRupiah(c.price_rent)}</span> : "—" },
-    { label: "Harga Jual", render: (c) => c.price_sell ? <span className="font-semibold text-gray-700 dark:text-gray-200">{formatRupiah(c.price_sell)}</span> : "—" },
-    { label: "Tahun", render: (c) => c.year },
-    { label: "Jumlah Kursi", render: (c) => `${c.seats} kursi` },
-    { label: "Transmisi", render: (c) => c.transmission },
-    { label: "Bahan Bakar", render: (c) => c.fuel },
-    { label: "Kondisi", render: (c) => c.kondisi ?? "—" },
-    { label: "Plat Asal", render: (c) => c.plat_asal ?? "—" },
+    { label: dict.compare.type, render: (c) => c.type || "—" },
     {
-      label: "Dengan Sopir",
-      render: (c) => c.dengan_sopir
-        ? <Check className="mx-auto h-4 w-4 text-teal" />
-        : <Minus className="mx-auto h-4 w-4 text-gray-300 dark:text-gray-600" />,
+      label: dict.compare.status,
+      render: (c) => (
+        <span className="capitalize">
+          {c.status === "tersedia" ? dict.car.available : dict.car.rented}
+        </span>
+      ),
     },
-    { label: "Kelengkapan", render: (c) => c.kelengkapan ?? "—" },
+    {
+      label: dict.compare.rentPrice,
+      render: (c) => (
+        <span className="font-black text-red-600">
+          {formatRupiah(c.price_rent)}
+          <span className="font-normal text-slate-400">
+            {c.price_unit === "per_trip" ? dict.car.perTrip : dict.car.perDay}
+          </span>
+        </span>
+      ),
+    },
+    { label: dict.car.year, render: (c) => c.year ?? "—" },
+    { label: dict.car.seatsLabel, render: (c) => (c.seats != null ? `${c.seats} ${dict.car.seats}` : "—") },
+    { label: dict.car.transmission, render: (c) => c.transmission ?? "—" },
+    { label: dict.car.fuel, render: (c) => c.fuel ?? "—" },
+    {
+      label: dict.compare.withDriver,
+      render: (c) => c.dengan_sopir
+        ? <Check className="mx-auto h-4 w-4 text-red-600" />
+        : <Minus className="mx-auto h-4 w-4 text-slate-300 dark:text-slate-600" />,
+    },
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">Bandingkan Mobil</h1>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">{items.length} mobil dibandingkan</p>
-        </div>
+    <section className="mx-auto max-w-7xl px-4 py-14 lg:px-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <SectionHeader
+          eyebrow={dict.footer.compare}
+          title={dict.compare.title}
+          subtitle={`${items.length} ${dict.compare.counted}`}
+        />
         <button
           onClick={clear}
-          className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-500 hover:text-gray-900 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white"
+          className="rounded-2xl border border-slate-200 px-5 py-3 text-xs font-black uppercase tracking-widest text-slate-500 transition hover:text-red-600 dark:border-slate-700 dark:text-slate-400 dark:hover:text-red-400"
         >
-          Kosongkan semua
+          {dict.compare.clearAll}
         </button>
       </div>
 
-      <div className="mt-8 overflow-x-auto rounded-2xl border border-gray-200 shadow-sm dark:border-gray-700">
+      <div className="mt-10 overflow-x-auto rounded-[2rem] border border-slate-100 shadow-sm dark:border-slate-800">
         <table className="w-full min-w-[640px]">
           <thead>
             <tr>
-              <th className="w-40 bg-gray-50 p-4 text-left text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400">Spesifikasi</th>
+              <th className="w-40 bg-slate-50 p-4 text-left text-[10px] font-black uppercase tracking-widest text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                {dict.compare.spec}
+              </th>
               {items.map((c) => (
-                <th key={c.id} className="border-l border-gray-100 p-4 align-top dark:border-gray-700">
-                  <div className="relative mx-auto aspect-[16/10] w-full max-w-[200px] overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
+                <th key={c.id} className="border-l border-slate-100 p-4 align-top dark:border-slate-800">
+                  <div className="relative mx-auto aspect-[16/10] w-full max-w-[200px] overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800">
                     {c.images[0] ? (
                       <Image src={c.images[0]} alt={c.name} fill sizes="200px" className="object-cover" />
                     ) : (
-                      <div className="flex h-full items-center justify-center bg-gray-50 text-xs text-gray-400 dark:bg-gray-800">No foto</div>
+                      <div className="flex h-full items-center justify-center bg-slate-50 text-xs text-slate-400 dark:bg-slate-800">
+                        {dict.compare.noPhoto}
+                      </div>
                     )}
                     <button
                       onClick={() => remove(c.id)}
-                      className="absolute right-1.5 top-1.5 rounded-full bg-red-500 p-1 text-white"
+                      className="absolute right-1.5 top-1.5 rounded-full bg-red-600 p-1 text-white shadow-lg shadow-red-600/30"
                       aria-label="Hapus"
                     >
                       <X className="h-3 w-3" />
                     </button>
                   </div>
-                  <p className="mt-3 font-bold text-gray-900 dark:text-white">{c.name}</p>
+                  <p className="mt-3 font-black tracking-tight text-slate-900 dark:text-white">{c.name}</p>
                 </th>
               ))}
             </tr>
           </thead>
 
-          <tbody className="text-sm text-gray-700 dark:text-gray-300">
+          <tbody className="text-sm text-slate-700 dark:text-slate-300">
             {rows.map((row, ri) => (
-              <tr key={row.label} className={ri % 2 ? "bg-gray-50 dark:bg-gray-800/50" : "bg-white dark:bg-gray-900"}>
-                <td className="bg-gray-50 p-4 font-medium text-gray-500 dark:bg-gray-800 dark:text-gray-400">{row.label}</td>
+              <tr key={row.label} className={ri % 2 ? "bg-slate-50 dark:bg-slate-800/50" : "bg-white dark:bg-slate-900"}>
+                <td className="bg-slate-50 p-4 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                  {row.label}
+                </td>
                 {items.map((c) => (
-                  <td key={c.id} className="border-l border-gray-100 p-4 text-center dark:border-gray-700">
+                  <td key={c.id} className="border-l border-slate-100 p-4 text-center dark:border-slate-800">
                     {row.render(c)}
                   </td>
                 ))}
               </tr>
             ))}
 
-            <tr className="bg-white dark:bg-gray-900">
-              <td className="bg-gray-50 p-4 dark:bg-gray-800" />
+            <tr className="bg-white dark:bg-slate-900">
+              <td className="bg-slate-50 p-4 dark:bg-slate-800" />
               {items.map((c) => (
-                <td key={c.id} className="border-l border-gray-100 p-4 text-center dark:border-gray-700">
+                <td key={c.id} className="border-l border-slate-100 p-4 text-center dark:border-slate-800">
                   <div className="flex flex-col gap-2">
                     <Link
                       href={`/mobil/${c.slug}`}
-                      className="rounded-lg border border-gray-200 px-3 py-2 text-xs text-gray-600 hover:border-teal/40 hover:text-teal dark:border-gray-700 dark:text-gray-400"
+                      className="rounded-xl border border-slate-200 px-3 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-600 transition hover:border-red-300 hover:text-red-600 dark:border-slate-700 dark:text-slate-400 dark:hover:border-red-800"
                     >
-                      Lihat Detail
+                      {dict.car.detail}
                     </Link>
                     <a
-                      href={waLink(`Halo AutoManado, saya tertarik dengan ${c.name} (${c.year}). Mohon info lebih lanjut.`)}
+                      href={waLink(`Halo Welcome Manado Transport, saya tertarik dengan ${c.name}${c.year ? ` (${c.year})` : ""}. Mohon info lebih lanjut.`)}
                       target="_blank"
-                      className="flex items-center justify-center gap-1.5 rounded-lg bg-[#25D366] px-3 py-2 text-xs font-semibold text-white hover:opacity-90"
+                      className="flex items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-3 py-2.5 text-[10px] font-black uppercase tracking-widest text-white transition hover:opacity-90"
                     >
                       <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
                     </a>
@@ -129,9 +154,9 @@ export default function BandingPage() {
         </table>
       </div>
 
-      <div className="mt-8">
-        <Link href="/katalog" className="inline-flex items-center gap-2 text-sm font-medium text-teal hover:underline">
-          <ArrowLeft className="h-4 w-4" /> Tambah mobil lain dari katalog
+      <div className="mt-10">
+        <Link href="/katalog" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-red-600 hover:underline">
+          <ArrowLeft className="h-4 w-4" /> {dict.compare.addMore}
         </Link>
       </div>
     </section>

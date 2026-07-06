@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCars } from "@/lib/cars";
+import { getCars } from "@/lib/api";
 import LandingTemplate from "@/components/LandingTemplate";
 
 export const revalidate = 60;
@@ -7,10 +7,10 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Rental Mobil dengan Sopir Manado — Sopir Berpengalaman",
   description:
-    "Rental mobil dengan sopir di Manado untuk wisata Bunaken, Tomohon & dinas. Sopir ramah dan paham rute, duduk santai sampai tujuan. Pesan via WhatsApp di AutoManado.",
+    "Rental mobil dengan sopir di Manado untuk wisata Bunaken, Tomohon & dinas. Sopir ramah dan paham rute, duduk santai sampai tujuan. Pesan via WhatsApp di Welcome Manado Transport.",
   alternates: { canonical: "/rental-mobil-dengan-sopir-manado" },
   openGraph: {
-    title: "Rental Mobil dengan Sopir Manado — Sopir Berpengalaman | AutoManado",
+    title: "Rental Mobil dengan Sopir Manado — Sopir Berpengalaman | Welcome Manado Transport",
     description:
       "Rental mobil + sopir di Manado untuk wisata Bunaken, Tomohon & dinas. Sopir paham rute. Pesan via WhatsApp.",
     url: "/rental-mobil-dengan-sopir-manado",
@@ -20,19 +20,15 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const cars = await getCars().catch(() => []);
-  const withDriver = cars.filter(
-    (c) => c.dengan_sopir && (c.category === "rental" || c.category === "keduanya") && c.status !== "terjual"
-  );
-  // fallback: jika belum ada unit bertanda sopir, tampilkan semua rental
-  const list = withDriver.length
-    ? withDriver
-    : cars.filter((c) => (c.category === "rental" || c.category === "keduanya") && c.status !== "terjual");
+  const withDriver = cars.filter((c) => c.dengan_sopir);
+  // fallback: jika belum ada unit bertanda sopir, tampilkan semua armada
+  const list = withDriver.length ? withDriver : cars;
 
   return (
     <LandingTemplate
       eyebrow="Rental + Sopir Berpengalaman"
       title="Rental Mobil dengan Sopir di Manado"
-      intro="Nikmati perjalanan tanpa lelah menyetir. AutoManado menyediakan rental mobil dengan sopir berpengalaman yang hafal rute Manado, Tomohon, Bitung, hingga objek wisata Bunaken dan Likupang. Cocok untuk wisata keluarga, perjalanan dinas, dan tamu kantor — Anda tinggal duduk santai sampai tujuan."
+      intro="Nikmati perjalanan tanpa lelah menyetir. Welcome Manado Transport menyediakan rental mobil dengan sopir berpengalaman yang hafal rute Manado, Tomohon, Bitung, hingga objek wisata Bunaken dan Likupang. Cocok untuk wisata keluarga, perjalanan dinas, dan tamu kantor — Anda tinggal duduk santai sampai tujuan."
       highlights={[
         "Sopir ramah & hafal rute",
         "Cocok untuk wisata & dinas",
@@ -41,7 +37,7 @@ export default async function Page() {
       ]}
       carsHeading="Mobil dengan Layanan Sopir"
       cars={list}
-      waMessage="Halo AutoManado, saya ingin rental mobil dengan sopir di Manado. Boleh info harga + sopir?"
+      waMessage="Halo Welcome Manado Transport, saya ingin rental mobil dengan sopir di Manado. Boleh info harga + sopir?"
       path="/rental-mobil-dengan-sopir-manado"
       breadcrumbName="Rental Mobil dengan Sopir Manado"
       sections={[

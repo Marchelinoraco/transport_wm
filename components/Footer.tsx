@@ -1,66 +1,114 @@
+"use client";
+
 import Link from "next/link";
-import { MapPin, Phone, Clock } from "lucide-react";
+import { MapPin, Phone, Clock, Heart } from "lucide-react";
 import Logo from "./Logo";
-import { waLink } from "@/lib/whatsapp";
+import { waLink, WA_NUMBER } from "@/lib/whatsapp";
+import { useLang } from "@/lib/i18n/LanguageProvider";
 
 export default function Footer() {
+  const { dict } = useLang();
+
+  const menu = [
+    { href: "/katalog", label: dict.nav.catalog },
+    { href: "/banding", label: dict.footer.compare },
+    { href: "/promo", label: dict.nav.promo },
+    { href: "/blog", label: dict.nav.blog },
+    { href: "/tentang", label: dict.nav.about },
+  ];
+
+  const services = [
+    { href: "/rental-mobil-manado", label: dict.footer.svcRental },
+    { href: "/sewa-mobil-lepas-kunci-manado", label: dict.footer.svcKey },
+    { href: "/rental-mobil-dengan-sopir-manado", label: dict.footer.svcDriver },
+  ];
+
+  const phoneDisplay = WA_NUMBER.replace(/^62/, "0").replace(
+    /(\d{4})(\d{4})(\d+)/,
+    "$1-$2-$3",
+  );
+
   return (
-    <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 md:grid-cols-4">
+    <footer className="bg-slate-950 text-slate-300">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 md:grid-cols-4 lg:px-6">
         <div>
-          <div className="flex items-center gap-2.5">
-            <Logo size={36} />
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
-              Auto<span className="text-teal">Manado</span>
+          <div className="flex items-center gap-3">
+            <Logo size={44} />
+            <span className="flex flex-col leading-none">
+              <span className="text-lg font-black uppercase italic tracking-tighter text-red-500">
+                Welcome Manado
+              </span>
+              <span className="mt-1 text-[9px] font-black uppercase tracking-[0.4em] text-slate-500">
+                {dict.nav.tagline}
+              </span>
             </span>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-            Marketplace rental &amp; jual-beli mobil terpercaya di Kota Manado,
-            Sulawesi Utara. Jelajahi surga Sulawesi bersama kami.
+          <p className="mt-5 text-sm leading-relaxed text-slate-400">
+            {dict.footer.desc}
           </p>
         </div>
 
         <div>
-          <h4 className="mb-4 font-semibold text-gray-900 dark:text-white">Menu</h4>
-          <ul className="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
-            <li><Link href="/katalog" className="transition hover:text-gray-900 dark:hover:text-white">Katalog Mobil</Link></li>
-            <li><Link href="/banding" className="transition hover:text-gray-900 dark:hover:text-white">Bandingkan Mobil</Link></li>
-            <li><Link href="/promo" className="transition hover:text-gray-900 dark:hover:text-white">Promo</Link></li>
-            <li><Link href="/blog" className="transition hover:text-gray-900 dark:hover:text-white">Artikel & Tips</Link></li>
-            <li><Link href="/tentang" className="transition hover:text-gray-900 dark:hover:text-white">Tentang Kami</Link></li>
+          <h4 className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-white">
+            {dict.footer.menu}
+          </h4>
+          <ul className="space-y-3 text-sm font-medium">
+            {menu.map((m) => (
+              <li key={m.href}>
+                <Link href={m.href} className="transition hover:text-red-500">
+                  {m.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="mb-4 font-semibold text-gray-900 dark:text-white">Layanan</h4>
-          <ul className="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
-            <li><Link href="/rental-mobil-manado" className="transition hover:text-gray-900 dark:hover:text-white">Rental Mobil Manado</Link></li>
-            <li><Link href="/sewa-mobil-lepas-kunci-manado" className="transition hover:text-gray-900 dark:hover:text-white">Sewa Mobil Lepas Kunci</Link></li>
-            <li><Link href="/rental-mobil-dengan-sopir-manado" className="transition hover:text-gray-900 dark:hover:text-white">Rental Mobil + Sopir</Link></li>
-            <li><Link href="/jual-mobil-bekas-manado" className="transition hover:text-gray-900 dark:hover:text-white">Jual Mobil Bekas Manado</Link></li>
+          <h4 className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-white">
+            {dict.footer.services}
+          </h4>
+          <ul className="space-y-3 text-sm font-medium">
+            {services.map((s) => (
+              <li key={s.href}>
+                <Link href={s.href} className="transition hover:text-red-500">
+                  {s.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="mb-4 font-semibold text-gray-900 dark:text-white">Kontak</h4>
-          <ul className="space-y-2.5 text-sm text-gray-500 dark:text-gray-400">
+          <h4 className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-white">
+            {dict.footer.contact}
+          </h4>
+          <ul className="space-y-3 text-sm font-medium">
             <li>
-              <a href={waLink("Halo AutoManado")} target="_blank" className="flex items-center gap-2 transition hover:text-gray-900 dark:hover:text-white">
-                <Phone className="h-4 w-4 text-teal" /> 0823-4813-5155
+              <a
+                href={waLink(dict.nav.waGreeting)}
+                target="_blank"
+                className="flex items-center gap-2 transition hover:text-red-500"
+              >
+                <Phone className="h-4 w-4 text-red-500" /> {phoneDisplay}
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-teal" /> Kota Manado, Sulut
+              <MapPin className="h-4 w-4 shrink-0 text-red-500" />{" "}
+              {dict.footer.location}
             </li>
             <li className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-teal" /> Setiap hari, 08.00–21.00
+              <Clock className="h-4 w-4 shrink-0 text-red-500" />{" "}
+              {dict.footer.hours}
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-gray-200 py-5 text-center text-xs text-gray-400 dark:border-gray-700 dark:text-gray-500">
-        © {new Date().getFullYear()} AutoManado. Semua hak dilindungi. · Dibuat dengan ❤️ untuk Sulawesi Utara
+      <div className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
+        © {new Date().getFullYear()} Welcome Manado Transport.{" "}
+        {dict.footer.rights} · {dict.footer.madeWith}{" "}
+        <Heart className="inline-block h-3 w-3 fill-red-500 text-red-500" />{" "}
+        {dict.footer.forSulut}
       </div>
     </footer>
   );

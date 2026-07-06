@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCars } from "@/lib/cars";
+import { getCars } from "@/lib/api";
 import LandingTemplate from "@/components/LandingTemplate";
 
 export const revalidate = 60;
@@ -7,10 +7,10 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Sewa Mobil Lepas Kunci Manado — Tanpa Sopir",
   description:
-    "Sewa mobil lepas kunci di Manado tanpa sopir, bebas berkendara sendiri. Syarat mudah, harga jelas, armada terawat. Booking cepat via WhatsApp bersama AutoManado.",
+    "Sewa mobil lepas kunci di Manado tanpa sopir, bebas berkendara sendiri. Syarat mudah, harga jelas, armada terawat. Booking cepat via WhatsApp bersama Welcome Manado Transport.",
   alternates: { canonical: "/sewa-mobil-lepas-kunci-manado" },
   openGraph: {
-    title: "Sewa Mobil Lepas Kunci Manado — Tanpa Sopir | AutoManado",
+    title: "Sewa Mobil Lepas Kunci Manado — Tanpa Sopir | Welcome Manado Transport",
     description:
       "Sewa mobil lepas kunci di Manado tanpa sopir. Syarat mudah, harga jelas. Booking via WhatsApp.",
     url: "/sewa-mobil-lepas-kunci-manado",
@@ -20,15 +20,13 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const cars = await getCars().catch(() => []);
-  const rental = cars.filter(
-    (c) => (c.category === "rental" || c.category === "keduanya") && c.status !== "terjual"
-  );
+  const rental = cars;
 
   return (
     <LandingTemplate
       eyebrow="Sewa Lepas Kunci di Manado"
       title="Sewa Mobil Lepas Kunci Manado"
-      intro="Ingin berkendara sendiri menjelajahi Manado, Tomohon, hingga Likupang? AutoManado menyediakan sewa mobil lepas kunci (tanpa sopir) dengan syarat yang mudah dan harga yang transparan. Pilih dari city car irit hingga MPV keluarga, semua unit terawat dan siap pakai."
+      intro="Ingin berkendara sendiri menjelajahi Manado, Tomohon, hingga Likupang? Welcome Manado Transport menyediakan sewa mobil lepas kunci (tanpa sopir) dengan syarat yang mudah dan harga yang transparan. Pilih dari city car irit hingga MPV keluarga, semua unit terawat dan siap pakai."
       highlights={[
         "Bebas berkendara sendiri",
         "Syarat mudah & cepat",
@@ -37,13 +35,13 @@ export default async function Page() {
       ]}
       carsHeading="Mobil Tersedia untuk Lepas Kunci"
       cars={rental}
-      waMessage="Halo AutoManado, saya ingin sewa mobil lepas kunci (tanpa sopir) di Manado. Apa saja syaratnya?"
+      waMessage="Halo Welcome Manado Transport, saya ingin sewa mobil lepas kunci (tanpa sopir) di Manado. Apa saja syaratnya?"
       path="/sewa-mobil-lepas-kunci-manado"
       breadcrumbName="Sewa Mobil Lepas Kunci Manado"
       sections={[
         {
           heading: "Apa itu sewa lepas kunci?",
-          body: "Sewa lepas kunci berarti Anda mengemudikan mobil sendiri tanpa sopir, sehingga lebih fleksibel dan privat. AutoManado menawarkan opsi ini untuk Anda yang sudah terbiasa menyetir dan ingin mengatur perjalanan sesuai keinginan, baik untuk urusan kerja maupun liburan keliling Sulawesi Utara.",
+          body: "Sewa lepas kunci berarti Anda mengemudikan mobil sendiri tanpa sopir, sehingga lebih fleksibel dan privat. Welcome Manado Transport menawarkan opsi ini untuk Anda yang sudah terbiasa menyetir dan ingin mengatur perjalanan sesuai keinginan, baik untuk urusan kerja maupun liburan keliling Sulawesi Utara.",
         },
         {
           heading: "Syarat sewa lepas kunci",

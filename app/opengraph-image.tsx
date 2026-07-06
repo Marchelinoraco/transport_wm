@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "AutoManado — Rental & Jual Mobil Manado";
+export const alt = "Welcome Manado Transport — Rental Mobil Manado";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -44,22 +44,22 @@ export default function OgImage() {
               border: "4px solid rgba(255,255,255,0.85)",
             }}
           >
-            AM
+            WM
           </div>
           <span style={{ fontSize: 40, fontWeight: 800, letterSpacing: -1 }}>
-            AutoManado
+            Welcome Manado Transport
           </span>
         </div>
 
         <div style={{ fontSize: 72, fontWeight: 900, lineHeight: 1.1, display: "flex", flexWrap: "wrap" }}>
-          Rental &amp; Jual Mobil
+          Rental Mobil &amp; Transportasi
         </div>
         <div style={{ fontSize: 72, fontWeight: 900, lineHeight: 1.1, color: "#5eead4" }}>
           di Manado
         </div>
 
         <div style={{ fontSize: 30, marginTop: 32, color: "rgba(255,255,255,0.85)" }}>
-          Sewa harian · mingguan · bulanan · jual-beli mobil berkualitas
+          Sewa harian · mingguan · bulanan · per trip · dengan sopir
         </div>
 
         <div
@@ -75,7 +75,7 @@ export default function OgImage() {
           <span style={{ background: "#25D366", padding: "8px 20px", borderRadius: 999 }}>
             Pesan via WhatsApp
           </span>
-          <span style={{ color: "rgba(255,255,255,0.7)" }}>automanado.com</span>
+          <span style={{ color: "rgba(255,255,255,0.7)" }}>transport.welcomemanado.com</span>
         </div>
       </div>
     ),

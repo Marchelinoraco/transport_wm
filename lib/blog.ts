@@ -1,4 +1,4 @@
-// Blog AutoManado — sumber konten artikel (file-based, tanpa database).
+// Blog Welcome Manado Transport — sumber konten artikel (file-based, tanpa database).
 // Tambah artikel baru: buat file di lib/posts/<slug>.ts lalu daftarkan di array `posts` di bawah.
 
 import { post as bandaraPost } from "./posts/sewa-mobil-bandara-sam-ratulangi";
@@ -18,7 +18,7 @@ export type Block =
 
 export type BlogPost = {
   slug: string;
-  /** Judul utama (H1). Title tag = `${title}` + template "| AutoManado". */
+  /** Judul utama (H1). Title tag = `${title}` + template "| Welcome Manado Transport". */
   title: string;
   /** Override <title> bila ingin beda dari H1 (opsional). */
   metaTitle?: string;

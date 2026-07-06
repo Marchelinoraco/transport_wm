@@ -1,15 +1,16 @@
 // Konfigurasi terpusat situs — sumber kebenaran untuk URL & data bisnis (SEO/local SEO)
 import { WA_NUMBER } from "./whatsapp";
 
-export const SITE_URL = "https://automanado.com";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://transport.welcomemanado.com";
 
 export const SITE = {
-  name: "AutoManado",
-  legalName: "AutoManado",
+  name: "Welcome Manado Transport",
+  legalName: "Welcome Manado Transport",
   url: SITE_URL,
   /** Deskripsi default untuk metadata & structured data */
   description:
-    "AutoManado — marketplace rental dan jual-beli mobil terpercaya di Kota Manado, Sulawesi Utara. Sewa mobil harian, mingguan, bulanan & beli mobil berkualitas. Pesan mudah via WhatsApp.",
+    "Welcome Manado Transport — layanan rental mobil & transportasi terpercaya di Kota Manado, Sulawesi Utara. Sewa mobil harian, mingguan, bulanan, atau per trip, lepas kunci maupun dengan sopir. Pesan mudah via WhatsApp.",
   city: "Manado",
   region: "Sulawesi Utara",
   regionCode: "ID-SA",

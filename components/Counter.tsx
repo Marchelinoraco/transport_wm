@@ -62,20 +62,20 @@ export default function Counter({
   if (size === "sm") {
     return (
       <div ref={ref}>
-        <div className="text-2xl font-bold text-teal">
+        <div className="text-2xl font-bold text-red-600">
           {value}{suffix}
         </div>
-        <div className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{label}</div>
+        <div className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{label}</div>
       </div>
     );
   }
 
   return (
     <div ref={ref} className="text-center">
-      <div className="text-4xl font-bold text-teal md:text-5xl">
+      <div className="text-4xl font-bold text-red-600 md:text-5xl">
         {value}{suffix}
       </div>
-      <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">{label}</div>
+      <div className="mt-2 text-sm text-slate-500 dark:text-slate-400">{label}</div>
     </div>
   );
 }

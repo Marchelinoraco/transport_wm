@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllSlugs } from "@/lib/cars";
+import { getAllSlugs } from "@/lib/api";
 import { getAllPosts } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 
@@ -10,7 +10,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/rental-mobil-manado",
     "/sewa-mobil-lepas-kunci-manado",
     "/rental-mobil-dengan-sopir-manado",
-    "/jual-mobil-bekas-manado",
   ];
 
   const staticPages = ["", "/katalog", "/promo", "/banding", "/tentang", "/blog", ...landingPages].map((p) => ({

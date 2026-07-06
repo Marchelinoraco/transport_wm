@@ -3,23 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import { waLink } from "@/lib/whatsapp";
+import { useLang } from "@/lib/i18n/LanguageProvider";
 import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
-
-const links = [
-  { href: "/", label: "Beranda" },
-  { href: "/katalog", label: "Katalog" },
-  { href: "/promo", label: "Promo" },
-  { href: "/blog", label: "Artikel" },
-  { href: "/tentang", label: "Tentang" },
-];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { dict } = useLang();
+
+  const links = [
+    { href: "/", label: dict.nav.home },
+    { href: "/katalog", label: dict.nav.catalog },
+    { href: "/promo", label: dict.nav.promo },
+    { href: "/blog", label: dict.nav.blog },
+    { href: "/tentang", label: dict.nav.about },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -34,36 +37,43 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-gray-200/80 bg-white/90 shadow-sm backdrop-blur-lg dark:border-gray-700/80 dark:bg-gray-900/90"
-          : "bg-white dark:bg-gray-900"
+          ? "border-b border-slate-100 bg-white/95 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-lg dark:border-slate-800 dark:bg-slate-900/95"
+          : "bg-white dark:bg-slate-900"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <Logo size={38} />
-          <span className="text-[1.15rem] font-bold leading-none tracking-tight text-gray-900 dark:text-white">
-            Auto<span className="text-teal">Manado</span>
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-6">
+        {/* Brand — tile logo + wordmark gaya client_wm */}
+        <Link href="/" className="group flex items-center gap-3">
+          <span className="transition-transform duration-500 group-hover:rotate-[15deg]">
+            <Logo size={44} />
+          </span>
+          <span className="flex flex-col leading-none">
+            <span className="text-lg font-black tracking-tighter text-slate-900 dark:text-white lg:text-xl">
+              Welcome<span className="text-red-600">Manado</span>
+            </span>
+            <span className="mt-1 text-[9px] font-black uppercase tracking-[0.4em] text-slate-500 opacity-70 dark:text-slate-400">
+              {dict.nav.tagline}
+            </span>
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-6 lg:flex">
           {links.map((l) => {
             const isActive = pathname === l.href;
             return (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`group relative text-sm font-medium transition-colors ${
+                className={`group relative text-xs font-black uppercase tracking-widest transition-colors ${
                   isActive
-                    ? "text-teal"
-                    : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    ? "text-red-600"
+                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                 }`}
               >
                 {l.label}
                 <span
-                  className={`absolute -bottom-1 left-0 h-0.5 rounded-full bg-teal transition-all duration-300 ${
+                  className={`absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-red-600 transition-all duration-300 ${
                     isActive ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 />
@@ -71,24 +81,34 @@ export default function Navbar() {
             );
           })}
 
-          <div className="h-5 w-px bg-gray-200 dark:bg-gray-700" />
+          <div className="h-5 w-px bg-slate-200 dark:bg-slate-700" />
 
+          <LanguageSwitcher />
           <ThemeToggle />
 
           <a
-            href={waLink("Halo AutoManado, saya ingin bertanya soal rental/jual mobil di Manado.")}
+            href={waLink(dict.nav.waGreeting)}
             target="_blank"
-            className="rounded-full bg-teal px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal/90 hover:shadow-md"
+            className="rounded-xl bg-red-600 px-5 py-3 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-red-600/20 transition hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-red-600/30 active:scale-95"
           >
-            Hubungi WhatsApp
+            {dict.nav.contact}
           </a>
         </div>
 
         {/* Mobile */}
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center gap-1.5 lg:hidden">
+          <LanguageSwitcher />
           <ThemeToggle />
+          <a
+            href={waLink(dict.nav.waGreeting)}
+            target="_blank"
+            aria-label={dict.nav.contact}
+            className="rounded-xl bg-red-600 p-2.5 text-white shadow-lg shadow-red-600/20 transition hover:bg-red-700"
+          >
+            <MessageCircle className="h-4 w-4" />
+          </a>
           <button
-            className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+            className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -99,27 +119,27 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-gray-100 bg-white px-4 py-3 dark:border-gray-800 dark:bg-gray-900 md:hidden">
+        <div className="border-t border-slate-100 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 lg:hidden">
           <div className="flex flex-col gap-1">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`rounded-lg px-3 py-2.5 text-sm font-medium transition ${
+                className={`rounded-2xl px-4 py-3 text-xs font-black uppercase tracking-widest transition ${
                   pathname === l.href
-                    ? "bg-teal/10 text-teal"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+                    ? "bg-red-600 text-white shadow-lg shadow-red-600/20"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
                 }`}
               >
                 {l.label}
               </Link>
             ))}
             <a
-              href={waLink("Halo AutoManado, saya ingin bertanya soal rental/jual mobil di Manado.")}
+              href={waLink(dict.nav.waGreeting)}
               target="_blank"
-              className="mt-2 rounded-full bg-teal px-5 py-2.5 text-center text-sm font-semibold text-white"
+              className="mt-2 rounded-2xl bg-red-600 px-5 py-3.5 text-center text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-red-600/20"
             >
-              Hubungi WhatsApp
+              {dict.nav.contact}
             </a>
           </div>
         </div>

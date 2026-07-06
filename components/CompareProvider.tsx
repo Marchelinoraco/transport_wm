@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import { Car } from "@/lib/types";
 
 const MAX = 3;
-const KEY = "automanado_compare";
+const KEY = "wmtransport_compare";
 
 type Ctx = {
   items: Car[];

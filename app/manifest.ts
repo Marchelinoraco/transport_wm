@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${SITE.name} — Rental & Jual Mobil Manado`,
+    name: `${SITE.name} — Rental Mobil & Transportasi Manado`,
     short_name: SITE.name,
     description: SITE.description,
     start_url: "/",

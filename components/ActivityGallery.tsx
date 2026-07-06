@@ -2,22 +2,24 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Loader2, Pause, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
+import SectionHeader from "./SectionHeader";
+import { useLang } from "@/lib/i18n/LanguageProvider";
 
 type GalleryImage = {
   id: number;
   filename: string;
   url: string;
-  size: number;
-  width: number | null;
-  height: number | null;
-  createdAt: string;
 };
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api";
 
 const INTERVAL = 4000; // 4 detik per slide
 
 export default function ActivityGallery() {
+  const { dict } = useLang();
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(0);
@@ -26,9 +28,23 @@ export default function ActivityGallery() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    fetch("/api/gallery")
+    fetch(`${API_BASE}/gallery-items?active=1`)
       .then((r) => r.json())
-      .then((data) => { setImages(data); setLoading(false); })
+      .then((json) => {
+        const items: { id: number; title?: string; image_path?: string }[] =
+          Array.isArray(json?.data) ? json.data : (json?.data?.data ?? []);
+        setImages(
+          items
+            .filter((it) => it.image_path)
+            .slice(0, 12)
+            .map((it) => ({
+              id: it.id,
+              filename: it.title ?? "Galeri Welcome Manado",
+              url: it.image_path as string,
+            })),
+        );
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, []);
 
@@ -51,10 +67,19 @@ export default function ActivityGallery() {
 
   if (loading) {
     return (
-      <section className="bg-white py-20 dark:bg-gray-900">
-        <div className="mx-auto max-w-7xl px-4">
-          <div className="flex justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-teal" />
+      <section className="bg-white py-24 dark:bg-slate-900">
+        <div className="mx-auto max-w-7xl px-4 lg:px-6">
+          <div className="animate-pulse">
+            <div className="mx-auto h-1 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+            <div className="mx-auto mt-4 h-12 w-2/3 max-w-md rounded-2xl bg-slate-200 dark:bg-slate-700" />
+            <div className="mt-12 grid gap-4 lg:grid-cols-3">
+              <div className="aspect-[4/3] rounded-[2rem] bg-slate-100 dark:bg-slate-800 lg:col-span-2" />
+              <div className="hidden flex-col gap-3 lg:flex">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="h-24 rounded-2xl bg-slate-100 dark:bg-slate-800" />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -65,22 +90,18 @@ export default function ActivityGallery() {
   const featured = images[active];
 
   return (
-    <section className="bg-white py-20 dark:bg-gray-900">
-      <div className="mx-auto max-w-7xl px-4">
+    <section className="bg-white py-24 dark:bg-slate-900">
+      <div className="mx-auto max-w-7xl px-4 lg:px-6">
 
         {/* Header */}
         <ScrollReveal>
-          <div className="text-center">
-            <span className="inline-block rounded-full bg-teal/10 px-3 py-1 text-sm font-semibold text-teal">
-              GALERI AKTIVITAS
-            </span>
-            <h2 className="mt-3 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl">
-              Momen AutoManado
-            </h2>
-            <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
-              Aktivitas dan pengalaman pelanggan kami di Manado
-            </p>
-          </div>
+          <SectionHeader
+            center
+            eyebrow={dict.home.galleryEyebrow}
+            title={dict.home.galleryTitle1}
+            titleAccent={dict.home.galleryTitle2}
+            subtitle={dict.home.gallerySub}
+          />
         </ScrollReveal>
 
         {/* Main slideshow */}
@@ -89,7 +110,7 @@ export default function ActivityGallery() {
           {/* Featured image — kiri (2/3 lebar) */}
           <div className="relative lg:col-span-2">
             <div
-              className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-gray-100 shadow-lg dark:bg-gray-800"
+              className="group relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-slate-100 shadow-lg dark:bg-slate-800"
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
             >
@@ -141,7 +162,7 @@ export default function ActivityGallery() {
                 <div className="absolute bottom-0 left-0 h-1 w-full bg-white/20">
                   <div
                     key={`${active}-${paused}`}
-                    className="h-full bg-teal"
+                    className="h-full bg-red-600"
                     style={{
                       animation: `progressBar ${INTERVAL}ms linear forwards`,
                     }}
@@ -158,8 +179,8 @@ export default function ActivityGallery() {
                   onClick={() => { setPaused(true); goTo(i, images.length); }}
                   className={`rounded-full transition-all duration-300 ${
                     i === active
-                      ? "w-6 h-2 bg-teal"
-                      : "w-2 h-2 bg-gray-300 hover:bg-teal/50 dark:bg-gray-600"
+                      ? "w-6 h-2 bg-red-600"
+                      : "w-2 h-2 bg-slate-300 hover:bg-red-400 dark:bg-slate-600"
                   }`}
                 />
               ))}
@@ -174,7 +195,7 @@ export default function ActivityGallery() {
                 onClick={() => { setPaused(true); goTo(i, images.length); }}
                 className={`group relative h-24 w-full overflow-hidden rounded-xl transition ${
                   i === active
-                    ? "ring-2 ring-teal ring-offset-2 dark:ring-offset-gray-900"
+                    ? "ring-2 ring-red-600 ring-offset-2 dark:ring-offset-slate-900"
                     : "opacity-70 hover:opacity-100"
                 }`}
               >
@@ -186,15 +207,15 @@ export default function ActivityGallery() {
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
                 {i === active && (
-                  <div className="absolute inset-0 bg-teal/20" />
+                  <div className="absolute inset-0 bg-red-100 dark:bg-red-900/30" />
                 )}
               </button>
             ))}
 
             {images.length > 4 && (
-              <div className="flex h-16 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700">
-                <span className="text-sm font-semibold text-gray-400">
-                  +{images.length - 4} foto lainnya
+              <div className="flex h-16 items-center justify-center rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
+                <span className="text-sm font-semibold text-slate-400">
+                  +{images.length - 4} {dict.gallery.morePhotos}
                 </span>
               </div>
             )}
