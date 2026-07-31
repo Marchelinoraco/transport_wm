@@ -4,6 +4,9 @@ import { WA_NUMBER } from "./whatsapp";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://transport.welcomemanado.com";
 
+/** Situs utama Welcome Manado (tour & travel). Situs ini khusus transport. */
+export const MAIN_SITE_URL = "https://welcomemanado.com";
+
 export const SITE = {
   name: "Welcome Manado Transport",
   legalName: "Welcome Manado Transport",

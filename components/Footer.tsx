@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone, Clock, Heart, Mail } from "lucide-react";
+import { MapPin, Phone, Clock, Heart, Mail, ArrowUpRight } from "lucide-react";
 import Logo from "./Logo";
 import { waLink, WA_NUMBER } from "@/lib/whatsapp";
+import { MAIN_SITE_URL } from "@/lib/site";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 
 // Data kontak & tautan diselaraskan dengan footer situs utama (client_wm)
@@ -130,6 +131,17 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+            <li className="pt-2">
+              <a
+                href={MAIN_SITE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-red-500 transition hover:text-red-400"
+              >
+                {dict.nav.mainSite}
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+            </li>
           </ul>
         </div>
 

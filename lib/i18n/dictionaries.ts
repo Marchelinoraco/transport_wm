@@ -19,6 +19,7 @@ const id = {
     about: "Tentang",
     contact: "Hubungi WhatsApp",
     tagline: "Transport",
+    mainSite: "Paket Tour",
     waGreeting:
       "Halo Welcome Manado Transport, saya ingin bertanya soal rental mobil di Manado.",
   },
@@ -234,6 +235,7 @@ const en: Dictionary = {
     about: "About",
     contact: "Contact WhatsApp",
     tagline: "Transport",
+    mainSite: "Tour Packages",
     waGreeting:
       "Hello Welcome Manado Transport, I would like to ask about car rental in Manado.",
   },
@@ -447,6 +449,7 @@ const zh: Dictionary = {
     about: "关于我们",
     contact: "联系 WhatsApp",
     tagline: "Transport",
+    mainSite: "旅游套餐",
     waGreeting: "您好 Welcome Manado Transport，我想咨询美娜多的租车服务。",
   },
   hero: {
@@ -655,6 +658,7 @@ const ko: Dictionary = {
     about: "소개",
     contact: "WhatsApp 문의",
     tagline: "Transport",
+    mainSite: "투어 패키지",
     waGreeting:
       "안녕하세요 Welcome Manado Transport, 마나도 렌터카에 대해 문의드립니다.",
   },

@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X, MessageCircle, ArrowUpRight } from "lucide-react";
 import { waLink } from "@/lib/whatsapp";
+import { MAIN_SITE_URL } from "@/lib/site";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -86,6 +87,18 @@ export default function Navbar() {
           <LanguageSwitcher />
           <ThemeToggle />
 
+          {/* Sengaja sekunder (bergaris, bukan solid merah): merah milik tombol
+              WhatsApp yang jadi jalur konversi utama. Dua tombol solid bersaing. */}
+          <a
+            href={MAIN_SITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-xl border border-slate-300 px-4 py-3 text-xs font-black uppercase tracking-widest text-slate-600 transition hover:border-red-600 hover:text-red-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-red-500 dark:hover:text-red-500"
+          >
+            {dict.nav.mainSite}
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+
           <a
             href={waLink(dict.nav.waGreeting)}
             target="_blank"
@@ -135,9 +148,19 @@ export default function Navbar() {
               </Link>
             ))}
             <a
+              href={MAIN_SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="mt-2 flex items-center justify-center gap-1.5 rounded-2xl border border-slate-300 px-5 py-3.5 text-xs font-black uppercase tracking-widest text-slate-600 dark:border-slate-700 dark:text-slate-300"
+            >
+              {dict.nav.mainSite}
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+            <a
               href={waLink(dict.nav.waGreeting)}
               target="_blank"
-              className="mt-2 rounded-2xl bg-red-600 px-5 py-3.5 text-center text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-red-600/20"
+              className="mt-1 rounded-2xl bg-red-600 px-5 py-3.5 text-center text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-red-600/20"
             >
               {dict.nav.contact}
             </a>
