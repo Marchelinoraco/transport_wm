@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import FloatingChat from "@/components/FloatingChat";
+import { ChatWidgetProvider } from "@/lib/chatWidget";
 import { CompareProvider } from "@/components/CompareProvider";
 import CompareBar from "@/components/CompareBar";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -76,11 +77,13 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>
             <CompareProvider>
-              <Navbar />
-              <main>{children}</main>
-              <Footer />
-              <FloatingWhatsApp />
-              <CompareBar />
+              <ChatWidgetProvider>
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+                <FloatingChat />
+                <CompareBar />
+              </ChatWidgetProvider>
             </CompareProvider>
           </LanguageProvider>
         </ThemeProvider>

@@ -6,6 +6,11 @@ import { MapPin, Phone, Clock, Heart, Mail, ArrowUpRight } from "lucide-react";
 import Logo from "./Logo";
 import { waLink, WA_NUMBER } from "@/lib/whatsapp";
 import { MAIN_SITE_URL } from "@/lib/site";
+import {
+  useChatWidget,
+  WECHAT_ICON_PATH,
+  KAKAO_ICON_PATH,
+} from "@/lib/chatWidget";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 
 // Data kontak & tautan diselaraskan dengan footer situs utama (client_wm)
@@ -78,6 +83,25 @@ export default function Footer() {
     { ...WHATSAPP, href: waLink(dict.nav.waGreeting) },
   ];
 
+  // WeChat & KakaoTalk tidak punya tautan langsung — keduanya membuka kartu QR
+  // milik FloatingChat lewat context, jadi markup kartunya hanya ada satu.
+  const { openWechat, openKakao } = useChatWidget();
+
+  const kartuChat = [
+    {
+      nama: dict.chat.wechat.title,
+      onClick: openWechat,
+      hover: "hover:bg-[#07C160]",
+      path: WECHAT_ICON_PATH,
+    },
+    {
+      nama: dict.chat.kakao.title,
+      onClick: openKakao,
+      hover: "hover:bg-[#FEE500] hover:text-slate-900",
+      path: KAKAO_ICON_PATH,
+    },
+  ];
+
   return (
     <footer className="bg-slate-950 text-slate-300">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 md:grid-cols-4 lg:px-6">
@@ -115,6 +139,24 @@ export default function Footer() {
                   <path d={s.path} />
                 </svg>
               </a>
+            ))}
+            {kartuChat.map((c) => (
+              <button
+                key={c.nama}
+                type="button"
+                onClick={c.onClick}
+                aria-label={c.nama}
+                className={`flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 transition-all duration-300 ${c.hover}`}
+              >
+                <svg
+                  className="h-5 w-5 text-white"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d={c.path} />
+                </svg>
+              </button>
             ))}
           </div>
         </div>

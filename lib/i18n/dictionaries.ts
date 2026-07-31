@@ -180,6 +180,25 @@ const id = {
       },
     ],
   },
+  chat: {
+    menuTitle: "Hubungi Kami",
+    wechat: {
+      title: "WeChat",
+      scan: "Pindai kode QR untuk menambahkan kami.",
+      description: "Atau tambahkan lewat ID WeChat di atas.",
+      copy: "Salin ID",
+      copied: "Tersalin!",
+      close: "Tutup",
+    },
+    kakao: {
+      title: "KakaoTalk",
+      scan: "Pindai kode QR untuk menambahkan kami.",
+      description: "Tambahkan kami di KakaoTalk lewat nomor atau email di atas.",
+      copy: "Salin Nomor",
+      copied: "Tersalin!",
+      close: "Tutup",
+    },
+  },
   footer: {
     desc: "Layanan rental mobil & transportasi terpercaya di Kota Manado, Sulawesi Utara. Jelajahi surga Sulawesi bersama kami.",
     menu: "Menu",
@@ -396,6 +415,25 @@ const en: Dictionary = {
       },
     ],
   },
+  chat: {
+    menuTitle: "Contact Us",
+    wechat: {
+      title: "WeChat",
+      scan: "Scan the QR code to add us.",
+      description: "Or add us with the WeChat ID above.",
+      copy: "Copy ID",
+      copied: "Copied!",
+      close: "Close",
+    },
+    kakao: {
+      title: "KakaoTalk",
+      scan: "Scan the QR code to add us.",
+      description: "Or add us on KakaoTalk using the number or email above.",
+      copy: "Copy Number",
+      copied: "Copied!",
+      close: "Close",
+    },
+  },
   footer: {
     desc: "Trusted car rental & transportation service in Manado City, North Sulawesi. Explore the paradise of Sulawesi with us.",
     menu: "Menu",
@@ -605,6 +643,25 @@ const zh: Dictionary = {
         a: "预订后通过 WhatsApp 直接确认付款。最终价格总是先行确认——透明，无隐藏费用。",
       },
     ],
+  },
+  chat: {
+    menuTitle: "联系我们",
+    wechat: {
+      title: "微信",
+      scan: "扫描二维码添加我们。",
+      description: "或使用以上微信号添加我们。",
+      copy: "复制微信号",
+      copied: "已复制！",
+      close: "关闭",
+    },
+    kakao: {
+      title: "KakaoTalk",
+      scan: "扫描二维码添加我们。",
+      description: "或通过以上号码或邮箱在KakaoTalk上添加我们。",
+      copy: "复制号码",
+      copied: "已复制！",
+      close: "关闭",
+    },
   },
   footer: {
     desc: "北苏拉威西美娜多市值得信赖的租车与交通服务。与我们一起探索苏拉威西的天堂。",
@@ -817,6 +874,25 @@ const ko: Dictionary = {
         a: "예약 후 WhatsApp으로 직접 결제를 확인합니다. 최종 가격은 항상 사전에 확인되며, 숨겨진 비용 없이 투명합니다.",
       },
     ],
+  },
+  chat: {
+    menuTitle: "문의하기",
+    wechat: {
+      title: "위챗",
+      scan: "QR 코드를 스캔해 저희를 추가하세요.",
+      description: "또는 위 위챗 아이디로 추가해 주세요.",
+      copy: "아이디 복사",
+      copied: "복사됨!",
+      close: "닫기",
+    },
+    kakao: {
+      title: "카카오톡",
+      scan: "QR 코드를 스캔해 저희를 추가하세요.",
+      description: "또는 위 번호나 이메일로 카카오톡에서 추가해 주세요.",
+      copy: "번호 복사",
+      copied: "복사됨!",
+      close: "닫기",
+    },
   },
   footer: {
     desc: "북술라웨시 마나도의 신뢰할 수 있는 렌터카 & 교통 서비스. 저희와 함께 술라웨시의 낙원을 여행하세요.",

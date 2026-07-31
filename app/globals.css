@@ -62,3 +62,20 @@ body {
     transform: none;
   }
 }
+
+/* Denyut halus tombol chat melayang — disamakan dengan FloatingChat.vue di
+   client_wm. Blok prefers-reduced-motion di atas sudah menonaktifkannya bagi
+   pengguna yang memintanya. */
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s infinite ease-in-out;
+}
