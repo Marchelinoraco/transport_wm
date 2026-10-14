@@ -11,6 +11,10 @@ type ApiTransportation = {
   type: string | null;
   price: number;
   price_unit: string | null;
+  price_pickup?: number | null;
+  price_overtime?: number | null;
+  price_self_drive?: number | null;
+  engine_cc?: number | null;
   seats: number | null;
   transmission: string | null;
   fuel: string | null;
@@ -36,6 +40,10 @@ function toCar(t: ApiTransportation): Car {
     status: t.available ? "tersedia" : "disewa",
     price_rent: t.price,
     price_unit: t.price_unit === "per_trip" ? "per_trip" : "per_day",
+    price_transfer: t.price_pickup ?? null,
+    price_overtime: t.price_overtime ?? null,
+    price_self_drive: t.price_self_drive ?? null,
+    engine_cc: t.engine_cc ?? null,
     year: t.year ?? null,
     seats: t.seats ?? null,
     transmission: t.transmission ?? null,
