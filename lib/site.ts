@@ -13,7 +13,7 @@ export const SITE = {
   url: SITE_URL,
   /** Deskripsi default untuk metadata & structured data */
   description:
-    "Welcome Manado Transport — layanan rental mobil & transportasi terpercaya di Kota Manado, Sulawesi Utara. Sewa mobil harian, mingguan, bulanan, atau per trip, lepas kunci maupun dengan sopir. Pesan mudah via WhatsApp.",
+    "Welcome Manado Transport — layanan rental mobil & transportasi terpercaya di Kota Manado, Sulawesi Utara. Paket Full day dengan sopir, transfer bandara, atau lepas kunci. Pesan mudah via WhatsApp.",
   city: "Manado",
   region: "Sulawesi Utara",
   regionCode: "ID-SA",

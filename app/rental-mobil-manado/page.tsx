@@ -7,12 +7,12 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Rental Mobil Manado Murah & Terpercaya",
   description:
-    "Rental mobil Manado murah & terpercaya. Sewa harian, mingguan, bulanan — Avanza, Innova, Fortuner, Alphard, Hiace. Lepas kunci atau dengan sopir. Pesan cepat via WhatsApp.",
+    "Rental mobil Manado murah & terpercaya. Full day dengan sopir, transfer bandara, atau lepas kunci — Avanza, Xpander, Innova, Fortuner, Alphard, Hiace, Bus. Pesan cepat via WhatsApp.",
   alternates: { canonical: "/rental-mobil-manado" },
   openGraph: {
     title: "Rental Mobil Manado Murah & Terpercaya | Welcome Manado Transport",
     description:
-      "Sewa mobil di Manado: harian, mingguan, bulanan. Lepas kunci atau dengan sopir. Pesan cepat via WhatsApp.",
+      "Sewa mobil di Manado: Full day dengan sopir, transfer, atau lepas kunci. Pesan cepat via WhatsApp.",
     url: "/rental-mobil-manado",
     type: "website",
   },
@@ -26,12 +26,12 @@ export default async function Page() {
     <LandingTemplate
       eyebrow="Rental Mobil #1 di Kota Manado"
       title="Rental Mobil Manado Murah & Terpercaya"
-      intro="Welcome Manado Transport menyediakan rental mobil di Kota Manado dengan harga transparan tanpa biaya tersembunyi. Tersedia armada lengkap mulai dari city car, MPV keluarga seperti Avanza dan Innova, SUV Fortuner, hingga mobil mewah Alphard dan Hiace untuk rombongan. Sewa harian, mingguan, atau bulanan — bisa lepas kunci maupun dengan sopir berpengalaman."
+      intro="Welcome Manado Transport menyediakan rental mobil di Kota Manado dengan harga transparan tanpa biaya tersembunyi. Tersedia armada lengkap mulai dari city car, MPV keluarga seperti Avanza dan Innova, SUV Fortuner, hingga mobil mewah Alphard dan Hiace untuk rombongan. Pilih paket Full day dengan sopir (maks. 12 jam), Transfer sekali jalan, atau Lepas kunci untuk unit tertentu."
       highlights={[
         "Harga transparan, tanpa biaya tersembunyi",
         "Lepas kunci atau dengan sopir",
         "Antar-jemput Bandara Sam Ratulangi",
-        "Diskon sewa mingguan & bulanan",
+        "Full day, Transfer, atau Lepas kunci",
       ]}
       carsHeading="Pilihan Mobil Rental di Manado"
       cars={rental}
@@ -48,8 +48,8 @@ export default async function Page() {
           body: "Welcome Manado Transport melayani Kota Manado dan sekitarnya: Tomohon, Bitung, Minahasa, Airmadidi, hingga kawasan wisata Likupang dan Bunaken. Layanan antar-jemput Bandara Sam Ratulangi juga tersedia agar perjalanan Anda lebih praktis sejak tiba di Manado.",
         },
         {
-          heading: "Pilihan sewa harian, mingguan & bulanan",
-          body: "Butuh mobil satu hari untuk meeting, atau sebulan penuh untuk proyek? Kami fleksibel. Sewa mingguan otomatis mendapat diskon 10% dan sewa bulanan diskon 20%. Hubungi kami untuk penawaran terbaik sesuai durasi dan jenis mobil yang Anda butuhkan.",
+          heading: "Pilihan paket: Full day, Transfer, Lepas kunci",
+          body: "Full day adalah sewa dengan sopir sampai 12 jam per hari, sudah termasuk BBM sampai 120 km dan uang makan sopir. Transfer adalah sekali jalan dengan sopir, cocok untuk antar-jemput Bandara Sam Ratulangi. Lepas kunci tersedia untuk Avanza, Xpander, dan Innova Reborn. Untuk sewa mingguan atau bulanan, hubungi kami via WhatsApp untuk penawaran khusus.",
         },
       ]}
     />

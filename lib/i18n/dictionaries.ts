@@ -203,15 +203,15 @@ const id = {
       },
       {
         q: "Apakah bisa sewa mobil dengan sopir?",
-        a: "Bisa. Mobil yang menyediakan opsi sopir ditandai badge 'Sopir'. Pilih opsi 'Dengan Sopir' di form booking, dan harga sopir akan dikonfirmasi via WhatsApp.",
+        a: "Bisa. Semua unit tersedia dengan sopir lewat paket Full day (maks. 12 jam, termasuk BBM sampai 120 km dan uang makan sopir) atau Transfer sekali jalan. Harganya tercantum di halaman setiap mobil.",
       },
       {
-        q: "Apa bedanya sewa per hari dan per trip?",
-        a: "Sewa per hari dihitung berdasarkan jumlah hari pemakaian, cocok untuk lepas kunci atau pemakaian seharian. Sewa per trip adalah harga sekali jalan untuk satu perjalanan/tujuan tertentu, misalnya antar-jemput bandara atau tur singkat.",
+        q: "Apa bedanya Full day, Transfer, dan Lepas kunci?",
+        a: "Full day adalah sewa dengan sopir maksimal 12 jam per hari; lewat dari itu dikenakan over time per jam. Transfer adalah sekali jalan dengan sopir, misalnya antar ke atau jemput dari Bandara Sam Ratulangi. Lepas kunci berarti Anda menyetir sendiri, tersedia untuk unit tertentu, maksimal 12 jam per hari.",
       },
       {
-        q: "Apakah ada diskon untuk sewa jangka panjang?",
-        a: "Ya! Untuk sewa per hari, sewa mingguan otomatis diskon 10% dan sewa bulanan diskon 20%. Form booking di halaman detail menghitungnya otomatis.",
+        q: "Apakah ada harga khusus untuk sewa mingguan atau bulanan?",
+        a: "Untuk sewa mingguan atau bulanan, hubungi kami via WhatsApp. Kami akan menyampaikan penawaran sesuai unit, durasi, dan tujuan Anda.",
       },
       {
         q: "Bagaimana sistem pembayaran?",
@@ -478,15 +478,15 @@ const en: Dictionary = {
       },
       {
         q: "Can I rent a car with a driver?",
-        a: "Yes. Cars with a driver option are marked with a 'Driver' badge. Select 'With Driver' in the booking form and the driver fee will be confirmed via WhatsApp.",
+        a: "Yes. Every vehicle is available with a driver through the Full day package (up to 12 hours, including fuel for up to 120 km and the driver's meals) or a one-way Transfer. Rates are shown on each car's page.",
       },
       {
-        q: "What is the difference between daily and per-trip rental?",
-        a: "Daily rental is charged by the number of days, ideal for self-drive or all-day use. Per-trip rental is a one-way price for a specific journey, such as airport transfers or short tours.",
+        q: "What is the difference between Full day, Transfer, and Self-drive?",
+        a: "Full day is a rental with a driver for up to 12 hours per day; beyond that, hourly overtime applies. Transfer is a one-way trip with a driver, such as a drop-off at or pick-up from Sam Ratulangi Airport. Self-drive means you drive yourself; it is available on selected vehicles, up to 12 hours per day.",
       },
       {
-        q: "Are there discounts for long-term rentals?",
-        a: "Yes! For daily rentals, weekly rentals get an automatic 10% discount and monthly rentals 20%. The booking form on the detail page calculates it automatically.",
+        q: "Do you offer special rates for weekly or monthly rentals?",
+        a: "For weekly or monthly rentals, contact us on WhatsApp. We will send an offer based on the vehicle, duration, and destination.",
       },
       {
         q: "How does payment work?",
@@ -747,15 +747,15 @@ const zh: Dictionary = {
       },
       {
         q: "可以租带司机的车吗？",
-        a: "可以。提供司机选项的车辆会标有\"司机\"徽章。在预订表单中选择\"配司机\"，司机费用将通过 WhatsApp 确认。",
+        a: "可以。所有车辆均可通过全天套餐（最长 12 小时，含 120 公里以内燃油及司机餐费）或单程接送配司机。价格见各车辆页面。",
       },
       {
-        q: "按天租和按趟租有什么区别？",
-        a: "按天租按使用天数计费，适合自驾或全天使用。按趟租是单次行程的一口价，例如机场接送或短途游览。",
+        q: "全天、单程接送和自驾有什么区别？",
+        a: "全天为含司机租车，每天最长 12 小时，超出部分按小时收取超时费。单程接送为含司机的单程行程，例如送往或接自萨姆·拉图兰吉机场。自驾即由您自行驾驶，仅限部分车型，每天最长 12 小时。",
       },
       {
-        q: "长期租赁有折扣吗？",
-        a: "有！按天租车时，周租自动享受 10% 折扣，月租 20% 折扣。详情页的预订表单会自动计算。",
+        q: "周租或月租有特别价格吗？",
+        a: "周租或月租请通过 WhatsApp 联系我们，我们会根据车型、租期和目的地为您报价。",
       },
       {
         q: "如何付款？",
@@ -1018,15 +1018,15 @@ const ko: Dictionary = {
       },
       {
         q: "기사 포함 렌트도 가능한가요?",
-        a: "가능합니다. 기사 옵션이 있는 차량에는 '기사' 배지가 표시됩니다. 예약 양식에서 '기사 동행'을 선택하면 기사 비용은 WhatsApp으로 확인됩니다.",
+        a: "가능합니다. 모든 차량을 종일 패키지(최대 12시간, 120km까지 연료 및 기사 식비 포함) 또는 편도 픽업/샌딩으로 기사와 함께 이용하실 수 있습니다. 요금은 차량별 페이지에 안내되어 있습니다.",
       },
       {
-        q: "일일 렌트와 회당 렌트의 차이는 무엇인가요?",
-        a: "일일 렌트는 사용 일수 기준으로 요금이 계산되며 셀프 드라이브나 종일 이용에 적합합니다. 회당 렌트는 공항 픽업이나 짧은 투어처럼 특정 여정에 대한 1회 요금입니다.",
+        q: "종일, 편도 픽업/샌딩, 자차 운전은 어떻게 다른가요?",
+        a: "종일은 하루 최대 12시간 기사 포함 대여이며, 초과 시 시간당 초과 요금이 부과됩니다. 편도 픽업/샌딩은 삼 라툴랑이 공항 샌딩·픽업처럼 기사가 운전하는 편도 이동입니다. 자차 운전은 직접 운전하시는 방식으로 일부 차량에 한해 하루 최대 12시간 이용하실 수 있습니다.",
       },
       {
-        q: "장기 렌트 할인이 있나요?",
-        a: "네! 일일 렌트 기준 주 단위 렌트는 자동 10% 할인, 월 단위는 20% 할인됩니다. 상세 페이지의 예약 양식에서 자동 계산됩니다.",
+        q: "주간·월간 렌트 특별 요금이 있나요?",
+        a: "주간 또는 월간 렌트는 WhatsApp으로 문의해 주세요. 차량, 기간, 목적지에 맞춰 견적을 보내 드립니다.",
       },
       {
         q: "결제는 어떻게 하나요?",

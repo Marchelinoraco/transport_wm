@@ -17,7 +17,7 @@ export default function TentangPage() {
         <strong className="text-red-600">Welcome Manado Transport</strong> adalah layanan
         rental mobil &amp; transportasi dari Welcome Manado Holiday di Kota Manado,
         Sulawesi Utara. Kami hadir untuk memudahkan Anda menyewa mobil
-        berkualitas — harian, mingguan, bulanan, maupun per trip — dengan proses
+        berkualitas — Full day dengan sopir, transfer, maupun lepas kunci — dengan proses
         yang cepat, transparan, dan langsung lewat WhatsApp.
       </p>
       <p className="mt-4 leading-relaxed text-slate-600 dark:text-slate-400">
