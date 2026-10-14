@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getCarBySlug, getAllSlugs } from "@/lib/api";
 import { SITE_URL, SITE } from "@/lib/site";
 import CarDetailBody from "@/components/CarDetailBody";
+import { adaHarga } from "@/lib/paket";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -46,17 +47,21 @@ export default async function CarDetail({ params }: { params: { slug: string } }
     vehicleConfiguration: car.type,
     image: car.images,
     description: car.description,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "IDR",
-      price: car.price_rent ?? 0,
-      url: `${SITE_URL}/mobil/${car.slug}`,
-      availability:
-        car.status === "tersedia"
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-      seller: { "@type": "AutoRental", name: SITE.name, "@id": `${SITE_URL}/#business` },
-    },
+    ...(adaHarga(car.price_rent)
+      ? {
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "IDR",
+            price: car.price_rent,
+            url: `${SITE_URL}/mobil/${car.slug}`,
+            availability:
+              car.status === "tersedia"
+                ? "https://schema.org/InStock"
+                : "https://schema.org/OutOfStock",
+            seller: { "@type": "AutoRental", name: SITE.name, "@id": `${SITE_URL}/#business` },
+          },
+        }
+      : {}),
   };
 
   const breadcrumbJsonLd = {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getCars } from "@/lib/api";
 import LandingTemplate from "@/components/LandingTemplate";
+import { hargaPaket } from "@/lib/paket";
 
 export const revalidate = 60;
 
@@ -20,8 +21,8 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const cars = await getCars().catch(() => []);
-  const withDriver = cars.filter((c) => c.dengan_sopir);
-  // fallback: jika belum ada unit bertanda sopir, tampilkan semua armada
+  // Semua unit berharga Full day disewakan dengan sopir.
+  const withDriver = cars.filter((c) => hargaPaket(c, "full_day") !== null);
   const list = withDriver.length ? withDriver : cars;
 
   return (

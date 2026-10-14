@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getCars } from "@/lib/api";
 import LandingTemplate from "@/components/LandingTemplate";
+import { hargaPaket } from "@/lib/paket";
 
 export const revalidate = 60;
 
@@ -20,7 +21,8 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const cars = await getCars().catch(() => []);
-  const rental = cars;
+  // Hanya unit yang memang disewakan lepas kunci (punya harga lepas kunci).
+  const rental = cars.filter((c) => hargaPaket(c, "self_drive") !== null);
 
   return (
     <LandingTemplate
