@@ -58,6 +58,7 @@ export default function CarCard({ car }: { car: Car }) {
               />
               {/* Scrim gradasi saat hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+              <span aria-hidden className="kilau kilau-hover absolute inset-0 overflow-hidden" />
             </>
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-slate-400">
@@ -101,12 +102,18 @@ export default function CarCard({ car }: { car: Car }) {
               {car.name}
             </h3>
             <span
-              className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
+              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
                 car.status === "tersedia"
                   ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400"
                   : "bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400"
               }`}
             >
+              {car.status === "tersedia" && (
+                <span className="relative inline-flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </span>
+              )}
               {statusLabel}
             </span>
           </div>
@@ -129,7 +136,7 @@ export default function CarCard({ car }: { car: Car }) {
           {/* ── Harga (pill merah) + tombol detail ── */}
           <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
             {adaHarga(car.price_rent) ? (
-              <span className="rounded-xl bg-red-600 px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-red-600/20">
+              <span className="rounded-xl bg-red-600 px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-red-600/20 transition-transform duration-300 group-hover:scale-105">
                 {formatRupiah(car.price_rent)}
                 <span className="ml-0.5 text-[10px] font-bold opacity-80">{dict.paket.perDay}</span>
               </span>

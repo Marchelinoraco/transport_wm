@@ -9,9 +9,10 @@ import {
   Car as CarIcon,
   Key,
   UserCheck,
+  Tag,
 } from "lucide-react";
 import { Car } from "@/lib/types";
-import { waLink } from "@/lib/whatsapp";
+import { formatRupiah, waLink } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import CarCard from "./CarCard";
 import Counter from "./Counter";
@@ -20,6 +21,9 @@ import ScrollReveal from "./ScrollReveal";
 import TrustStrip from "./TrustStrip";
 import SectionHeader from "./SectionHeader";
 import Faq from "./Faq";
+import FleetMarquee from "./FleetMarquee";
+import { fill } from "@/lib/i18n/format";
+import { hargaMulai } from "@/lib/paket";
 
 const HERO_INTERVAL = 6000;
 
@@ -32,14 +36,16 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
   );
   const [heroIdx, setHeroIdx] = useState(0);
 
+  // setTimeout per slide (bukan setInterval) agar klik indikator memulai
+  // hitungan ulang. Pengguna reduce-motion: tidak berganti sendiri.
   useEffect(() => {
     if (heroImages.length < 2) return;
-    const t = setInterval(
-      () => setHeroIdx((i) => (i + 1) % heroImages.length),
-      HERO_INTERVAL,
-    );
-    return () => clearInterval(t);
-  }, [heroImages.length]);
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setTimeout(() => setHeroIdx((i) => (i + 1) % heroImages.length), HERO_INTERVAL);
+    return () => clearTimeout(t);
+  }, [heroIdx, heroImages.length]);
+
+  const mulai = hargaMulai(cars);
 
   const featured = cars
     .filter((c) => c.badge === "POPULER" || c.badge === "BARU")
@@ -118,14 +124,19 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
           </div>
 
           {/* Judul raksasa */}
-          <h1
-            className="mx-auto mt-8 max-w-5xl animate-fade-in-up text-5xl font-black leading-[0.9] tracking-tighter text-white sm:text-7xl lg:text-8xl"
-            style={{ animationDelay: "120ms" }}
-          >
-            {dict.hero.title1}
-            <br />
-            <span className="bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">
-              {dict.hero.title2}
+          <h1 className="mx-auto mt-8 max-w-5xl text-5xl font-black leading-[0.95] tracking-tighter text-white sm:text-7xl lg:text-8xl">
+            <span className="block overflow-hidden pb-[0.08em]">
+              <span className="block animate-mask-up" style={{ animationDelay: "120ms" }}>
+                {dict.hero.title1}
+              </span>
+            </span>
+            <span className="block overflow-hidden pb-[0.08em]">
+              <span
+                className="block animate-mask-up bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent"
+                style={{ animationDelay: "260ms" }}
+              >
+                {dict.hero.title2}
+              </span>
             </span>
           </h1>
 
@@ -135,6 +146,17 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
           >
             {dict.hero.subtitle}
           </p>
+
+          {mulai !== null && (
+            <div className="mt-6 animate-fade-in-up" style={{ animationDelay: "300ms" }}>
+              <Link
+                href="/katalog"
+                className="kilau kilau-loop relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-5 py-2 text-sm font-black text-red-600 shadow-lg shadow-red-900/20 transition hover:-translate-y-0.5"
+              >
+                <Tag className="h-4 w-4" /> {fill(dict.paket.priceChip, { price: formatRupiah(mulai) })}
+              </Link>
+            </div>
+          )}
 
           {/* CTA */}
           <div
@@ -169,7 +191,31 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
             ))}
           </div>
         </div>
+        {heroImages.length > 1 && (
+          <div className="absolute inset-x-0 bottom-8 z-10 flex justify-center gap-2">
+            {heroImages.map((c, i) => (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => setHeroIdx(i)}
+                aria-label={fill(dict.home.heroSlide, { n: i + 1 })}
+                aria-current={i === heroIdx}
+                className="h-1.5 w-10 overflow-hidden rounded-full bg-white/25 transition hover:bg-white/40"
+              >
+                {i === heroIdx && (
+                  <span
+                    key={heroIdx}
+                    className="block h-full origin-left animate-progress bg-white"
+                    style={{ animationDuration: `${HERO_INTERVAL}ms` }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
+
+      <FleetMarquee cars={cars} />
 
       {/* ═══ TRUST STRIP ═══ */}
       <section className="bg-slate-50 py-14 dark:bg-slate-800/50">
@@ -195,7 +241,7 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((svc, i) => (
-              <ScrollReveal key={svc.href} delay={i * 60}>
+              <ScrollReveal key={svc.href} delay={i * 60} variant="scale">
                 <Link
                   href={svc.href}
                   className="group flex h-full flex-col gap-5 rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-red-900/10 dark:border-slate-800 dark:bg-slate-900"
@@ -225,7 +271,7 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
       {/* ═══ ARMADA UNGGULAN ═══ */}
       <section className="bg-slate-50 py-24 dark:bg-slate-800/50">
         <div className="mx-auto max-w-7xl px-4 lg:px-6">
-          <ScrollReveal className="flex flex-wrap items-end justify-between gap-6">
+          <ScrollReveal variant="left" className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeader
               eyebrow={dict.home.fleetEyebrow}
               title={dict.home.fleetTitle1}
@@ -288,7 +334,7 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
       <section className="bg-white py-24 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 lg:px-6">
           <ScrollReveal>
-            <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-red-600 via-red-700 to-red-900 px-8 py-20 text-center shadow-2xl shadow-red-900/20 md:px-16">
+            <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-red-600 via-red-700 to-red-900 bg-[length:200%_200%] animate-gradient-shift px-8 py-20 text-center shadow-2xl shadow-red-900/20 md:px-16">
               <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
 
