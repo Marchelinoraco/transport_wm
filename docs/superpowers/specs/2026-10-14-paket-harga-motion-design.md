@@ -84,7 +84,9 @@ antar-jemput** mobil lepas kunci ke lokasi penyewa (Rp 150/300/600 ribu per area
 
 - `price_pickup`, `price_overtime`, `price_self_drive`: `nullable|integer|min:0`
 - `engine_cc`: `nullable|integer|min:500|max:20000`
-- Nilai kosong dari admin disimpan sebagai `null`, bukan 0.
+- Kolom yang dikirim kosong disimpan sebagai `null`, bukan 0. Kolom yang **tidak dikirim sama sekali tidak
+  diubah**. Ini melindungi harga paket dari form admin versi lama yang masih terbuka di browser staf. Karena itu,
+  form admin baru selalu mengirim keempat kolom, termasuk yang kosong.
 
 **Validasi `TransportationBookingController@store`:**
 
@@ -275,7 +277,8 @@ Setiap repo dikerjakan di branch fitur dari `dev`. Merge ke `main` dan deploy ha
 ## Pengujian
 
 - **api_wm:** `php artisan test`, termasuk feature test baru di §1.
-- **transport_wm:** `npm run lint` dan `npm run build` lolos.
+- **transport_wm:** `npm test` (vitest, devDependency khusus pengujian), `npx tsc --noEmit`, dan `npm run build`
+  lolos. ESLint belum dikonfigurasi di repo ini, jadi `npm run lint` tidak dipakai.
 - **Perhitungan form:** satu fungsi murni `hitungBooking()` diekstrak ke `lib/`. Hasilnya dicek terhadap
   hitungan manual untuk minimal:
   - Avanza Full day 3 hari Area 2 = 3 × 700.000 + 3 × 150.000 = **2.550.000**
