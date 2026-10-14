@@ -12,6 +12,7 @@ import { type PilihanArea, hitungBooking, normalisasiJumlah } from "@/lib/hitung
 import { buatPayloadBooking, buatPesanWa } from "@/lib/booking";
 import { NAMA_AREA, TARIF_LEPAS_KUNCI } from "@/lib/tarif-sewa";
 import { RINGKASAN_PAKET } from "@/lib/ringkasan-paket";
+import AnimatedNumber from "./AnimatedNumber";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api";
 const AREA_DENGAN_SOPIR: PilihanArea[] = [1, 2, 3, 4];
@@ -199,7 +200,7 @@ export default function BookingForm({ car }: { car: Car }) {
       <div className="mt-5 space-y-2 rounded-2xl bg-slate-50 p-5 text-sm dark:bg-slate-800/60">
         <div className="flex justify-between gap-3 font-medium text-slate-500 dark:text-slate-400">
           <span>{dict.booking.rental} {formatRupiah(hasil.tarif)} × {hasil.jumlah} {satuan}</span>
-          <span className="shrink-0">{formatRupiah(hasil.sewa)}</span>
+          <AnimatedNumber value={hasil.sewa} format={formatRupiah} className="shrink-0" />
         </div>
         {hasil.jenisTambahan !== null && !hasil.dikonfirmasi && area !== "pool" && (
           <div className="flex justify-between gap-3 font-medium text-slate-500 dark:text-slate-400">
@@ -208,12 +209,12 @@ export default function BookingForm({ car }: { car: Car }) {
                 ? `${fill(dict.area.areaFee, { n: area })} ${formatRupiah(hasil.tarifTambahan)} × ${hasil.jumlah}`
                 : fill(dict.area.delivery, { n: area })}
             </span>
-            <span className="shrink-0">{formatRupiah(hasil.biayaTambahan)}</span>
+            <AnimatedNumber value={hasil.biayaTambahan} format={formatRupiah} className="shrink-0" />
           </div>
         )}
         <div className="flex justify-between border-t border-slate-200 pt-2.5 text-base font-black text-slate-900 dark:border-slate-700 dark:text-white">
           <span>{dict.booking.estTotal}</span>
-          <span className="text-red-600">{formatRupiah(hasil.total)}</span>
+          <AnimatedNumber value={hasil.total} format={formatRupiah} className="text-red-600" />
         </div>
         {hasil.dikonfirmasi && (
           <p className="text-[11px] font-bold text-amber-600 dark:text-amber-400">
@@ -262,7 +263,7 @@ export default function BookingForm({ car }: { car: Car }) {
       )}
       {saved && (
         <p className="mt-4 flex items-center gap-2 rounded-2xl bg-green-50 px-4 py-3 text-sm font-bold text-green-700 dark:bg-green-900/20 dark:text-green-400">
-          <CheckCircle2 className="h-4 w-4 shrink-0" /> {dict.booking.success}
+          <CheckCircle2 className="h-4 w-4 shrink-0 animate-pop" /> {dict.booking.success}
         </p>
       )}
 
@@ -270,7 +271,7 @@ export default function BookingForm({ car }: { car: Car }) {
         type="button"
         onClick={handleSubmit}
         disabled={sending}
-        className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-4 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-green-600/20 transition hover:-translate-y-0.5 hover:opacity-90 active:scale-95 disabled:opacity-60"
+        className="kilau kilau-loop relative mt-5 flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-[#25D366] px-4 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-green-600/20 transition hover:-translate-y-0.5 hover:opacity-90 active:scale-95 disabled:opacity-60"
       >
         {sending ? (
           <><Loader2 className="h-5 w-5 animate-spin" /> {dict.booking.processing}</>

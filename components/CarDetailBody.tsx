@@ -12,6 +12,7 @@ import BookingForm from "./BookingForm";
 import TanyaButton from "./TanyaButton";
 import PhotoGallery from "./PhotoGallery";
 import TrustStrip from "./TrustStrip";
+import StickyBookingBar from "./StickyBookingBar";
 import { type Paket, adaHarga, hargaPaket, paketTersedia } from "@/lib/paket";
 import { HARGA_BERLAKU_SEJAK, TARIF_LEPAS_KUNCI } from "@/lib/tarif-sewa";
 import { fill, formatTanggal } from "@/lib/i18n/format";
@@ -187,6 +188,7 @@ export default function CarDetailBody({ car }: { car: Car }) {
       <div className="mt-14">
         <TrustStrip compact />
       </div>
+      <StickyBookingBar car={car} />
     </section>
   );
 }
