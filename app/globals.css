@@ -79,3 +79,69 @@ body {
 .animate-bounce-slow {
   animation: bounce-slow 3s infinite ease-in-out;
 }
+
+/* ── Kilau: lapisan terang yang menyapu tombol/foto ──
+   Elemen ber-kelas `kilau` wajib sudah positioned + overflow-hidden lewat
+   Tailwind (relative/absolute overflow-hidden); kelas ini sengaja tidak
+   mengatur `position` agar tidak bentrok dengan utilitas Tailwind. */
+@keyframes kilau {
+  0%,
+  70% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(260%) skewX(-20deg);
+  }
+}
+.kilau::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+}
+.kilau-loop::after {
+  animation: kilau 4s ease-in-out infinite;
+}
+.group:hover .kilau-hover::after {
+  transition: transform 0.9s ease;
+  transform: translateX(260%) skewX(-20deg);
+}
+
+/* ── Variasi ScrollReveal ── */
+.reveal-scale {
+  transform: scale(0.96);
+}
+.reveal-left {
+  transform: translateX(-24px);
+}
+.reveal-right {
+  transform: translateX(24px);
+}
+
+/* ── Bar booking menempel (HP/tablet): geser tombol chat agar tidak bertumpuk ── */
+html[data-sticky-booking] .floating-chat {
+  bottom: 6.5rem;
+}
+@media (min-width: 1024px) {
+  html[data-sticky-booking] .floating-chat {
+    bottom: 1.5rem;
+  }
+}
+
+/* Gerak minimal: marquee berhenti dan bisa digulir manual; kilau tidak berjalan. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+  }
+  .kilau::after {
+    display: none;
+  }
+}
