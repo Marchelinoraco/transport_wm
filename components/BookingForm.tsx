@@ -1,135 +1,61 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { CalendarDays, Check, CheckCircle2, Loader2, MessageCircle, X } from "lucide-react";
 import { Car } from "@/lib/types";
-import { formatRupiah, openWhatsApp } from "@/lib/whatsapp";
+import { formatRupiah, openWhatsApp, waLink } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
-import {
-  CalendarDays,
-  CheckCircle2,
-  Loader2,
-  MessageCircle,
-  UserCheck,
-} from "lucide-react";
+import { fill } from "@/lib/i18n/format";
+import { type Paket, paketTersedia, adaHarga } from "@/lib/paket";
+import { type PilihanArea, hitungBooking, normalisasiJumlah } from "@/lib/hitungBooking";
+import { buatPayloadBooking, buatPesanWa } from "@/lib/booking";
+import { NAMA_AREA, TARIF_LEPAS_KUNCI } from "@/lib/tarif-sewa";
+import { RINGKASAN_PAKET } from "@/lib/ringkasan-paket";
 
-type Mode = "hari" | "minggu" | "bulan";
-
-const config: Record<Mode, { days: number; discount: number }> = {
-  hari:   { days: 1,  discount: 0 },
-  minggu: { days: 7,  discount: 0.1 },
-  bulan:  { days: 30, discount: 0.2 },
-};
-
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api";
+const AREA_DENGAN_SOPIR: PilihanArea[] = [1, 2, 3, 4];
+const AREA_LEPAS_KUNCI: PilihanArea[] = ["pool", 1, 2, 3, 4];
 
 export default function BookingForm({ car }: { car: Car }) {
-  const { dict } = useLang();
-  const perTrip = car.price_unit === "per_trip";
+  const { dict, locale } = useLang();
+  const pilihan = paketTersedia(car);
 
-  const [mode, setMode] = useState<Mode>("hari");
-  const [qty, setQty] = useState(1);
+  const [paket, setPaket] = useState<Paket>(pilihan[0] ?? "full_day");
+  const [jumlah, setJumlah] = useState(1);
+  const [area, setArea] = useState<PilihanArea>(pilihan[0] === "self_drive" ? "pool" : 1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [withDriver, setWithDriver] = useState(false);
   const [note, setNote] = useState("");
   const [sending, setSending] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
-  const rate = car.price_rent ?? 0;
-  const { days, discount } = perTrip ? { days: 0, discount: 0 } : config[mode];
-  const totalDays = perTrip ? 0 : days * qty;
+  const input = useMemo(() => ({ car, paket, jumlah, area }), [car, paket, jumlah, area]);
+  const hasil = useMemo(() => hitungBooking(input), [input]);
 
-  const { subtotal, potongan, total, endDate } = useMemo(() => {
-    const units = perTrip ? qty : totalDays;
-    const subtotal = rate * units;
-    const potongan = Math.round(subtotal * discount);
-    const total = subtotal - potongan;
-    let endDate = "";
-    if (!perTrip && startDate && totalDays > 1) {
-      const d = new Date(startDate);
-      d.setDate(d.getDate() + totalDays - 1);
-      endDate = d.toISOString().slice(0, 10);
-    }
-    return { subtotal, potongan, total, endDate };
-  }, [rate, totalDays, discount, startDate, perTrip, qty]);
-
-  const modeLabels: Record<Mode, string> = {
-    hari: dict.booking.modeDay,
-    minggu: dict.booking.modeWeek,
-    bulan: dict.booking.modeMonth,
+  const namaPaket: Record<Paket, string> = {
+    full_day: dict.paket.full_day,
+    transfer: dict.paket.transfer,
+    self_drive: dict.paket.self_drive,
   };
-  const qtyLabel = perTrip
-    ? dict.booking.qtyTrip
-    : mode === "hari"
-      ? dict.booking.qtyDay
-      : mode === "minggu"
-        ? dict.booking.qtyWeek
-        : dict.booking.qtyMonth;
+  const catatanPaket: Record<Paket, string> = {
+    full_day: dict.paket.full_dayNote,
+    transfer: dict.paket.transferNote,
+    self_drive: dict.paket.self_driveNote,
+  };
 
-  const durasiLabel = perTrip
-    ? `${qty} ${dict.booking.trip}`
-    : `${totalDays} ${dict.booking.days} (${modeLabels[mode]})`;
+  function labelArea(a: PilihanArea): string {
+    if (a === "pool") return dict.area.pool;
+    if (a === 4) return dict.area.area4;
+    return `${fill(dict.area.area, { n: a })} — ${NAMA_AREA[locale][a]}`;
+  }
 
-  const message =
-`🚗 *BOOKING — WELCOME MANADO TRANSPORT*
-
-👤 Nama       : ${name || "-"}
-📱 No. WA     : ${phone || "-"}
-🚙 Mobil      : ${car.name}${car.year ? ` (${car.year})` : ""}
-🏷️ Tipe       : ${[car.type, car.transmission, car.fuel].filter(Boolean).join(" | ") || "-"}
-📅 Tanggal    : ${startDate || "-"}${endDate ? ` s/d ${endDate}` : ""}
-⏱️ Durasi      : ${durasiLabel}
-🧑‍✈️ Dengan Sopir: ${withDriver ? "Ya" : "Tidak"}
-💵 Est. Total  : ${formatRupiah(total)}${potongan > 0 ? ` (sudah diskon ${Math.round(discount * 100)}%)` : ""}
-📝 Catatan     : ${note || "-"}
-
-Mohon konfirmasi ketersediaan & harga final. Terima kasih! 🙏`;
-
-  async function handleSubmit() {
-    setError("");
-    if (!name.trim()) { setError(dict.booking.errName); return; }
-    if (!phone.trim()) { setError(dict.booking.errPhone); return; }
-    if (!startDate) { setError(dict.booking.errDate); return; }
-
-    setSending(true);
-    let ok = false;
-    try {
-      const res = await fetch(`${API_BASE}/transportation-bookings`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          transportation_id: car.id,
-          customer_name: name.trim(),
-          customer_phone: phone.trim(),
-          booking_date: startDate,
-          end_date: endDate || null,
-          duration_days: perTrip ? null : totalDays,
-          dengan_sopir: withDriver,
-          total_price: total,
-          notes: [perTrip ? `Booking ${qty} trip` : null, note.trim() || null]
-            .filter(Boolean)
-            .join(" — ") || null,
-        }),
-      });
-      ok = res.ok;
-    } catch {
-      // Booking gagal tersimpan bukan alasan kehilangan lead — tetap lanjut ke WhatsApp
-    }
-
-    setSending(false);
-    if (ok) {
-      // Konfirmasi singkat sebelum membuka WhatsApp
-      setSaved(true);
-      setTimeout(() => {
-        openWhatsApp(message);
-        setSaved(false);
-      }, 1200);
-    } else {
-      openWhatsApp(message);
-    }
+  function pilihPaket(p: Paket) {
+    setPaket(p);
+    if (p === "self_drive") setArea("pool");
+    else if (area === "pool") setArea(1);
   }
 
   const inputClass =
@@ -137,136 +63,203 @@ Mohon konfirmasi ketersediaan & harga final. Terima kasih! 🙏`;
   const labelClass =
     "block text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400";
 
+  if (!hasil) {
+    return (
+      <div id="form-booking" className="rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <h3 className="flex items-center gap-2 text-lg font-black tracking-tight text-slate-900 dark:text-white">
+          <CalendarDays className="h-5 w-5 text-red-600" /> {dict.booking.title}
+        </h3>
+        <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">{dict.booking.unavailable}</p>
+        <a
+          href={waLink(`Halo Welcome Manado Transport, saya ingin menanyakan harga ${car.name}.`)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-4 py-4 text-xs font-black uppercase tracking-widest text-white"
+        >
+          <MessageCircle className="h-5 w-5" /> {dict.paket.askPrice}
+        </a>
+      </div>
+    );
+  }
+
+  const harian = paket !== "transfer";
+  const satuan = harian ? dict.booking.days : dict.booking.trip;
+  const pilihanArea = paket === "self_drive" ? AREA_LEPAS_KUNCI : AREA_DENGAN_SOPIR;
+  const ringkasan = RINGKASAN_PAKET[paket];
+
+  async function handleSubmit() {
+    if (!hasil) return;
+    setError("");
+    if (!name.trim()) { setError(dict.booking.errName); return; }
+    if (!phone.trim()) { setError(dict.booking.errPhone); return; }
+    if (!startDate) { setError(dict.booking.errDate); return; }
+
+    const pemesan = { nama: name, telepon: phone, tanggalMulai: startDate, catatan: note };
+    const pesan = buatPesanWa(input, hasil, pemesan);
+
+    setSending(true);
+    let ok = false;
+    try {
+      const res = await fetch(`${API_BASE}/transportation-bookings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(buatPayloadBooking(input, hasil, pemesan)),
+      });
+      ok = res.ok;
+    } catch {
+      // Booking gagal tersimpan bukan alasan kehilangan lead — tetap lanjut ke WhatsApp
+    }
+    setSending(false);
+
+    if (ok) {
+      setSaved(true);
+      setTimeout(() => {
+        openWhatsApp(pesan);
+        setSaved(false);
+      }, 1200);
+    } else {
+      openWhatsApp(pesan);
+    }
+  }
+
   return (
-    <div className="rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div id="form-booking" className="scroll-mt-24 rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <h3 className="flex items-center gap-2 text-lg font-black tracking-tight text-slate-900 dark:text-white">
         <CalendarDays className="h-5 w-5 text-red-600" /> {dict.booking.title}
       </h3>
 
-      {/* Pilih durasi — hanya untuk sewa harian */}
-      {!perTrip && (
-        <div className="mt-5 grid grid-cols-3 gap-2">
-          {(Object.keys(config) as Mode[]).map((m) => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              className={`rounded-xl border px-2 py-2.5 text-[10px] font-black uppercase tracking-widest transition ${
-                mode === m
-                  ? "border-red-600 bg-red-600 text-white shadow-lg shadow-red-600/20"
-                  : "border-slate-200 text-slate-600 hover:border-red-300 dark:border-slate-700 dark:text-slate-300"
-              }`}
-            >
-              {modeLabels[m]}
-              {m !== "hari" && (
-                <span className={`ml-1 ${mode === m ? "text-white/80" : "text-green-600 dark:text-green-400"}`}>
-                  {m === "minggu" ? "-10%" : "-20%"}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Paket */}
+      <p className={`${labelClass} mt-5`}>{dict.booking.package}</p>
+      <div className={`mt-2 grid gap-2 ${pilihan.length === 3 ? "grid-cols-3" : pilihan.length === 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+        {pilihan.map((p) => (
+          <button
+            key={p}
+            type="button"
+            onClick={() => pilihPaket(p)}
+            aria-pressed={paket === p}
+            className={`rounded-xl border px-2 py-2.5 text-[10px] font-black uppercase tracking-widest transition ${
+              paket === p
+                ? "border-red-600 bg-red-600 text-white shadow-lg shadow-red-600/20"
+                : "border-slate-200 text-slate-600 hover:border-red-300 dark:border-slate-700 dark:text-slate-300"
+            }`}
+          >
+            {namaPaket[p]}
+          </button>
+        ))}
+      </div>
+      <p className="mt-2 text-xs text-slate-400">{catatanPaket[paket]}</p>
 
       <div className="mt-5 space-y-4">
-        <label className="block">
-          <span className={labelClass}>{dict.booking.name} *</span>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder={dict.booking.namePlaceholder}
-            className={inputClass}
-          />
-        </label>
-
-        <label className="block">
-          <span className={labelClass}>{dict.booking.phone} *</span>
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder={dict.booking.phonePlaceholder}
-            className={inputClass}
-          />
-        </label>
-
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
-            <span className={labelClass}>{dict.booking.startDate} *</span>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              min={new Date().toISOString().slice(0, 10)}
-              className={inputClass}
-            />
-          </label>
-          <label className="block">
-            <span className={labelClass}>{qtyLabel}</span>
+            <span className={labelClass}>{harian ? dict.booking.qtyDay : dict.booking.qtyTrip}</span>
             <input
               type="number"
               min={1}
-              max={90}
-              value={qty}
-              onChange={(e) => setQty(Math.max(1, Number(e.target.value)))}
+              max={365}
+              value={jumlah}
+              onChange={(e) => setJumlah(normalisasiJumlah(Number(e.target.value)))}
               className={inputClass}
             />
           </label>
+          <label className="block">
+            <span className={labelClass}>{dict.booking.startDate}</span>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={inputClass} />
+          </label>
         </div>
 
-        {car.dengan_sopir && (
-          <button
-            type="button"
-            onClick={() => setWithDriver((v) => !v)}
-            className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-xs font-black uppercase tracking-widest transition ${
-              withDriver
-                ? "border-red-400 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400"
-                : "border-slate-200 text-slate-600 hover:border-red-200 dark:border-slate-700 dark:text-slate-300"
-            }`}
+        <label className="block">
+          <span className={labelClass}>{paket === "self_drive" ? dict.area.deliveryLabel : dict.area.label}</span>
+          <select
+            value={String(area)}
+            onChange={(e) => setArea(e.target.value === "pool" ? "pool" : (Number(e.target.value) as PilihanArea))}
+            className={inputClass}
           >
-            <UserCheck className="h-4 w-4 shrink-0" />
-            <span>{withDriver ? dict.booking.driverSelected : dict.booking.addDriver}</span>
-          </button>
-        )}
+            {pilihanArea.map((a) => (
+              <option key={String(a)} value={String(a)}>{labelArea(a)}</option>
+            ))}
+          </select>
+        </label>
 
         <label className="block">
+          <span className={labelClass}>{dict.booking.name}</span>
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={dict.booking.namePlaceholder} className={inputClass} />
+        </label>
+        <label className="block">
+          <span className={labelClass}>{dict.booking.phone}</span>
+          <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={dict.booking.phonePlaceholder} inputMode="tel" className={inputClass} />
+        </label>
+        <label className="block">
           <span className={labelClass}>{dict.booking.note}</span>
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            rows={2}
-            placeholder={dict.booking.notePlaceholder}
-            className={inputClass}
-          />
+          <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder={dict.booking.notePlaceholder} rows={2} className={inputClass} />
         </label>
       </div>
 
-      {/* Ringkasan harga */}
+      {/* Rincian */}
       <div className="mt-5 space-y-2 rounded-2xl bg-slate-50 p-5 text-sm dark:bg-slate-800/60">
-        <div className="flex justify-between font-medium text-slate-500 dark:text-slate-400">
-          <span>
-            {formatRupiah(rate)} × {perTrip ? `${qty} ${dict.booking.trip}` : `${totalDays} ${dict.booking.days}`}
-          </span>
-          <span>{formatRupiah(subtotal)}</span>
+        <div className="flex justify-between gap-3 font-medium text-slate-500 dark:text-slate-400">
+          <span>{dict.booking.rental} {formatRupiah(hasil.tarif)} × {hasil.jumlah} {satuan}</span>
+          <span className="shrink-0">{formatRupiah(hasil.sewa)}</span>
         </div>
-        {potongan > 0 && (
-          <div className="flex justify-between font-bold text-green-600 dark:text-green-400">
-            <span>{dict.booking.discount} {Math.round(discount * 100)}%</span>
-            <span>− {formatRupiah(potongan)}</span>
+        {hasil.jenisTambahan !== null && !hasil.dikonfirmasi && area !== "pool" && (
+          <div className="flex justify-between gap-3 font-medium text-slate-500 dark:text-slate-400">
+            <span>
+              {hasil.jenisTambahan === "area"
+                ? `${fill(dict.area.areaFee, { n: area })} ${formatRupiah(hasil.tarifTambahan)} × ${hasil.jumlah}`
+                : fill(dict.area.delivery, { n: area })}
+            </span>
+            <span className="shrink-0">{formatRupiah(hasil.biayaTambahan)}</span>
           </div>
         )}
         <div className="flex justify-between border-t border-slate-200 pt-2.5 text-base font-black text-slate-900 dark:border-slate-700 dark:text-white">
           <span>{dict.booking.estTotal}</span>
-          <span className="text-red-600">{formatRupiah(total)}</span>
+          <span className="text-red-600">{formatRupiah(hasil.total)}</span>
         </div>
+        {hasil.dikonfirmasi && (
+          <p className="text-[11px] font-bold text-amber-600 dark:text-amber-400">
+            {paket === "transfer" ? dict.area.transferNote : dict.booking.plusConfirmed}
+          </p>
+        )}
+        {paket === "full_day" && adaHarga(car.price_overtime) && (
+          <p className="text-[11px] text-slate-400">
+            {dict.paket.overtime}: {formatRupiah(car.price_overtime)}{dict.paket.overtimeNote}
+          </p>
+        )}
+        {paket === "self_drive" && (
+          <p className="text-[11px] text-slate-400">
+            {dict.paket.lateReturn}: {formatRupiah(TARIF_LEPAS_KUNCI.keterlambatanPerJam)}{dict.paket.lateReturnNote}
+          </p>
+        )}
         <p className="pt-1 text-[11px] text-slate-400">{dict.booking.finalPrice}</p>
       </div>
 
-      {error && (
-        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600 dark:bg-red-900/20 dark:text-red-400">
-          {error}
-        </p>
-      )}
+      {/* Termasuk / tidak termasuk */}
+      <div key={paket} className="mt-5 grid animate-fade-in-up gap-4 text-xs sm:grid-cols-2 lg:grid-cols-1">
+        <div>
+          <p className={labelClass}>{dict.booking.included}</p>
+          <ul className="mt-2 space-y-1.5">
+            {ringkasan.termasuk[locale].map((t) => (
+              <li key={t} className="flex gap-2 text-slate-600 dark:text-slate-300">
+                <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" /> {t}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className={labelClass}>{dict.booking.excluded}</p>
+          <ul className="mt-2 space-y-1.5">
+            {ringkasan.tidakTermasuk[locale].map((t) => (
+              <li key={t} className="flex gap-2 text-slate-500 dark:text-slate-400">
+                <X className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" /> {t}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
+      {error && (
+        <p className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600 dark:bg-red-900/20 dark:text-red-400">{error}</p>
+      )}
       {saved && (
         <p className="mt-4 flex items-center gap-2 rounded-2xl bg-green-50 px-4 py-3 text-sm font-bold text-green-700 dark:bg-green-900/20 dark:text-green-400">
           <CheckCircle2 className="h-4 w-4 shrink-0" /> {dict.booking.success}
@@ -276,7 +269,7 @@ Mohon konfirmasi ketersediaan & harga final. Terima kasih! 🙏`;
       <button
         type="button"
         onClick={handleSubmit}
-        disabled={sending || saved}
+        disabled={sending}
         className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-4 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-green-600/20 transition hover:-translate-y-0.5 hover:opacity-90 active:scale-95 disabled:opacity-60"
       >
         {sending ? (
@@ -285,6 +278,13 @@ Mohon konfirmasi ketersediaan & harga final. Terima kasih! 🙏`;
           <><MessageCircle className="h-5 w-5" /> {dict.booking.submit}</>
         )}
       </button>
+      <p className="mt-3 text-center text-[11px] text-slate-400">
+        {dict.booking.agreePrefix}{" "}
+        <Link href="/syarat-ketentuan" className="font-bold text-slate-600 underline underline-offset-2 hover:text-red-600 dark:text-slate-300">
+          {dict.booking.termsLink}
+        </Link>
+        .
+      </p>
     </div>
   );
 }
