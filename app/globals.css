@@ -144,4 +144,11 @@ html[data-sticky-booking] .floating-chat {
   .kilau::after {
     display: none;
   }
+  /* Varian ScrollReveal dideklarasikan sesudah blok reduce-motion di atas,
+     jadi transform-nya perlu dimatikan lagi di sini. */
+  .reveal-scale,
+  .reveal-left,
+  .reveal-right {
+    transform: none;
+  }
 }
