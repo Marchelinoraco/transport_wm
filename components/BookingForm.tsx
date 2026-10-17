@@ -23,7 +23,11 @@ export default function BookingForm({ car }: { car: Car }) {
   const pilihan = paketTersedia(car);
 
   const [paket, setPaket] = useState<Paket>(pilihan[0] ?? "full_day");
-  const [jumlah, setJumlah] = useState(1);
+  // Teks mentah isian jumlah: dinormalisasi saat dihitung, bukan saat diketik —
+  // kalau dinormalisasi tiap ketukan, isian yang dikosongkan langsung kembali ke
+  // "1" dan angka yang diketik sesudahnya menempel (3 → "13").
+  const [jumlahTeks, setJumlahTeks] = useState("1");
+  const jumlah = normalisasiJumlah(Number(jumlahTeks));
   const [area, setArea] = useState<PilihanArea>(pilihan[0] === "self_drive" ? "pool" : 1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -158,8 +162,9 @@ export default function BookingForm({ car }: { car: Car }) {
               type="number"
               min={1}
               max={365}
-              value={jumlah}
-              onChange={(e) => setJumlah(normalisasiJumlah(Number(e.target.value)))}
+              value={jumlahTeks}
+              onChange={(e) => setJumlahTeks(e.target.value)}
+              onBlur={() => setJumlahTeks(String(jumlah))}
               className={inputClass}
             />
           </label>
