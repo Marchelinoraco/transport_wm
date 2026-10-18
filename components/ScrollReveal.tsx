@@ -8,6 +8,8 @@ type Props = {
   /** delay dalam ms */
   delay?: number;
   as?: keyof JSX.IntrinsicElements;
+  /** Arah kemunculan; default naik dari bawah. */
+  variant?: "up" | "scale" | "left" | "right";
 };
 
 export default function ScrollReveal({
@@ -15,6 +17,7 @@ export default function ScrollReveal({
   className = "",
   delay = 0,
   as: Tag = "div",
+  variant = "up",
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const [shown, setShown] = useState(false);
@@ -40,7 +43,7 @@ export default function ScrollReveal({
     <Component
       ref={ref}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
-      className={`reveal ${shown ? "is-visible" : ""} ${className}`}
+      className={`reveal ${variant !== "up" ? `reveal-${variant}` : ""} ${shown ? "is-visible" : ""} ${className}`}
     >
       {children}
     </Component>

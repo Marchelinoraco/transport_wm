@@ -59,7 +59,7 @@ export default function OgImage() {
         </div>
 
         <div style={{ fontSize: 30, marginTop: 32, color: "rgba(255,255,255,0.85)" }}>
-          Sewa harian · mingguan · bulanan · per trip · dengan sopir
+          Full day dengan sopir · Transfer · Lepas kunci
         </div>
 
         <div

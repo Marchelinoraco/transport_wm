@@ -7,6 +7,7 @@ import CarCard from "@/components/CarCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionHeader from "@/components/SectionHeader";
 import { useLang } from "@/lib/i18n/LanguageProvider";
+import { adaHarga } from "@/lib/paket";
 
 const typeFilters = ["MPV", "SUV", "Sedan", "City Car", "Pickup", "Minibus"];
 const transmissions = ["Manual", "Otomatis"];
@@ -47,8 +48,8 @@ export default function KatalogClient({ cars }: { cars: Car[] }) {
 
     r = [...r].sort((a, b) => {
       switch (sort) {
-        case "harga-asc": return (a.price_rent ?? Infinity) - (b.price_rent ?? Infinity);
-        case "harga-desc": return (b.price_rent ?? 0) - (a.price_rent ?? 0);
+        case "harga-asc": return (adaHarga(a.price_rent) ? a.price_rent : Infinity) - (adaHarga(b.price_rent) ? b.price_rent : Infinity);
+        case "harga-desc": return (adaHarga(b.price_rent) ? b.price_rent : -1) - (adaHarga(a.price_rent) ? a.price_rent : -1);
         case "tahun-desc": return (b.year ?? 0) - (a.year ?? 0);
         default: return b.id - a.id;
       }

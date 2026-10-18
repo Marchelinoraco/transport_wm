@@ -65,6 +65,7 @@ export default function Footer() {
     { href: "/promo", label: dict.nav.promo },
     { href: "/blog", label: dict.nav.blog },
     { href: "/tentang", label: dict.nav.about },
+    { href: "/syarat-ketentuan", label: dict.footer.terms },
   ];
 
   const services = [
