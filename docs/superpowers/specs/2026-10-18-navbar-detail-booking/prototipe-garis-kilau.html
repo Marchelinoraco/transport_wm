@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><title>Gaya garis tepi</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #f1f5f9; color: #0f172a; }
+  .panel { max-width: 1180px; margin: 24px auto 14px; padding: 0 4px; }
+  .panel h2 { margin: 0 0 4px; font-size: 22px; }
+  .panel p { margin: 0 0 14px; color: #64748b; font-size: 14px; }
+  .kontrol { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .kontrol button { font: 600 13px Inter, sans-serif; border: 0; background: #0f172a; color: #fff; padding: 9px 14px; border-radius: 10px; cursor: pointer; }
+  .kontrol label { display: flex; gap: 7px; align-items: center; font-size: 13px; font-weight: 600; background: #fff; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
+  .kontrol input { accent-color: #dc2626; }
+
+  /* ===== situs tiruan ===== */
+  .frame { max-width: 1180px; height: 620px; margin: 0 auto 40px; border-radius: 18px; overflow: auto; position: relative;
+    background: #fff; box-shadow: 0 20px 60px rgba(15,23,42,.18); scroll-behavior: smooth; }
+  .tempel { position: sticky; top: 0; height: 0; z-index: 10; display: flex; justify-content: center; align-items: flex-start; }
+
+  .notch { --r: 22px; position: relative; display: flex; align-items: center; gap: 26px; background: #0a0a0a; color: #fff;
+    padding: 13px 13px 13px 18px; border-radius: 0 0 26px 26px;
+    box-shadow: 0 14px 40px rgba(0,0,0,.28), inset 0 -1px 0 rgba(255,255,255,.06);
+    transition: padding .35s cubic-bezier(.16,1,.3,1), gap .35s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1), border-radius .35s,
+      background-color .4s ease, box-shadow .4s ease, opacity .35s ease; }
+  /* Sudut cekung di kiri-atas & kanan-atas: hitam menyatu dengan tepi atas layar */
+  .notch::before, .notch::after { content: ""; position: absolute; top: 0; width: var(--r); height: var(--r); pointer-events: none; transition: opacity .4s ease; }
+  .notch::before { left: calc(-1 * var(--r) + 1px); background: radial-gradient(circle at 0 100%, transparent calc(var(--r) - .6px), #0a0a0a var(--r)); }
+  .notch::after { right: calc(-1 * var(--r) + 1px); background: radial-gradient(circle at 100% 100%, transparent calc(var(--r) - .6px), #0a0a0a var(--r)); }
+  .notch.masuk { animation: turun .8s cubic-bezier(.34,1.45,.64,1) backwards; }
+  @keyframes turun { from { transform: translateY(-115%); } to { transform: translateY(0); } }
+  .notch.masuk .item { animation: muncul .5s cubic-bezier(.16,1,.3,1) both; animation-delay: calc(.35s + var(--i) * .045s); }
+  @keyframes muncul { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+  .notch.ringkas { --r: 18px; padding: 8px 9px 8px 14px; gap: 18px; border-radius: 0 0 22px 22px; }
+  .notch.ringkas .logo img { width: 26px; height: 26px; }
+  .notch.ringkas .tag { max-height: 0; opacity: 0; margin-top: 0; }
+  .notch.sembunyi { transform: translateY(-120%); }
+  /* Garis tepi: satu jalur SVG yang menelusuri seluruh bentuk notch, termasuk sudut cekung atas */
+  .tepi { position: absolute; top: 0; left: calc(-1 * var(--r)); width: calc(100% + 2 * var(--r)); height: 100%; overflow: visible; pointer-events: none; transition: opacity .4s ease; }
+  .tepi path { fill: none; stroke-linecap: round; }
+  .tepi .dasar { stroke: rgba(255,255,255,.09); stroke-width: 1.2; }
+  .tepi .cahaya { stroke: #ef4444; stroke-width: 2; filter: drop-shadow(0 0 4px rgba(239,68,68,.9)); }
+  .tepi .inti { stroke: #fff; stroke-width: 1.4; }
+  .notch.tanpa-garis .tepi { display: none; }
+  .notch.tanpa-latar .tepi { opacity: 0; }
+  /* Mode "latar memudar": hitam hilang, isi tetap & berganti warna agar terbaca di atas konten terang */
+  .notch.tanpa-latar { background-color: transparent; box-shadow: none; }
+  .notch.tanpa-latar::before, .notch.tanpa-latar::after { opacity: 0; }
+  .notch.tanpa-latar .wordmark b, .notch.tanpa-latar .menu a:hover, .notch.tanpa-latar .menu a.aktif { color: #0f172a; }
+  .notch.tanpa-latar .tag { color: #94a3b8; }
+  .notch.tanpa-latar .menu a { color: #475569; }
+  .notch.tanpa-latar .sorot { background: rgba(15,23,42,.07); }
+  .notch.tanpa-latar .bulat { background: rgba(15,23,42,.06); color: #334155; }
+  .notch.tanpa-latar .cta { background: #dc2626; color: #fff; box-shadow: 0 8px 20px rgba(220,38,38,.3); }
+  .notch.tanpa-latar .cta svg { color: #fff; }
+  .notch .wordmark b, .notch .menu a, .notch .bulat, .notch .cta, .notch .tag { transition: color .4s ease, background .4s ease, box-shadow .4s ease, transform .2s; }
+  /* Mode "hilang": seluruh navbar naik keluar layar */
+  .notch.hilang { transform: translateY(-130%); opacity: 0; }
+
+  .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit; }
+  .logo img { width: 32px; height: 32px; border-radius: 9px; transition: width .35s, height .35s, transform .5s; }
+  .logo:hover img { transform: rotate(-8deg) scale(1.05); }
+  .wordmark { display: flex; flex-direction: column; line-height: 1; }
+  .wordmark b { font-size: 14.5px; font-weight: 900; letter-spacing: -.4px; white-space: nowrap; }
+  .wordmark b span { color: #ef4444; }
+  .tag { font-size: 8px; font-weight: 800; letter-spacing: .38em; color: rgba(255,255,255,.45); margin-top: 4px; max-height: 12px; overflow: hidden; transition: max-height .35s, opacity .25s, margin .35s; }
+
+  .menu { position: relative; display: flex; align-items: center; gap: 2px; }
+  .menu a { position: relative; z-index: 1; padding: 8px 12px; font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,.62); text-decoration: none; border-radius: 999px; transition: color .2s; white-space: nowrap; }
+  .menu a:hover, .menu a.aktif { color: #fff; }
+  .menu a.aktif::after { content: ""; position: absolute; left: 50%; bottom: 2px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+  .sorot { position: absolute; top: 0; height: 100%; left: 0; width: 0; border-radius: 999px; background: rgba(255,255,255,.1); opacity: 0;
+    transition: transform .35s cubic-bezier(.16,1,.3,1), width .35s cubic-bezier(.16,1,.3,1), opacity .2s; }
+  .notch.tanpa-sorot .sorot { display: none; }
+
+  .kanan { display: flex; align-items: center; gap: 6px; }
+  .bulat { display: grid; place-items: center; height: 34px; min-width: 34px; padding: 0 9px; border-radius: 999px; border: 0; background: rgba(255,255,255,.07);
+    color: rgba(255,255,255,.85); font: 700 11.5px Inter, sans-serif; cursor: pointer; gap: 5px; grid-auto-flow: column; transition: background .2s; }
+  .bulat:hover { background: rgba(255,255,255,.14); }
+  .lainnya { position: relative; }
+  .dropdown { position: absolute; right: 0; top: calc(100% + 10px); width: 190px; background: #111; border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 6px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4); transform-origin: top right; transform: scale(.92) translateY(-4px); opacity: 0; pointer-events: none; transition: transform .25s cubic-bezier(.16,1,.3,1), opacity .2s; }
+  .dropdown.buka { transform: none; opacity: 1; pointer-events: auto; }
+  .dropdown a, .dropdown div { display: flex; justify-content: space-between; align-items: center; padding: 9px 10px; border-radius: 9px; font-size: 13px; color: rgba(255,255,255,.85); text-decoration: none; }
+  .dropdown a:hover, .dropdown div:hover { background: rgba(255,255,255,.07); }
+  .saklar { width: 30px; height: 17px; border-radius: 999px; background: rgba(255,255,255,.2); position: relative; }
+  .saklar::after { content: ""; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; border-radius: 50%; background: #fff; }
+
+  .cta { position: relative; overflow: hidden; display: flex; align-items: center; gap: 7px; background: #fff; color: #0a0a0a; text-decoration: none;
+    font-size: 13px; font-weight: 800; padding: 10px 16px 10px 14px; border-radius: 12px; white-space: nowrap; transition: transform .2s, box-shadow .2s; }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(255,255,255,.18); }
+  .cta svg { width: 14px; height: 14px; color: #dc2626; transition: transform .25s cubic-bezier(.16,1,.3,1); }
+  .cta:hover svg { transform: translate(2px, -2px); }
+  .cta::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(220,38,38,.18), transparent);
+    transform: translateX(-130%) skewX(-20deg); }
+  .notch.kilau .cta::after { animation: kilau 4s ease-in-out infinite; }
+  @keyframes kilau { 0%, 70% { transform: translateX(-130%) skewX(-20deg); } 100% { transform: translateX(300%) skewX(-20deg); } }
+
+  /* isi tiruan */
+  .hero { height: 520px; background: radial-gradient(110% 80% at 50% 0%, #334155 0%, #0f172a 65%); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .hero small { font-size: 11px; font-weight: 900; letter-spacing: .25em; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); padding: 8px 14px; border-radius: 14px; }
+  .hero h1 { margin: 22px 0 0; font-size: 64px; font-weight: 900; letter-spacing: -2.5px; line-height: .95; }
+  .hero h1 span { background: linear-gradient(90deg, #f87171, #dc2626); -webkit-background-clip: text; color: transparent; }
+  .hero .chip { margin-top: 22px; background: #fff; color: #dc2626; font-weight: 900; font-size: 13px; padding: 8px 16px; border-radius: 999px; }
+  .isi { padding: 60px 48px 120px; }
+  .isi h3 { font-size: 30px; font-weight: 900; letter-spacing: -1px; margin: 0 0 24px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .kartu { height: 230px; border-radius: 26px; border: 1px solid #f1f5f9; background: linear-gradient(#f8fafc 60%, #fff 60%); box-shadow: 0 2px 8px rgba(15,23,42,.04); }
+
+  .pilih { max-width: 1180px; margin: 0 auto 22px; background: #fff; border-radius: 18px; border: 2px solid transparent; box-shadow: 0 10px 30px rgba(15,23,42,.08); overflow: hidden; cursor: pointer; transition: border-color .2s; }
+  .pilih.selected { border-color: #dc2626; }
+  .pilih h3 { margin: 14px 20px 2px; font-size: 16px; } .pilih p { margin: 0 20px 16px; color: #64748b; font-size: 13.5px; }
+  .demo { position: relative; height: 130px; background: radial-gradient(110% 120% at 50% 0%, #334155 0%, #0f172a 70%); }
+  .demo .tempel { position: absolute; inset: 0 0 auto 0; height: 0; }
+  .tepi .lapis { fill: none; stroke-linecap: round; }
+  .tepi .nyala { fill: none; }
+</style></head><body>
+  <div class="panel"><h2>Kilau: putih di tengah, memudar ke kedua sisi</h2>
+  <p>Kilau bergerak dari kiri ke kanan menyusuri seluruh bentuk notch. Klik salah satu untuk memilih.</p></div>
+
+  <div class="pilih" data-choice="kilau" onclick="toggleSelect(this)">
+    <div class="demo"><div class="tempel">      <nav class="notch kilau" data-gaya="kilau">
+        <svg class="tepi" aria-hidden="true"></svg>
+        <a class="logo item" style="--i:0" href="#"><img src="logo-wm.png" alt="">
+          <span class="wordmark"><b>Welcome<span>Manado</span></b><span class="tag">TRANSPORT</span></span></a>
+        <div class="menu">
+          <span class="sorot"></span>
+          <a class="item aktif" style="--i:1" href="#">Beranda</a>
+          <a class="item" style="--i:2" href="#">Katalog</a>
+          <a class="item" style="--i:3" href="#">Promo</a>
+          <a class="item" style="--i:4" href="#">Artikel</a>
+          <a class="item" style="--i:5" href="#">Tentang</a>
+        </div>
+        <div class="kanan">
+          <button class="bulat item" style="--i:6" title="Bahasa">🌐 ID</button>
+          <div class="lainnya item" style="--i:7">
+            <button class="bulat" title="Lainnya">⋯</button>
+            <div class="dropdown">
+              <div>Mode gelap <span class="saklar"></span></div>
+              <a href="#">Syarat &amp; Ketentuan</a>
+            </div>
+          </div>
+          <a class="cta item" style="--i:8" href="https://welcomemanado.com" target="_blank" rel="noopener">
+            Paket Tour
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
+      </nav></div></div>
+    <h3>A · Kilau</h3><p>Inti putih terang di tengah, memudar ke merah lalu hilang di kedua sisi — seperti pantulan cahaya yang melintas.</p>
+  </div>
+  <div class="pilih" data-choice="bintang" onclick="toggleSelect(this)">
+    <div class="demo"><div class="tempel">      <nav class="notch kilau" data-gaya="bintang">
+        <svg class="tepi" aria-hidden="true"></svg>
+        <a class="logo item" style="--i:0" href="#"><img src="logo-wm.png" alt="">
+          <span class="wordmark"><b>Welcome<span>Manado</span></b><span class="tag">TRANSPORT</span></span></a>
+        <div class="menu">
+          <span class="sorot"></span>
+          <a class="item aktif" style="--i:1" href="#">Beranda</a>
+          <a class="item" style="--i:2" href="#">Katalog</a>
+          <a class="item" style="--i:3" href="#">Promo</a>
+          <a class="item" style="--i:4" href="#">Artikel</a>
+          <a class="item" style="--i:5" href="#">Tentang</a>
+        </div>
+        <div class="kanan">
+          <button class="bulat item" style="--i:6" title="Bahasa">🌐 ID</button>
+          <div class="lainnya item" style="--i:7">
+            <button class="bulat" title="Lainnya">⋯</button>
+            <div class="dropdown">
+              <div>Mode gelap <span class="saklar"></span></div>
+              <a href="#">Syarat &amp; Ketentuan</a>
+            </div>
+          </div>
+          <a class="cta item" style="--i:8" href="https://welcomemanado.com" target="_blank" rel="noopener">
+            Paket Tour
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
+      </nav></div></div>
+    <h3>B · Kilau + bintang berkedip</h3><p>Sama seperti A, ditambah bintang kecil yang berkedip dan berputar di titik putihnya.</p>
+  </div>
+<style>
+  .bintang { fill: #fff; filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 7px rgba(239,68,68,.9)); }
+  .tepi .bintang path { fill: #fff; stroke: none; }
+  .bintang path { animation: kedip 1.1s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes kedip { 0%, 100% { transform: scale(.55) rotate(0deg); opacity: .75; } 50% { transform: scale(1.15) rotate(45deg); opacity: 1; } }
+</style>
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const gerakMinimal = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Lapisan simetris: semua berpusat di titik yang sama → putih di tengah, merah memudar ke kedua sisi
+const LAPIS = [[.26,1.1,'#ef4444',.16,0],[.17,1.4,'#ef4444',.32,0],[.10,1.8,'#f87171',.6,3],[.05,2.2,'#fecaca',.9,5],[.022,2.6,'#fff',1,7]];
+const DURASI = 4200;
+function pasang(notch) {
+  const svg = notch.querySelector('.tepi'), pakaiBintang = notch.dataset.gaya === 'bintang';
+  let lapis = [], L = 0, M = 0, jalurDasar = null, bintang = null;
+  function bangun() {
+    svg.innerHTML = '';
+    const W = notch.offsetWidth, H = notch.offsetHeight, cs = getComputedStyle(notch);
+    const r = parseFloat(cs.getPropertyValue('--r')) || 22, rb = Math.min(parseFloat(cs.borderBottomLeftRadius) || 26, H / 2);
+    const d = `M 0 0 A ${r} ${r} 0 0 1 ${r} ${r} L ${r} ${H - rb} A ${rb} ${rb} 0 0 0 ${r + rb} ${H} L ${r + W - rb} ${H} A ${rb} ${rb} 0 0 0 ${r + W} ${H - rb} L ${r + W} ${r} A ${r} ${r} 0 0 1 ${2 * r + W} 0`;
+    const buat = (tebal, warna, op, cahaya) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d);
+      Object.assign(p.style, { fill: 'none', stroke: warna, strokeWidth: tebal, opacity: op, strokeLinecap: 'round' });
+      if (cahaya) p.style.filter = `drop-shadow(0 0 ${cahaya}px ${warna === '#fff' || warna === '#fecaca' ? 'rgba(255,255,255,.95)' : 'rgba(239,68,68,.95)'})`;
+      svg.appendChild(p); return p; };
+    jalurDasar = buat(1.1, 'rgba(255,255,255,.08)', 1, 0);
+    L = jalurDasar.getTotalLength(); M = Math.max(...LAPIS.map(l => l[0])) * L / 2;
+    lapis = LAPIS.map(([f, t, w, o, c]) => { const p = buat(t, w, o, c), len = f * L; p.style.strokeDasharray = `${len} ${L + 2 * M + len}`; return [p, len]; });
+    if (pakaiBintang) {
+      bintang = document.createElementNS(NS, 'g'); bintang.setAttribute('class', 'bintang');
+      bintang.innerHTML = '<path d="M0 -11 C1.4 -2.2 2.2 -1.4 11 0 C2.2 1.4 1.4 2.2 0 11 C-1.4 2.2 -2.2 1.4 -11 0 C-2.2 -1.4 -1.4 -2.2 0 -11Z"/>';
+      svg.appendChild(bintang);
+    }
+  }
+  function gambar(waktu) {
+    const c = gerakMinimal ? L * .5 : -M + (L + 2 * M) * ((waktu % DURASI) / DURASI);   // posisi pusat kilau di sepanjang jalur
+    for (const [p, len] of lapis) p.style.strokeDashoffset = -(c - len / 2);
+    if (bintang) {
+      const tampak = c >= 0 && c <= L, pt = jalurDasar.getPointAtLength(Math.min(Math.max(c, 0), L));
+      bintang.setAttribute('transform', `translate(${pt.x} ${pt.y})`); bintang.style.opacity = tampak ? 1 : 0;
+    }
+    if (!gerakMinimal) requestAnimationFrame(gambar);
+  }
+  bangun(); new ResizeObserver(bangun).observe(notch); requestAnimationFrame(gambar);
+}
+document.querySelectorAll('.notch[data-gaya]').forEach(pasang);
+</script></body></html>
