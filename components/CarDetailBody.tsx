@@ -102,7 +102,7 @@ export default function CarDetailBody({ car, serupa }: { car: Car; serupa: Car[]
 
         {/* Kotak booking: di HP tepat setelah kartu paket; di laptop kolom kanan yang menempel. */}
         <aside className="self-start lg:sticky lg:top-24 lg:col-start-3 lg:row-start-1 lg:[grid-row-end:span_8]">
-          <BookingForm car={car} />
+          <BookingForm car={car} paket={paket} onPaket={setPaket} />
           <TanyaButton car={car} />
         </aside>
 

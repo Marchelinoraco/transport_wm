@@ -294,3 +294,13 @@ html[data-sticky-booking] .floating-chat {
     align-items: flex-start;
   }
 }
+
+/* Kotak booking: langkah 2 meluncur masuk dari kanan; kembali ke langkah 1 dari kiri. */
+@keyframes langkahMasuk {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes langkahKembali {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: none; }
+}
