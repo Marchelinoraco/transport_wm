@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { hitungBooking, normalisasiJumlah } from "./hitungBooking";
+import { areaUntukPaket, hitungBooking, normalisasiJumlah } from "./hitungBooking";
 import { mobil } from "./test/mobil";
 
 const avanza = mobil();
@@ -68,5 +68,15 @@ describe("normalisasiJumlah", () => {
   });
   it("hitungBooking memakai jumlah yang sudah dinormalisasi", () => {
     expect(hitungBooking({ car: avanza, paket: "full_day", jumlah: 0, area: 1 })?.total).toBe(700_000);
+  });
+});
+
+describe("areaUntukPaket", () => {
+  it("pool hanya sah untuk lepas kunci; pindah ke lepas kunci selalu ke pool", () => {
+    expect(areaUntukPaket("pool", "full_day")).toBe(1);
+    expect(areaUntukPaket("pool", "transfer")).toBe(1);
+    expect(areaUntukPaket(2, "self_drive")).toBe("pool");
+    expect(areaUntukPaket(3, "full_day")).toBe(3);
+    expect(areaUntukPaket("pool", "self_drive")).toBe("pool");
   });
 });
