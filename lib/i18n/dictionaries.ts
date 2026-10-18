@@ -12,6 +12,10 @@ export const localeMeta: Record<Locale, { flag: string; name: string; short: str
 
 const id = {
   nav: {
+    more: "Lainnya",
+    menu: "Menu",
+    darkMode: "Mode gelap",
+    terms: "Syarat & Ketentuan",
     home: "Beranda",
     catalog: "Katalog",
     promo: "Promo",
@@ -191,6 +195,30 @@ const id = {
     askWa: "Tanya via WhatsApp",
     waMessage: "Halo Welcome Manado Transport, saya ingin bertanya tentang Syarat & Ketentuan sewa.",
   },
+  detail: {
+    choosePackage: "Pilih paket",
+    areaTitleFullDay: "Biaya area untuk mobil ini",
+    areaTitleSelfDrive: "Biaya antar-jemput",
+    areaTitleTransfer: "Area transfer",
+    free: "Gratis",
+    included: "Termasuk",
+    confirm: "Dikonfirmasi",
+    perDayShort: "/hari",
+    oncePerBooking: "sekali per pemesanan",
+    goodToKnow: "Perlu diketahui",
+    infoOvertime: "Over time {price}/jam setelah 12 jam",
+    infoLate: "Telat kembali (lepas kunci) {price}/jam",
+    infoCancel: "Batal lebih dari 24 jam sebelum penjemputan: uang kembali penuh",
+    infoDeposit: "Lepas kunci: KTP + KK asli dan deposit",
+    seeTerms: "Baca Syarat & Ketentuan",
+    similar: "Mobil serupa",
+    next: "Lanjut isi data",
+    edit: "Ubah",
+    step: "Langkah {n} dari 2",
+    askFirst: "Tanya dulu via WhatsApp",
+    areaName: "Area {n}",
+    pool: "Pool Welcome Manado",
+  },
   faq: {
     items: [
       {
@@ -287,6 +315,10 @@ export type Dictionary = typeof id;
 
 const en: Dictionary = {
   nav: {
+    more: "More",
+    menu: "Menu",
+    darkMode: "Dark mode",
+    terms: "Terms & Conditions",
     home: "Home",
     catalog: "Catalog",
     promo: "Promo",
@@ -466,6 +498,30 @@ const en: Dictionary = {
     askWa: "Ask on WhatsApp",
     waMessage: "Hello Welcome Manado Transport, I have a question about your rental terms.",
   },
+  detail: {
+    choosePackage: "Choose a package",
+    areaTitleFullDay: "Area charges for this vehicle",
+    areaTitleSelfDrive: "Delivery charges",
+    areaTitleTransfer: "Transfer areas",
+    free: "Free",
+    included: "Included",
+    confirm: "Confirmed",
+    perDayShort: "/day",
+    oncePerBooking: "once per booking",
+    goodToKnow: "Good to know",
+    infoOvertime: "Overtime {price}/hour after 12 hours",
+    infoLate: "Late return (self-drive) {price}/hour",
+    infoCancel: "Cancel more than 24 hours before pickup: full refund",
+    infoDeposit: "Self-drive: original ID card + family card and a deposit",
+    seeTerms: "Read the Terms & Conditions",
+    similar: "Similar vehicles",
+    next: "Continue to your details",
+    edit: "Edit",
+    step: "Step {n} of 2",
+    askFirst: "Ask first on WhatsApp",
+    areaName: "Area {n}",
+    pool: "Welcome Manado pool",
+  },
   faq: {
     items: [
       {
@@ -560,6 +616,10 @@ const en: Dictionary = {
 
 const zh: Dictionary = {
   nav: {
+    more: "更多",
+    menu: "菜单",
+    darkMode: "深色模式",
+    terms: "条款与条件",
     home: "首页",
     catalog: "车辆目录",
     promo: "优惠",
@@ -735,6 +795,30 @@ const zh: Dictionary = {
     askWa: "通过 WhatsApp 咨询",
     waMessage: "您好 Welcome Manado Transport，我想咨询租车条款。",
   },
+  detail: {
+    choosePackage: "选择套餐",
+    areaTitleFullDay: "本车区域费用",
+    areaTitleSelfDrive: "送取车费用",
+    areaTitleTransfer: "接送区域",
+    free: "免费",
+    included: "已包含",
+    confirm: "待确认",
+    perDayShort: "/天",
+    oncePerBooking: "每次预订收取一次",
+    goodToKnow: "须知",
+    infoOvertime: "超过 12 小时后超时费 {price}/小时",
+    infoLate: "逾期还车（自驾）{price}/小时",
+    infoCancel: "接车前 24 小时以上取消：全额退款",
+    infoDeposit: "自驾：需身份证与户口簿原件及押金",
+    seeTerms: "阅读条款与条件",
+    similar: "相似车型",
+    next: "继续填写资料",
+    edit: "修改",
+    step: "第 {n} 步，共 2 步",
+    askFirst: "先通过 WhatsApp 咨询",
+    areaName: "Area {n}",
+    pool: "Welcome Manado 车场",
+  },
   faq: {
     items: [
       {
@@ -828,6 +912,10 @@ const zh: Dictionary = {
 
 const ko: Dictionary = {
   nav: {
+    more: "더보기",
+    menu: "메뉴",
+    darkMode: "다크 모드",
+    terms: "이용약관",
     home: "홈",
     catalog: "차량 목록",
     promo: "프로모션",
@@ -1005,6 +1093,30 @@ const ko: Dictionary = {
     askTitle: "약관에 대해 궁금하신 점이 있나요?",
     askWa: "WhatsApp으로 문의",
     waMessage: "안녕하세요 Welcome Manado Transport, 대여 약관에 대해 문의드립니다.",
+  },
+  detail: {
+    choosePackage: "패키지 선택",
+    areaTitleFullDay: "이 차량의 지역 요금",
+    areaTitleSelfDrive: "배차 요금",
+    areaTitleTransfer: "픽업/샌딩 지역",
+    free: "무료",
+    included: "포함",
+    confirm: "확인 필요",
+    perDayShort: "/일",
+    oncePerBooking: "예약당 1회",
+    goodToKnow: "알아두세요",
+    infoOvertime: "12시간 초과 시 초과 요금 {price}/시간",
+    infoLate: "반납 지연(자차 운전) {price}/시간",
+    infoCancel: "픽업 24시간 이전 취소: 전액 환불",
+    infoDeposit: "자차 운전: 신분증·가족관계증명서 원본과 보증금",
+    seeTerms: "이용약관 보기",
+    similar: "비슷한 차량",
+    next: "정보 입력으로 계속",
+    edit: "수정",
+    step: "{n}/2단계",
+    askFirst: "먼저 WhatsApp으로 문의",
+    areaName: "Area {n}",
+    pool: "Welcome Manado 차고지",
   },
   faq: {
     items: [
