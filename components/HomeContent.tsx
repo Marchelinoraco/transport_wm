@@ -84,7 +84,7 @@ export default function HomeContent({ cars }: { cars: Car[] }) {
   return (
     <>
       {/* ═══ HERO full-screen gaya client_wm ═══ */}
-      <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-slate-900">
+      <section className="relative -mt-[var(--tinggi-navbar)] flex min-h-[92vh] items-center overflow-hidden bg-slate-900">
         {/* Background carousel */}
         {heroImages.map((c, i) => (
           <div

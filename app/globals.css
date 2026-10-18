@@ -152,3 +152,101 @@ html[data-sticky-booking] .floating-chat {
     transform: none;
   }
 }
+
+/* ══ Navbar "notch" ala Supaste ══════════════════════════════════════════
+   Bar hitam di tengah yang menggantung dari tepi atas layar. Sudut kiri- &
+   kanan-atas cekung (pseudo-element radial-gradient), sudut bawah membulat.
+   data-keadaan="hitam" di paling atas halaman; "kaca" (kaca buram) begitu
+   digulir > 24 px — notch hitam kembali hanya di paling atas. */
+:root {
+  --tinggi-navbar: 56px;
+}
+@media (min-width: 1024px) {
+  :root {
+    --tinggi-navbar: 64px;
+  }
+}
+.notch {
+  --r: 18px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 8px 8px 8px 12px;
+  background-color: #0a0a0a;
+  color: #fff;
+  border: 1px solid transparent;
+  border-top: 0;
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28), inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+@media (min-width: 1024px) {
+  .notch {
+    --r: 22px;
+    gap: 1.5rem;
+    padding: 11px 11px 11px 16px;
+    border-radius: 0 0 26px 26px;
+  }
+}
+.notch::before,
+.notch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: var(--r);
+  height: var(--r);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.notch::before {
+  left: calc(-1 * var(--r) + 1px);
+  background: radial-gradient(circle at 0 100%, transparent calc(var(--r) - 0.6px), #0a0a0a var(--r));
+}
+.notch::after {
+  right: calc(-1 * var(--r) + 1px);
+  background: radial-gradient(circle at 100% 100%, transparent calc(var(--r) - 0.6px), #0a0a0a var(--r));
+}
+.notch[data-keadaan="kaca"] {
+  background-color: rgba(255, 255, 255, 0.75);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-color: rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+}
+.dark .notch[data-keadaan="kaca"] {
+  background-color: rgba(15, 23, 42, 0.75);
+  border-color: rgba(51, 65, 85, 0.7);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.notch[data-keadaan="kaca"]::before,
+.notch[data-keadaan="kaca"]::after {
+  opacity: 0;
+}
+
+/* Isi notch — warna per keadaan */
+.notch-wordmark { color: #fff; transition: color 0.4s ease; }
+.notch-tag { color: rgba(255, 255, 255, 0.45); transition: color 0.4s ease; }
+.notch-menu a { color: rgba(255, 255, 255, 0.62); transition: color 0.2s ease; }
+.notch-menu a:hover,
+.notch-menu a[aria-current="page"] { color: #fff; }
+.notch-bulat { background: rgba(255, 255, 255, 0.07); color: rgba(255, 255, 255, 0.85); transition: background-color 0.3s ease, color 0.3s ease; }
+.notch-bulat:hover { background: rgba(255, 255, 255, 0.14); }
+.notch-cta { background: #fff; color: #0a0a0a; transition: background-color 0.4s ease, color 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+.notch-cta svg { color: #dc2626; transition: color 0.4s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+
+.notch[data-keadaan="kaca"] .notch-wordmark { color: #0f172a; }
+.notch[data-keadaan="kaca"] .notch-tag { color: #94a3b8; }
+.notch[data-keadaan="kaca"] .notch-menu a { color: #475569; }
+.notch[data-keadaan="kaca"] .notch-menu a:hover,
+.notch[data-keadaan="kaca"] .notch-menu a[aria-current="page"] { color: #0f172a; }
+.notch[data-keadaan="kaca"] .notch-bulat { background: rgba(15, 23, 42, 0.06); color: #334155; }
+.notch[data-keadaan="kaca"] .notch-bulat:hover { background: rgba(15, 23, 42, 0.1); }
+.notch[data-keadaan="kaca"] .notch-cta { background: #dc2626; color: #fff; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3); }
+.notch[data-keadaan="kaca"] .notch-cta svg { color: #fff; }
+.dark .notch[data-keadaan="kaca"] .notch-wordmark,
+.dark .notch[data-keadaan="kaca"] .notch-menu a:hover,
+.dark .notch[data-keadaan="kaca"] .notch-menu a[aria-current="page"] { color: #fff; }
+.dark .notch[data-keadaan="kaca"] .notch-tag { color: rgba(226, 232, 240, 0.5); }
+.dark .notch[data-keadaan="kaca"] .notch-menu a { color: rgba(226, 232, 240, 0.75); }
+.dark .notch[data-keadaan="kaca"] .notch-bulat { background: rgba(255, 255, 255, 0.08); color: #e2e8f0; }
