@@ -284,3 +284,13 @@ html[data-sticky-booking] .floating-chat {
 .dark .notch[data-keadaan="kaca"] .notch-sorot { background: rgba(255, 255, 255, 0.1); }
 .garis-kilau { transition: opacity 0.4s ease; }
 .notch[data-keadaan="kaca"] .garis-kilau { opacity: 0; }
+
+/* Halaman detail kendaraan (≥ 1024 px): tombol chat melayang pindah ke kiri bawah
+   agar tidak menutupi kotak booking yang menempel di kolom kanan. */
+@media (min-width: 1024px) {
+  html[data-halaman="detail"] .floating-chat {
+    right: auto;
+    left: 1.25rem;
+    align-items: flex-start;
+  }
+}

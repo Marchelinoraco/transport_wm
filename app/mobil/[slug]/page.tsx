@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCarBySlug, getAllSlugs } from "@/lib/api";
+import { getCarBySlug, getAllSlugs, getCars } from "@/lib/api";
+import { mobilSerupa } from "@/lib/mobilSerupa";
 import { SITE_URL, SITE } from "@/lib/site";
 import CarDetailBody from "@/components/CarDetailBody";
 import { adaHarga } from "@/lib/paket";
@@ -31,7 +32,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function CarDetail({ params }: { params: { slug: string } }) {
-  const car = await getCarBySlug(params.slug).catch(() => null);
+  const [car, semua] = await Promise.all([
+    getCarBySlug(params.slug).catch(() => null),
+    getCars().catch(() => []),
+  ]);
   if (!car) notFound();
 
   const jsonLd = {
@@ -80,7 +84,7 @@ export default async function CarDetail({ params }: { params: { slug: string } }
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumbJsonLd]) }}
       />
-      <CarDetailBody car={car} />
+      <CarDetailBody car={car} serupa={mobilSerupa(car, semua)} />
     </>
   );
 }
