@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MoreHorizontal } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageProvider";
-import { useTheme } from "@/components/ThemeProvider";
+import SakelarGelap from "./SakelarGelap";
 
 /**
  * Tombol "⋯" di notch: mode gelap dan Syarat & Ketentuan. Tertutup saat klik
@@ -13,7 +13,6 @@ import { useTheme } from "@/components/ThemeProvider";
  */
 export default function MenuLainnya() {
   const { dict } = useLang();
-  const { theme, toggle } = useTheme();
   const [buka, setBuka] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -34,8 +33,6 @@ export default function MenuLainnya() {
     };
   }, [buka]);
 
-  const gelap = theme === "dark";
-
   return (
     <div ref={ref} className="relative">
       <button
@@ -53,19 +50,7 @@ export default function MenuLainnya() {
           buka ? "scale-100 opacity-100" : "pointer-events-none -translate-y-1 scale-95 opacity-0"
         }`}
       >
-        <button
-          type="button"
-          role="switch"
-          aria-checked={gelap}
-          tabIndex={buka ? 0 : -1}
-          onClick={toggle}
-          className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-[13px] text-white/85 transition hover:bg-white/[.07]"
-        >
-          {dict.nav.darkMode}
-          <span className={`relative h-[17px] w-[30px] rounded-full transition ${gelap ? "bg-red-600" : "bg-white/20"}`}>
-            <span className={`absolute top-[2px] h-[13px] w-[13px] rounded-full bg-white transition-all ${gelap ? "left-[15px]" : "left-[2px]"}`} />
-          </span>
-        </button>
+        <SakelarGelap tabIndex={buka ? 0 : -1} />
         <Link
           href="/syarat-ketentuan"
           tabIndex={buka ? 0 : -1}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { MAIN_SITE_URL } from "@/lib/site";
 import { useLang } from "@/lib/i18n/LanguageProvider";
@@ -10,6 +10,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
 import MenuLainnya from "./navbar/MenuLainnya";
 import GarisKilau from "./navbar/GarisKilau";
+import PanelHp from "./navbar/PanelHp";
 
 /** Batas gulir: notch hitam hanya ketika halaman di paling atas. */
 const BATAS_GULIR = 24;
@@ -42,6 +43,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => setPanelBuka(false), [pathname]);
+  const tutupPanel = useCallback(() => setPanelBuka(false), []);
 
   // Panel HP terbuka: notch tetap hitam meski halaman tergulir.
   const keadaan = tergulir && !panelBuka ? "kaca" : "hitam";
@@ -121,16 +123,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Panel HP sementara — diganti PanelHp (Task 5). */}
-      {panelBuka && (
-        <div className="pointer-events-auto mt-2 w-[calc(100%-24px)] max-w-sm rounded-2xl bg-white p-3 shadow-xl dark:bg-slate-900 lg:hidden">
-          {links.map((l) => (
-            <Link key={l.href} href={l.href} className="block rounded-xl px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-200">
-              {l.label}
-            </Link>
-          ))}
-        </div>
-      )}
+      <PanelHp buka={panelBuka} onTutup={tutupPanel} />
     </header>
   );
 }

@@ -13,6 +13,7 @@ export const localeMeta: Record<Locale, { flag: string; name: string; short: str
 const id = {
   nav: {
     more: "Lainnya",
+    language: "Bahasa",
     menu: "Menu",
     darkMode: "Mode gelap",
     terms: "Syarat & Ketentuan",
@@ -316,6 +317,7 @@ export type Dictionary = typeof id;
 const en: Dictionary = {
   nav: {
     more: "More",
+    language: "Language",
     menu: "Menu",
     darkMode: "Dark mode",
     terms: "Terms & Conditions",
@@ -617,6 +619,7 @@ const en: Dictionary = {
 const zh: Dictionary = {
   nav: {
     more: "更多",
+    language: "语言",
     menu: "菜单",
     darkMode: "深色模式",
     terms: "条款与条件",
@@ -913,6 +916,7 @@ const zh: Dictionary = {
 const ko: Dictionary = {
   nav: {
     more: "더보기",
+    language: "언어",
     menu: "메뉴",
     darkMode: "다크 모드",
     terms: "이용약관",
