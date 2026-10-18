@@ -9,6 +9,7 @@ import { useLang } from "@/lib/i18n/LanguageProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
 import MenuLainnya from "./navbar/MenuLainnya";
+import GarisKilau from "./navbar/GarisKilau";
 
 /** Batas gulir: notch hitam hanya ketika halaman di paling atas. */
 const BATAS_GULIR = 24;
@@ -19,6 +20,9 @@ export default function Navbar() {
   const pathname = usePathname();
   const { dict } = useLang();
   const notchRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [sorot, setSorot] = useState<{ x: number; w: number; tampak: boolean }>({ x: 0, w: 0, tampak: false });
+  const sorotKe = (el: HTMLElement) => setSorot({ x: el.offsetLeft, w: el.offsetWidth, tampak: true });
 
   const links = [
     { href: "/", label: dict.nav.home },
@@ -44,8 +48,9 @@ export default function Navbar() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex flex-col items-center">
-      <nav ref={notchRef} data-keadaan={keadaan} className="notch pointer-events-auto">
-        <Link href="/" className="group flex items-center gap-2.5">
+      <nav ref={notchRef} data-keadaan={keadaan} className="notch notch-masuk pointer-events-auto">
+        <GarisKilau target={notchRef} />
+        <Link href="/" className="notch-isi group flex items-center gap-2.5" style={{ "--i": 0 } as React.CSSProperties}>
           <span className="transition-transform duration-500 group-hover:-rotate-[8deg] group-hover:scale-105">
             <Logo size={32} />
           </span>
@@ -59,13 +64,25 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="notch-menu relative hidden items-center gap-0.5 lg:flex">
-          {links.map((l) => (
+        <div
+          ref={menuRef}
+          onMouseLeave={() => setSorot((s) => ({ ...s, tampak: false }))}
+          className="notch-menu relative hidden items-center gap-0.5 lg:flex"
+        >
+          <span
+            aria-hidden
+            className="notch-sorot"
+            style={{ width: sorot.w, transform: `translateX(${sorot.x}px)`, opacity: sorot.tampak ? 1 : 0 }}
+          />
+          {links.map((l, i) => (
             <Link
               key={l.href}
               href={l.href}
               aria-current={aktif(l.href) ? "page" : undefined}
-              className="relative z-[1] whitespace-nowrap rounded-full px-3 py-2 text-[13.5px] font-semibold"
+              onMouseEnter={(e) => sorotKe(e.currentTarget)}
+              onFocus={(e) => sorotKe(e.currentTarget)}
+              style={{ "--i": i + 1 } as React.CSSProperties}
+              className="notch-isi relative z-[1] whitespace-nowrap rounded-full px-3 py-2 text-[13.5px] font-semibold"
             >
               {l.label}
               {aktif(l.href) && (
@@ -76,17 +93,18 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-1.5">
-          <div className="hidden lg:block">
+          <div className="notch-isi hidden lg:block" style={{ "--i": 6 } as React.CSSProperties}>
             <LanguageSwitcher varian="notch" />
           </div>
-          <div className="hidden lg:block">
+          <div className="notch-isi hidden lg:block" style={{ "--i": 7 } as React.CSSProperties}>
             <MenuLainnya />
           </div>
           <a
             href={MAIN_SITE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="notch-cta group/cta flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3.5 py-2 text-[12.5px] font-extrabold hover:-translate-y-px lg:px-4 lg:py-2.5 lg:text-[13px]"
+            style={{ "--i": 8 } as React.CSSProperties}
+            className="notch-isi notch-cta kilau kilau-loop group/cta relative flex items-center overflow-hidden gap-1.5 whitespace-nowrap rounded-xl px-3.5 py-2 text-[12.5px] font-extrabold hover:-translate-y-px lg:px-4 lg:py-2.5 lg:text-[13px]"
           >
             {dict.nav.mainSite}
             <ArrowUpRight className="h-3.5 w-3.5 group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />
