@@ -79,20 +79,20 @@ export const post: BlogPost = {
     },
     {
       type: "table",
-      caption: "Tarif per hari, dapat berubah sewaktu-waktu. Sewa mingguan diskon 10%, bulanan diskon 20%.",
-      headers: ["Tipe mobil", "Contoh unit", "Mulai dari / hari"],
+      caption: "Harga Full day dengan sopir (maks. 12 jam), berlaku sejak 1 Oktober 2026. Transfer sekali jalan bandara dihitung per trip.",
+      headers: ["Tipe mobil", "Contoh unit", "Full day mulai dari"],
       rows: [
-        ["City car", "Brio, Agya, Ayla, Calya", "Rp 350.000"],
-        ["MPV keluarga", "Avanza, Xenia, Xpander, Livina", "Rp 400.000"],
-        ["MPV premium", "Innova Reborn, Innova Zenix", "Rp 600.000"],
-        ["SUV", "Fortuner, Pajero Sport", "Rp 1.500.000"],
-        ["Minibus rombongan", "Hiace Commuter / Premio", "Rp 1.300.000"],
+        ["MPV keluarga", "Avanza, Xpander", "Rp 700.000"],
+        ["MPV premium", "Innova Reborn, Innova Zenix", "Rp 1.000.000"],
+        ["SUV", "Fortuner", "Rp 2.500.000"],
+        ["Minibus rombongan", "Hiace Commuter / Premio", "Rp 1.500.000"],
+        ["Bus", "Bus 30 Seat", "Rp 2.300.000"],
         ["Mewah / VIP", "Alphard", "Rp 3.500.000"],
       ],
     },
     {
       type: "callout",
-      text: "💡 **Tip hemat:** untuk perjalanan 3 hari atau lebih, tanyakan paket mingguan — otomatis diskon 10%. Untuk kebutuhan dinas atau proyek sebulan penuh, diskon bulanan mencapai 20%.",
+      text: "💡 **Tip:** baru mendarat dan langsung ke hotel? Pilih paket **Transfer sekali jalan** — mulai Rp 300.000 (Avanza). Untuk sewa mingguan atau bulanan, tanyakan harga khusus via WhatsApp.",
     },
     { type: "h2", text: "Mobil rekomendasi sesuai kebutuhan" },
     {

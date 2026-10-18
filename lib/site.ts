@@ -13,7 +13,7 @@ export const SITE = {
   url: SITE_URL,
   /** Deskripsi default untuk metadata & structured data */
   description:
-    "Welcome Manado Transport — layanan rental mobil & transportasi terpercaya di Kota Manado, Sulawesi Utara. Sewa mobil harian, mingguan, bulanan, atau per trip, lepas kunci maupun dengan sopir. Pesan mudah via WhatsApp.",
+    "Welcome Manado Transport — layanan rental mobil & transportasi terpercaya di Kota Manado, Sulawesi Utara. Paket Full day dengan sopir, transfer bandara, atau lepas kunci. Pesan mudah via WhatsApp.",
   city: "Manado",
   region: "Sulawesi Utara",
   regionCode: "ID-SA",
@@ -40,7 +40,7 @@ export const businessJsonLd = {
   description: SITE.description,
   url: SITE_URL,
   telephone: SITE.telephone,
-  priceRange: "Rp 350.000 - Rp 3.500.000",
+  priceRange: "Rp 300.000 - Rp 4.000.000",
   currenciesAccepted: "IDR",
   image: SITE.ogImage,
   address: {

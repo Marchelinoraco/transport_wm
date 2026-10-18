@@ -7,6 +7,7 @@ import { formatRupiah, waLink } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import SectionHeader from "@/components/SectionHeader";
 import { X, GitCompareArrows, MessageCircle, ArrowLeft, Check, Minus } from "lucide-react";
+import { adaHarga, hargaPaket } from "@/lib/paket";
 
 export default function BandingPage() {
   const { items, remove, clear } = useCompare();
@@ -46,24 +47,28 @@ export default function BandingPage() {
     },
     {
       label: dict.compare.rentPrice,
-      render: (c) => (
-        <span className="font-black text-red-600">
-          {formatRupiah(c.price_rent)}
-          <span className="font-normal text-slate-400">
-            {c.price_unit === "per_trip" ? dict.car.perTrip : dict.car.perDay}
+      render: (c) =>
+        adaHarga(c.price_rent) ? (
+          <span className="font-black text-red-600">
+            {formatRupiah(c.price_rent)}
+            <span className="font-normal text-slate-400">{dict.paket.perDay}</span>
           </span>
-        </span>
-      ),
+        ) : (
+          <span className="text-slate-400">{dict.paket.askPrice}</span>
+        ),
     },
     { label: dict.car.year, render: (c) => c.year ?? "—" },
     { label: dict.car.seatsLabel, render: (c) => (c.seats != null ? `${c.seats} ${dict.car.seats}` : "—") },
     { label: dict.car.transmission, render: (c) => c.transmission ?? "—" },
     { label: dict.car.fuel, render: (c) => c.fuel ?? "—" },
     {
-      label: dict.compare.withDriver,
-      render: (c) => c.dengan_sopir
-        ? <Check className="mx-auto h-4 w-4 text-red-600" />
-        : <Minus className="mx-auto h-4 w-4 text-slate-300 dark:text-slate-600" />,
+      label: dict.paket.self_drive,
+      render: (c) => {
+        const harga = hargaPaket(c, "self_drive");
+        return harga !== null
+          ? <span className="font-bold">{formatRupiah(harga)}{dict.paket.perDay}</span>
+          : <Minus className="mx-auto h-4 w-4 text-slate-300 dark:text-slate-600" />;
+      },
     },
   ];
 

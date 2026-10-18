@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getCars } from "@/lib/api";
 import LandingTemplate from "@/components/LandingTemplate";
+import { hargaPaket } from "@/lib/paket";
 
 export const revalidate = 60;
 
@@ -20,7 +21,8 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const cars = await getCars().catch(() => []);
-  const rental = cars;
+  // Hanya unit yang memang disewakan lepas kunci (punya harga lepas kunci).
+  const rental = cars.filter((c) => hargaPaket(c, "self_drive") !== null);
 
   return (
     <LandingTemplate
@@ -31,7 +33,7 @@ export default async function Page() {
         "Bebas berkendara sendiri",
         "Syarat mudah & cepat",
         "Unit terawat & bersih",
-        "Harga harian/mingguan/bulanan",
+        "Maks. 12 jam & 120 km per hari",
       ]}
       carsHeading="Mobil Tersedia untuk Lepas Kunci"
       cars={rental}
@@ -45,7 +47,7 @@ export default async function Page() {
         },
         {
           heading: "Syarat sewa lepas kunci",
-          body: "Umumnya cukup KTP, SIM A yang masih berlaku, dan jaminan sesuai kesepakatan dengan mitra rental. Persyaratan detail dan ketentuan deposit akan dikonfirmasi langsung via WhatsApp agar jelas dan transparan sebelum Anda booking.",
+          body: "Penyewa minimal 21 tahun dengan SIM A yang masih berlaku. Selama masa sewa kami menahan KTP dan Kartu Keluarga asli serta mengenakan deposit yang besarnya disampaikan saat konfirmasi. Bahan bakar, tol, dan parkir tanggungan penyewa; keterlambatan pengembalian dikenakan Rp 100.000 per jam. Selengkapnya di halaman Syarat & Ketentuan.",
         },
         {
           heading: "Tips sewa mobil di Manado",

@@ -53,7 +53,7 @@ export default function FloatingChat() {
   return (
     // bottom-24 di layar kecil mengikuti jarak yang dipakai tombol WhatsApp
     // sebelumnya, supaya tidak menutupi CompareBar yang melintang di bawah.
-    <div className="fixed bottom-24 right-5 z-50 flex flex-col items-end gap-4 sm:bottom-6">
+    <div className="floating-chat fixed bottom-24 right-5 z-50 flex flex-col items-end gap-4 sm:bottom-6">
       {/* Kartu WeChat */}
       {wechatOpen && (
         <div className="relative w-64 rounded-3xl border border-slate-100 bg-white p-6 text-center shadow-2xl">

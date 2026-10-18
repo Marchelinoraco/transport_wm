@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Users, Fuel, Settings2, Calendar,
-  UserCheck, Check, GitCompareArrows,
+  KeyRound, Check, GitCompareArrows,
 } from "lucide-react";
 import { Car } from "@/lib/types";
 import { formatRupiah } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { useCompare } from "./CompareProvider";
+import { adaHarga, hargaPaket } from "@/lib/paket";
 
 const badgeColor: Record<string, string> = {
   POPULER: "bg-red-600 text-white",
@@ -57,6 +58,7 @@ export default function CarCard({ car }: { car: Car }) {
               />
               {/* Scrim gradasi saat hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+              <span aria-hidden className="kilau kilau-hover absolute inset-0 overflow-hidden" />
             </>
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-slate-400">
@@ -71,9 +73,9 @@ export default function CarCard({ car }: { car: Car }) {
                 {car.badge}
               </span>
             )}
-            {car.dengan_sopir && (
+            {hargaPaket(car, "self_drive") !== null && (
               <span className="flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-slate-700 shadow-sm backdrop-blur-sm dark:bg-slate-900/80 dark:text-slate-200">
-                <UserCheck className="h-3 w-3 text-red-600" /> {dict.car.driverBadge}
+                <KeyRound className="h-3 w-3 text-red-600" /> {dict.paket.self_drive}
               </span>
             )}
           </div>
@@ -100,12 +102,18 @@ export default function CarCard({ car }: { car: Car }) {
               {car.name}
             </h3>
             <span
-              className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
+              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
                 car.status === "tersedia"
                   ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400"
                   : "bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400"
               }`}
             >
+              {car.status === "tersedia" && (
+                <span className="relative inline-flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </span>
+              )}
               {statusLabel}
             </span>
           </div>
@@ -127,17 +135,24 @@ export default function CarCard({ car }: { car: Car }) {
 
           {/* ── Harga (pill merah) + tombol detail ── */}
           <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
-            <span className="rounded-xl bg-red-600 px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-red-600/20">
-              {formatRupiah(car.price_rent)}
-              <span className="ml-0.5 text-[10px] font-bold opacity-80">
-                {car.price_unit === "per_trip" ? dict.car.perTrip : dict.car.perDay}
+            {adaHarga(car.price_rent) ? (
+              <span className="rounded-xl bg-red-600 px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-red-600/20 transition-transform duration-300 group-hover:scale-105">
+                {formatRupiah(car.price_rent)}
+                <span className="ml-0.5 text-[10px] font-bold opacity-80">{dict.paket.perDay}</span>
               </span>
-            </span>
+            ) : (
+              <span className="rounded-xl bg-slate-100 px-3.5 py-2 text-sm font-black text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                {dict.paket.askPrice}
+              </span>
+            )}
 
             <span className="text-[11px] font-black uppercase tracking-widest text-slate-400 transition group-hover:text-red-600">
               {dict.car.detail} →
             </span>
           </div>
+          {adaHarga(car.price_rent) && (
+            <p className="mt-2 text-[11px] font-medium text-slate-400">{dict.paket.full_dayNote}</p>
+          )}
         </div>
       </Link>
     </div>

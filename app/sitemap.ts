@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/rental-mobil-dengan-sopir-manado",
   ];
 
-  const staticPages = ["", "/katalog", "/promo", "/banding", "/tentang", "/blog", ...landingPages].map((p) => ({
+  const staticPages = ["", "/katalog", "/promo", "/banding", "/tentang", "/syarat-ketentuan", "/blog", ...landingPages].map((p) => ({
     url: `${SITE_URL}${p}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
