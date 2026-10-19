@@ -9,9 +9,10 @@ const NS = "http://www.w3.org/2000/svg";
  * Garis tepi notch: jalur yang menelusuri seluruh bentuknya (termasuk sudut
  * cekung atas) dan kilau simetris yang berjalan kiri → kanan. Jalur dibangun
  * ulang setiap kali ukuran notch berubah (lebar layar, bahasa, keadaan).
- * Gerak minimal: hanya garis dasar yang diam.
+ * Loop animasi hanya berjalan selama `aktif` (notch hitam) — saat kaca garisnya
+ * tak terlihat, jadi tidak ada kerja per frame. Gerak minimal: hanya garis dasar yang diam.
  */
-export default function GarisKilau({ target }: { target: React.RefObject<HTMLElement> }) {
+export default function GarisKilau({ target, aktif }: { target: React.RefObject<HTMLElement>; aktif: boolean }) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -31,6 +32,11 @@ export default function GarisKilau({ target }: { target: React.RefObject<HTMLEle
       }
       svg.appendChild(p);
       return p;
+    };
+
+    const atur = (waktu: number) => {
+      const pusat = pusatKilau(waktu, L, M, DURASI_KILAU);
+      for (const [p, len] of lapis) p.style.strokeDashoffset = String(offsetLapis(pusat, len));
     };
 
     const bangun = () => {
@@ -53,25 +59,24 @@ export default function GarisKilau({ target }: { target: React.RefObject<HTMLEle
             p.style.strokeDasharray = `${len} ${L + 2 * M + len}`;
             return [p, len] as [SVGPathElement, number];
           });
+      // posisi kilau langsung benar — juga saat dibangun ulang ketika loop berhenti (kilau memudar di tempatnya)
+      atur(performance.now());
     };
 
     const gambar = (waktu: number) => {
-      if (!document.hidden) {
-        const pusat = pusatKilau(waktu, L, M, DURASI_KILAU);
-        for (const [p, len] of lapis) p.style.strokeDashoffset = String(offsetLapis(pusat, len));
-      }
+      if (!document.hidden) atur(waktu);
       raf = requestAnimationFrame(gambar);
     };
 
     const ro = new ResizeObserver(bangun);
     ro.observe(notch);
     bangun();
-    if (!gerakMinimal) raf = requestAnimationFrame(gambar);
+    if (aktif && !gerakMinimal) raf = requestAnimationFrame(gambar);
     return () => {
       ro.disconnect();
       cancelAnimationFrame(raf);
     };
-  }, [target]);
+  }, [target, aktif]);
 
   return <svg ref={svgRef} aria-hidden="true" className="garis-kilau pointer-events-none absolute top-0 overflow-visible" />;
 }

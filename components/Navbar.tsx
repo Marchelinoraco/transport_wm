@@ -51,13 +51,14 @@ export default function Navbar() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex flex-col items-center">
       <nav ref={notchRef} data-keadaan={keadaan} className="notch notch-masuk pointer-events-auto">
-        <GarisKilau target={notchRef} />
-        <Link href="/" className="notch-isi group flex items-center gap-2.5" style={{ "--i": 0 } as React.CSSProperties}>
+        <GarisKilau target={notchRef} aktif={keadaan === "hitam"} />
+        {/* HP sempit (< 420 px) isi notch dirapatkan; < 360 px hanya logo — notch tetap muat di layar. */}
+        <Link href="/" className="notch-isi group flex items-center gap-2.5 max-[419px]:gap-2" style={{ "--i": 0 } as React.CSSProperties}>
           <span className="transition-transform duration-500 group-hover:-rotate-[8deg] group-hover:scale-105">
             <Logo size={32} />
           </span>
-          <span className="flex flex-col leading-none">
-            <span className="notch-wordmark whitespace-nowrap text-[14.5px] font-black tracking-tight">
+          <span className="flex flex-col leading-none max-[359px]:hidden">
+            <span className="notch-wordmark whitespace-nowrap text-[14.5px] font-black tracking-tight max-[419px]:text-[12.5px]">
               Welcome<span className="text-red-500">Manado</span>
             </span>
             <span className="notch-tag mt-1 text-[8px] font-extrabold uppercase tracking-[0.38em] max-[399px]:hidden">
@@ -94,7 +95,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 max-[419px]:gap-1">
           <div className="notch-isi hidden lg:block" style={{ "--i": 6 } as React.CSSProperties}>
             <LanguageSwitcher varian="notch" />
           </div>
@@ -106,7 +107,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             style={{ "--i": 8 } as React.CSSProperties}
-            className="notch-isi notch-cta kilau kilau-loop group/cta relative flex items-center overflow-hidden gap-1.5 whitespace-nowrap rounded-xl px-3.5 py-2 text-[12.5px] font-extrabold hover:-translate-y-px lg:px-4 lg:py-2.5 lg:text-[13px]"
+            className="notch-isi notch-cta kilau kilau-loop group/cta relative flex items-center overflow-hidden gap-1.5 whitespace-nowrap rounded-xl px-3.5 py-2 text-[12.5px] font-extrabold hover:-translate-y-px max-[419px]:gap-1 max-[419px]:px-[11px] lg:px-4 lg:py-2.5 lg:text-[13px]"
           >
             {dict.nav.mainSite}
             <ArrowUpRight className="h-3.5 w-3.5 group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />

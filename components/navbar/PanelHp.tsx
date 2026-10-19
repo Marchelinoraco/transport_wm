@@ -7,7 +7,10 @@ import { useLang } from "@/lib/i18n/LanguageProvider";
 import LanguageSwitcher from "../LanguageSwitcher";
 import SakelarGelap from "./SakelarGelap";
 
-/** Panel menu HP yang muncul dari bawah notch (gelap, senada notch). Tertutup saat Esc; pindah halaman ditangani Navbar. */
+/**
+ * Panel menu HP yang muncul dari bawah notch (gelap, senada notch). Tertutup saat Esc; pindah halaman ditangani Navbar.
+ * Saat tertutup panel `invisible`: tidak menangkap ketukan, tidak bisa difokus, tersembunyi dari pembaca layar.
+ */
 export default function PanelHp({ buka, onTutup }: { buka: boolean; onTutup: () => void }) {
   const { dict } = useLang();
   const pathname = usePathname();
@@ -32,8 +35,8 @@ export default function PanelHp({ buka, onTutup }: { buka: boolean; onTutup: () 
   return (
     <div
       aria-hidden={!buka}
-      className={`pointer-events-auto mt-2 w-[calc(100%-24px)] max-w-sm origin-top rounded-2xl border border-white/10 bg-[#0a0a0a] p-2 text-white shadow-[0_18px_40px_rgba(0,0,0,0.4)] transition duration-200 ease-out lg:hidden ${
-        buka ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
+      className={`mt-2 w-[calc(100%-24px)] max-w-sm origin-top rounded-2xl border border-white/10 bg-[#0a0a0a] p-2 text-white shadow-[0_18px_40px_rgba(0,0,0,0.4)] transition-[opacity,transform,visibility] duration-200 ease-out lg:hidden ${
+        buka ? "pointer-events-auto visible translate-y-0 opacity-100" : "pointer-events-none invisible -translate-y-2 opacity-0"
       }`}
     >
       {links.map((l) => (

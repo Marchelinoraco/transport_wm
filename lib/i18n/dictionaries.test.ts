@@ -38,4 +38,9 @@ describe("kamus", () => {
     expect(dictionaries.id.detail.step).toContain("{n}");
     expect(dictionaries.ko.nav.more.trim()).not.toBe("");
   });
+
+  it("biaya area yang belum pasti terbaca menunggu konfirmasi, bukan sudah dikonfirmasi", () => {
+    expect(dictionaries.en.detail.confirm).toBe("To be confirmed");
+    expect(dictionaries.id.detail.confirm).toBe("Akan dikonfirmasi");
+  });
 });
