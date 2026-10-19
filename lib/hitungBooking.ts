@@ -55,3 +55,9 @@ export function hitungBooking({ car, paket, jumlah, area }: InputBooking): Hasil
   const perHari = TARIF_PELAYANAN.area[a][golongan];
   return { tarif, jumlah: n, sewa, jenisTambahan: "area", tarifTambahan: perHari, biayaTambahan: perHari * n, dikonfirmasi: false, total: sewa + perHari * n };
 }
+
+/** Area yang sah setelah paket diganti: "pool" hanya untuk lepas kunci; pindah ke lepas kunci selalu ke pool. */
+export function areaUntukPaket(area: PilihanArea, paket: Paket): PilihanArea {
+  if (paket === "self_drive") return "pool";
+  return area === "pool" ? 1 : area;
+}

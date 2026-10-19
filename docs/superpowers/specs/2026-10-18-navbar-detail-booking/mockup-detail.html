@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><title>Mockup halaman detail kendaraan</title>
+<style>
+  body { margin: 24px; font-family: Inter, system-ui, sans-serif; background: #f1f5f9; color: #0f172a; }
+  .subtitle { color: #64748b; } .cards { display: grid; gap: 22px; } .card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; }
+  .card-body { padding: 14px 18px; } .card-body p { color: #64748b; font-size: 14px; margin: 4px 0 0; } .card-body h3 { margin: 0; }
+</style></head><body>
+<p style="background:#fef3c7;padding:10px 14px;border-radius:10px;font-size:13px">Rujukan desain: pengguna memilih <b>A</b> (2026-10-18). B dan C hanya pembanding.</p>
+<style>
+  .wf { font-family: Inter, system-ui, sans-serif; background: #f8fafc; border-radius: 14px; padding: 16px; color: #0f172a; font-size: 11px; }
+  .wf .crumb { color: #94a3b8; font-weight: 800; letter-spacing: .12em; font-size: 9px; margin-bottom: 10px; }
+  .wf .g { display: grid; gap: 12px; }
+  .wf .box { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 10px 12px; }
+  .wf .foto { background: linear-gradient(135deg, #e2e8f0, #f1f5f9); border-radius: 14px; display: grid; place-items: center; color: #64748b; font-weight: 700; }
+  .wf .thumb { display: flex; gap: 6px; margin-top: 6px; } .wf .thumb i { flex: 1; height: 26px; border-radius: 8px; background: #e2e8f0; }
+  .wf h4 { margin: 0 0 6px; font-size: 18px; font-weight: 900; letter-spacing: -.5px; }
+  .wf .lbl { font-size: 8.5px; font-weight: 900; letter-spacing: .14em; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; }
+  .wf .chip { display: inline-block; font-size: 8.5px; font-weight: 800; padding: 3px 8px; border-radius: 999px; background: #f1f5f9; color: #475569; margin-right: 4px; }
+  .wf .chip.ok { background: #ecfdf5; color: #047857; } .wf .chip.red { background: #fef2f2; color: #dc2626; }
+  .wf .paket { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .wf .pk { border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 8px; background: #fff; }
+  .wf .pk.on { border-color: #dc2626; box-shadow: 0 6px 16px rgba(220,38,38,.12); }
+  .wf .pk b { display: block; font-size: 11px; } .wf .pk s { text-decoration: none; display: block; color: #dc2626; font-weight: 900; font-size: 13px; margin-top: 2px; } .wf .pk small { color: #94a3b8; font-size: 8.5px; }
+  .wf ul { margin: 0; padding-left: 14px; color: #475569; line-height: 1.55; } .wf ul.x { list-style: "✕  "; } .wf ul.v { list-style: "✓  "; }
+  .wf table { width: 100%; border-collapse: collapse; } .wf td { padding: 3px 0; border-bottom: 1px dashed #e2e8f0; color: #475569; } .wf td:last-child { text-align: right; font-weight: 800; color: #0f172a; }
+  .wf .inp { height: 22px; border-radius: 8px; background: #f1f5f9; margin-bottom: 6px; display: flex; align-items: center; padding: 0 8px; color: #94a3b8; font-size: 9.5px; }
+  .wf .tot { display: flex; justify-content: space-between; font-weight: 900; font-size: 13px; border-top: 1px solid #e2e8f0; padding-top: 6px; margin-top: 4px; } .wf .tot span:last-child { color: #dc2626; }
+  .wf .btn { margin-top: 8px; border-radius: 10px; padding: 8px; text-align: center; font-weight: 900; font-size: 10px; letter-spacing: .08em; color: #fff; background: #22c55e; }
+  .wf .btn.merah { background: #dc2626; } .wf .btn.garis { background: #fff; color: #334155; border: 1px solid #cbd5e1; }
+  .wf .step { opacity: .45; border-top: 1px dashed #cbd5e1; margin-top: 8px; padding-top: 6px; }
+  .wf .sim { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } .wf .sim i { height: 44px; border-radius: 10px; background: #e2e8f0; display: block; }
+  .wf .tabs { display: flex; gap: 4px; margin-bottom: 8px; } .wf .tabs span { padding: 4px 9px; border-radius: 999px; background: #f1f5f9; font-weight: 800; font-size: 9px; color: #64748b; } .wf .tabs span.on { background: #0f172a; color: #fff; }
+  .wf .sticky { position: relative; } .wf .sticky::after { content: "menempel saat digulir"; position: absolute; top: -8px; right: 8px; background: #0f172a; color: #fff; font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 999px; }
+  .catat { font-size: 12.5px; color: #64748b; margin: 8px 2px 0; }
+</style>
+
+<h2>Susunan halaman detail mana yang paling cocok?</h2>
+<p class="subtitle">Tampilan laptop, contoh Toyota Avanza. Isi informasinya sama di ketiganya; yang berbeda cara menyusunnya. Klik untuk memilih.</p>
+
+<div class="cards" style="grid-template-columns: 1fr; max-width: 1150px;">
+
+  <!-- ================= A ================= -->
+  <div class="card" data-choice="A" >
+    <div class="card-image" style="aspect-ratio:auto;display:block;padding:12px">
+      <div class="wf">
+        <div class="crumb">BERANDA › KATALOG › TOYOTA AVANZA</div>
+        <div class="g" style="grid-template-columns: 1.9fr 1fr; align-items: start">
+          <div class="g">
+            <div><div class="foto" style="height:190px">Galeri foto besar</div><div class="thumb"><i></i><i></i><i></i><i></i><i></i></div></div>
+            <div><h4>Toyota Avanza</h4><span class="chip">Mini MVP</span><span class="chip ok">● Tersedia</span><span class="chip red">🔑 Lepas kunci</span></div>
+            <div><div class="lbl">Pilih paket</div><div class="paket">
+              <div class="pk on"><b>Full day</b><s>Rp 700.000<small>/hari</small></s><small>maks. 12 jam · dengan sopir</small></div>
+              <div class="pk"><b>Transfer</b><s>Rp 300.000<small>/trip</small></s><small>sekali jalan · dengan sopir</small></div>
+              <div class="pk"><b>Lepas kunci</b><s>Rp 400.000<small>/hari</small></s><small>maks. 12 jam · tanpa sopir</small></div></div></div>
+            <div class="g" style="grid-template-columns: 1fr 1fr">
+              <div class="box"><div class="lbl">Termasuk</div><ul class="v"><li>Mobil, sopir &amp; uang makan</li><li>BBM s/d 120 km/hari</li><li>Parkir s/d Rp 50.000</li></ul></div>
+              <div class="box"><div class="lbl">Tidak termasuk</div><ul class="x"><li>Tol &amp; tiket wisata</li><li>Over time Rp 50.000/jam</li><li>Biaya area luar kota</li></ul></div>
+            </div>
+            <div class="g" style="grid-template-columns: 1fr 1fr">
+              <div class="box"><div class="lbl">Biaya area untuk mobil ini</div><table><tr><td>Area 1 · Kota Manado</td><td>Gratis</td></tr><tr><td>Area 2 · Tomohon, Bitung…</td><td>Rp 150.000/hari</td></tr><tr><td>Area 3 · Minsel, Mitra</td><td>Rp 250.000/hari</td></tr><tr><td>Area 4</td><td>Dikonfirmasi</td></tr></table></div>
+              <div class="box"><div class="lbl">Perlu diketahui</div><ul><li>Batal &gt; 24 jam: uang kembali penuh</li><li>Lepas kunci: KTP + KK &amp; deposit</li><li>Harga berlaku sejak 1 Okt 2026</li></ul></div>
+            </div>
+            <div class="box"><div class="lbl">Deskripsi</div>Toyota Avanza dikenal sebagai "mobil sejuta umat"…</div>
+            <div><div class="lbl">Mobil serupa</div><div class="sim"><i></i><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="box sticky">
+            <div class="lbl">Booking · Full day</div>
+            <div class="g" style="grid-template-columns:1fr 1fr;gap:6px"><div class="inp">Jumlah hari: 3</div><div class="inp">Tanggal mulai</div></div>
+            <div class="inp">Area 2 — Tomohon, Bitung…</div>
+            <table><tr><td>Sewa 3 × Rp 700.000</td><td>Rp 2.100.000</td></tr><tr><td>Biaya Area 2 × 3</td><td>Rp 450.000</td></tr></table>
+            <div class="tot"><span>Total</span><span>Rp 2.550.000</span></div>
+            <div class="btn merah">LANJUT ISI DATA →</div>
+            <div class="step"><div class="lbl">Langkah 2</div><div class="inp">Nama</div><div class="inp">No. WhatsApp</div><div class="btn">BOOKING VIA WHATSAPP</div></div>
+            <div class="btn garis">💬 Tanya dulu via WhatsApp</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body"><h3>A — Informasi di kiri, booking ringkas menempel di kanan <span style="color:#dc2626">(saran saya)</span></h3>
+      <p>Paket dipilih lewat kartu besar di kiri; kotak booking di kanan pendek dan menempel saat digulir, dengan nama &amp; WhatsApp di langkah kedua. Kiri jadi panjang dan kaya informasi, kanan tidak lagi kepanjangan.</p></div>
+  </div>
+
+  <!-- ================= B ================= -->
+  <div class="card" data-choice="B" >
+    <div class="card-image" style="aspect-ratio:auto;display:block;padding:12px">
+      <div class="wf">
+        <div class="crumb">BERANDA › KATALOG › TOYOTA AVANZA</div>
+        <div class="box g" style="grid-template-columns: 1.4fr 1fr; align-items:center; margin-bottom:12px">
+          <div class="foto" style="height:170px">Foto besar</div>
+          <div><h4>Toyota Avanza</h4><span class="chip">Mini MVP</span><span class="chip ok">● Tersedia</span>
+            <div class="paket" style="margin-top:8px;grid-template-columns:1fr"><div class="pk"><b>Full day · Rp 700.000/hari</b></div><div class="pk"><b>Transfer · Rp 300.000/trip</b></div><div class="pk"><b>Lepas kunci · Rp 400.000/hari</b></div></div>
+            <div class="btn merah">BOOKING SEKARANG ↓</div></div>
+        </div>
+        <div class="g" style="grid-template-columns: 1.9fr 1fr; align-items:start">
+          <div class="box"><div class="tabs"><span class="on">Termasuk</span><span>Biaya area</span><span>Ketentuan</span><span>Deskripsi</span></div>
+            <ul class="v"><li>Mobil, sopir &amp; uang makan</li><li>BBM s/d 120 km/hari</li><li>Parkir s/d Rp 50.000</li><li>Pemakaian s/d 12 jam</li></ul>
+            <div class="lbl" style="margin-top:10px">Mobil serupa</div><div class="sim"><i></i><i></i><i></i><i></i></div></div>
+          <div class="box sticky"><div class="lbl">Booking</div><div class="paket" style="grid-template-columns:repeat(3,1fr)"><div class="pk on"><b>Full day</b></div><div class="pk"><b>Transfer</b></div><div class="pk"><b>Lepas</b></div></div>
+            <div style="height:6px"></div><div class="inp">Jumlah hari · Tanggal</div><div class="inp">Area</div><div class="inp">Nama</div><div class="inp">No. WhatsApp</div>
+            <div class="tot"><span>Total</span><span>Rp 2.550.000</span></div><div class="btn">BOOKING VIA WHATSAPP</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body"><h3>B — Kepala halaman lebar + informasi dalam tab</h3>
+      <p>Foto dan ketiga harga langsung terlihat di atas. Informasi lain dikemas dalam tab (Termasuk, Biaya area, Ketentuan, Deskripsi) supaya ringkas; form tetap di kanan. Rapi, tapi sebagian info tersembunyi di balik tab.</p></div>
+  </div>
+
+  <!-- ================= C ================= -->
+  <div class="card" data-choice="C" >
+    <div class="card-image" style="aspect-ratio:auto;display:block;padding:12px">
+      <div class="wf">
+        <div class="crumb">BERANDA › KATALOG › TOYOTA AVANZA</div>
+        <div class="g" style="grid-template-columns: 1.2fr 1fr; margin-bottom:12px">
+          <div><div class="foto" style="height:180px">Galeri foto</div><div class="thumb"><i></i><i></i><i></i><i></i></div></div>
+          <div class="box"><h4>Toyota Avanza</h4><span class="chip">Mini MVP</span><span class="chip ok">● Tersedia</span><span class="chip red">🔑 Lepas kunci</span>
+            <table style="margin-top:8px"><tr><td>Full day (12 jam, sopir)</td><td>Rp 700.000/hari</td></tr><tr><td>Transfer sekali jalan</td><td>Rp 300.000/trip</td></tr><tr><td>Lepas kunci</td><td>Rp 400.000/hari</td></tr><tr><td>Over time</td><td>Rp 50.000/jam</td></tr></table>
+            <div class="lbl" style="margin-top:8px">Biaya area</div><table><tr><td>Area 2 / Area 3</td><td>Rp 150rb / 250rb per hari</td></tr></table></div>
+        </div>
+        <div class="box" style="padding:12px"><div class="lbl">Booking · 3 langkah dalam satu baris</div>
+          <div class="g" style="grid-template-columns: 1fr 1fr 1fr; align-items:start">
+            <div><b>① Paket</b><div class="paket" style="grid-template-columns:1fr;margin-top:6px"><div class="pk on"><b>Full day</b><small>Rp 700.000/hari</small></div><div class="pk"><b>Transfer</b></div><div class="pk"><b>Lepas kunci</b></div></div></div>
+            <div><b>② Perjalanan &amp; data</b><div style="height:6px"></div><div class="inp">Jumlah hari · Tanggal</div><div class="inp">Area</div><div class="inp">Nama</div><div class="inp">No. WhatsApp</div></div>
+            <div><b>③ Ringkasan</b><table style="margin-top:6px"><tr><td>Sewa 3 hari</td><td>Rp 2.100.000</td></tr><tr><td>Biaya Area 2</td><td>Rp 450.000</td></tr></table><div class="tot"><span>Total</span><span>Rp 2.550.000</span></div><div class="btn">BOOKING VIA WHATSAPP</div><ul class="v" style="margin-top:6px"><li>Termasuk sopir &amp; BBM</li></ul></div>
+          </div></div>
+        <div class="g" style="grid-template-columns:1fr 1fr;margin-top:12px"><div class="box"><div class="lbl">Termasuk / tidak termasuk · Ketentuan</div>…</div><div class="box"><div class="lbl">Mobil serupa</div><div class="sim"><i></i><i></i><i></i><i></i></div></div></div>
+      </div>
+    </div>
+    <div class="card-body"><h3>C — Ringkasan di atas, booking selebar halaman di bawah</h3>
+      <p>Atas: foto dan tabel harga lengkap berdampingan (tingginya seimbang). Bawah: booking dalam satu baris lebar, tiga langkah berdampingan sehingga tidak memanjang ke bawah. Tidak ada kolom yang menempel.</p></div>
+  </div>
+</div>
+<p class="catat">Di semua pilihan: tombol paket tidak lagi terpotong, dan tombol chat melayang digeser agar tidak menutupi form.</p>
+
+</body></html>
