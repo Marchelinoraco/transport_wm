@@ -5,7 +5,14 @@ import { Languages } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { locales, localeMeta, type Locale } from "@/lib/i18n/dictionaries";
 
-export default function LanguageSwitcher() {
+const TOMBOL = {
+  default:
+    "flex h-10 items-center gap-1.5 rounded-xl border border-slate-200 px-3 text-xs font-black uppercase tracking-widest text-slate-600 transition hover:border-red-200 hover:text-red-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-red-900/60 dark:hover:text-red-400",
+  // Di dalam navbar notch: warna mengikuti keadaan notch lewat kelas .notch-bulat
+  notch: "notch-bulat flex h-[34px] items-center gap-1.5 rounded-full px-3 text-[11.5px] font-bold",
+} as const;
+
+export default function LanguageSwitcher({ varian = "default" }: { varian?: keyof typeof TOMBOL }) {
   const { locale, setLocale } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -23,7 +30,7 @@ export default function LanguageSwitcher() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Ganti bahasa"
-        className="flex h-10 items-center gap-1.5 rounded-xl border border-slate-200 px-3 text-xs font-black uppercase tracking-widest text-slate-600 transition hover:border-red-200 hover:text-red-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-red-900/60 dark:hover:text-red-400"
+        className={TOMBOL[varian]}
       >
         <Languages className="h-4 w-4" />
         {localeMeta[locale].short}

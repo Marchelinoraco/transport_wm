@@ -79,7 +79,7 @@ export default function RootLayout({
             <CompareProvider>
               <ChatWidgetProvider>
                 <Navbar />
-                <main>{children}</main>
+                <main className="pt-[var(--tinggi-navbar)]">{children}</main>
                 <Footer />
                 <FloatingChat />
                 <CompareBar />
