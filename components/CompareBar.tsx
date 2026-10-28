@@ -18,9 +18,9 @@ export default function CompareBar() {
         <div className="flex items-center gap-2 overflow-x-auto">
           {items.map((c) => (
             <div key={c.id} className="relative shrink-0">
-              <div className="relative h-12 w-16 overflow-hidden rounded-xl border border-slate-100 dark:border-slate-800">
+              <div className="relative h-12 w-16 overflow-hidden rounded-xl border border-slate-100 bg-white dark:border-slate-800">
                 {c.images[0] ? (
-                  <Image src={c.images[0]} alt={c.name} fill sizes="64px" className="object-cover" />
+                  <Image src={c.images[0]} alt={c.name} fill sizes="64px" className="object-contain" />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-slate-50 text-[8px] text-slate-400 dark:bg-slate-800">
                     {c.name}
