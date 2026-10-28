@@ -24,23 +24,25 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
   return (
     <>
       <div
-        className="group relative aspect-[16/10] cursor-zoom-in overflow-hidden rounded-[2rem] border border-slate-100 shadow-sm dark:border-slate-800"
+        className="group relative aspect-[16/10] cursor-zoom-in overflow-hidden rounded-[2rem] border border-slate-100 bg-white shadow-sm dark:border-slate-800"
         onClick={() => setLightbox(true)}
       >
+        {/* Foto utama armada: studio putih 16:10 dengan lencana Welcome Manado di kanan
+            bawah, jadi ditampilkan utuh (contain) dan penghitung dipindah ke kanan atas. */}
         <Image
           src={images[active]}
           alt={`${name} — ${LABELS[active] ?? `Foto ${active + 1}`}`}
           fill
           priority
           sizes="(max-width:1024px) 100vw, 66vw"
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="origin-bottom object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
           <span className="flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
             <ZoomIn className="h-4 w-4" /> Perbesar
           </span>
         </div>
-        <div className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs text-white backdrop-blur">
+        <div className="absolute right-3 top-3 rounded-full bg-black/60 px-2.5 py-1 text-xs text-white backdrop-blur">
           {active + 1} / {images.length}
         </div>
         {images.length > 1 && (
@@ -67,7 +69,7 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`group relative aspect-[4/3] overflow-hidden rounded-xl border-2 transition ${
+              className={`group relative aspect-[16/10] overflow-hidden rounded-xl border-2 bg-white transition ${
                 i === active
                   ? "border-red-600 shadow-sm"
                   : "border-slate-100 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-600"
@@ -79,7 +81,7 @@ export default function PhotoGallery({ images, name }: { images: string[]; name:
                 alt={`${name} — ${LABELS[i] ?? `Foto ${i + 1}`}`}
                 fill
                 sizes="15vw"
-                className={`object-cover transition ${i === active ? "" : "opacity-70 group-hover:opacity-100"}`}
+                className={`object-contain transition ${i === active ? "" : "opacity-70 group-hover:opacity-100"}`}
               />
               <span className="absolute bottom-0 left-0 right-0 bg-black/60 py-0.5 text-center text-[9px] text-white">
                 {LABELS[i] ?? `Foto ${i + 1}`}
