@@ -7,7 +7,7 @@ import CarCard from "@/components/CarCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionHeader from "@/components/SectionHeader";
 import { useLang } from "@/lib/i18n/LanguageProvider";
-import { adaHarga } from "@/lib/paket";
+import { hargaUtama } from "@/lib/paket";
 
 const typeFilters = ["MPV", "SUV", "Sedan", "City Car", "Pickup", "Minibus"];
 const transmissions = ["Manual", "Otomatis"];
@@ -17,7 +17,7 @@ export default function KatalogClient({ cars }: { cars: Car[] }) {
   const { dict } = useLang();
 
   const priceBounds = useMemo(() => {
-    const prices = cars.map((c) => c.price_rent ?? 0).filter(Boolean);
+    const prices = cars.map((c) => hargaUtama(c)?.harga ?? 0).filter(Boolean);
     return { min: 0, max: prices.length ? Math.max(...prices) : 1000000 };
   }, [cars]);
 
@@ -42,14 +42,14 @@ export default function KatalogClient({ cars }: { cars: Car[] }) {
       const matchType = !type || c.type === type;
       const matchTrans = !transmission || c.transmission === transmission;
       const matchFuel = !fuel || c.fuel === fuel;
-      const matchPrice = (c.price_rent ?? 0) <= maxPrice || c.price_rent == null;
+      const matchPrice = (hargaUtama(c)?.harga ?? 0) <= maxPrice;
       return matchSearch && matchType && matchTrans && matchFuel && matchPrice;
     });
 
     r = [...r].sort((a, b) => {
       switch (sort) {
-        case "harga-asc": return (adaHarga(a.price_rent) ? a.price_rent : Infinity) - (adaHarga(b.price_rent) ? b.price_rent : Infinity);
-        case "harga-desc": return (adaHarga(b.price_rent) ? b.price_rent : -1) - (adaHarga(a.price_rent) ? a.price_rent : -1);
+        case "harga-asc": return (hargaUtama(a)?.harga ?? Infinity) - (hargaUtama(b)?.harga ?? Infinity);
+        case "harga-desc": return (hargaUtama(b)?.harga ?? -1) - (hargaUtama(a)?.harga ?? -1);
         case "tahun-desc": return (b.year ?? 0) - (a.year ?? 0);
         default: return b.id - a.id;
       }

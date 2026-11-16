@@ -4,7 +4,7 @@ import { getCarBySlug, getAllSlugs, getCars } from "@/lib/api";
 import { mobilSerupa } from "@/lib/mobilSerupa";
 import { SITE_URL, SITE } from "@/lib/site";
 import CarDetailBody from "@/components/CarDetailBody";
-import { adaHarga } from "@/lib/paket";
+import { hargaUtama } from "@/lib/paket";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -51,12 +51,12 @@ export default async function CarDetail({ params }: { params: { slug: string } }
     vehicleConfiguration: car.type,
     image: car.images,
     description: car.description,
-    ...(adaHarga(car.price_rent)
+    ...(hargaUtama(car)
       ? {
           offers: {
             "@type": "Offer",
             priceCurrency: "IDR",
-            price: car.price_rent,
+            price: hargaUtama(car)!.harga,
             url: `${SITE_URL}/mobil/${car.slug}`,
             availability:
               car.status === "tersedia"
