@@ -10,7 +10,7 @@ import { Car } from "@/lib/types";
 import { formatRupiah } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { useCompare } from "./CompareProvider";
-import { adaHarga, hargaPaket } from "@/lib/paket";
+import { hargaPaket, hargaUtama } from "@/lib/paket";
 
 const badgeColor: Record<string, string> = {
   POPULER: "bg-red-600 text-white",
@@ -21,6 +21,7 @@ const badgeColor: Record<string, string> = {
 export default function CarCard({ car }: { car: Car }) {
   const { has, toggle, full } = useCompare();
   const { dict } = useLang();
+  const utama = hargaUtama(car);
   const selected   = has(car.id);
   const photoCount = car.images.length;
 
@@ -127,9 +128,9 @@ export default function CarCard({ car }: { car: Car }) {
 
           {/* ── Harga (pill merah) + tombol detail ── */}
           <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
-            {adaHarga(car.price_rent) ? (
+            {utama ? (
               <span className="rounded-xl bg-red-600 px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-red-600/20 transition-transform duration-300 group-hover:scale-105">
-                {formatRupiah(car.price_rent)}
+                {formatRupiah(utama.harga)}
                 <span className="ml-0.5 text-[10px] font-bold opacity-80">{dict.paket.perDay}</span>
               </span>
             ) : (
@@ -142,8 +143,10 @@ export default function CarCard({ car }: { car: Car }) {
               {dict.car.detail} →
             </span>
           </div>
-          {adaHarga(car.price_rent) && (
-            <p className="mt-2 text-[11px] font-medium text-slate-400">{dict.paket.full_dayNote}</p>
+          {utama && (
+            <p className="mt-2 text-[11px] font-medium text-slate-400">
+              {utama.paket === "full_day" ? dict.paket.full_dayNote : `${dict.paket.self_drive} · ${dict.paket.self_driveNote}`}
+            </p>
           )}
         </div>
       </Link>

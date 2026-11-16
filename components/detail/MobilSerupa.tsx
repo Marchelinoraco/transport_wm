@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Car } from "@/lib/types";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { formatRupiah } from "@/lib/whatsapp";
+import { hargaUtama } from "@/lib/paket";
 
 export default function MobilSerupa({ cars }: { cars: Car[] }) {
   const { dict } = useLang();
@@ -25,7 +26,7 @@ export default function MobilSerupa({ cars }: { cars: Car[] }) {
             <span className="block px-3 pb-3">
               <span className="block text-xs font-black leading-tight text-slate-900 dark:text-white">{c.name}</span>
               <span className="mt-1 block text-xs font-bold text-red-600">
-                {formatRupiah(c.price_rent)}<span className="text-slate-400">{dict.paket.perDay}</span>
+                {formatRupiah(hargaUtama(c)?.harga ?? 0)}<span className="text-slate-400">{dict.paket.perDay}</span>
               </span>
             </span>
           </Link>

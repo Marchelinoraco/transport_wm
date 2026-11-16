@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Car } from "@/lib/types";
 import { useLang } from "@/lib/i18n/LanguageProvider";
-import { adaHarga } from "@/lib/paket";
+import { hargaUtama } from "@/lib/paket";
 import { formatRupiah } from "@/lib/whatsapp";
 
 /**
@@ -37,7 +37,7 @@ export default function FleetMarquee({ cars }: { cars: Car[] }) {
                   <span>
                     <span className="block whitespace-nowrap text-sm font-black text-slate-900 dark:text-white">{c.name}</span>
                     <span className="block text-xs font-bold text-red-600">
-                      {adaHarga(c.price_rent) ? `${formatRupiah(c.price_rent)}${dict.paket.perDay}` : dict.paket.askPrice}
+                      {hargaUtama(c) ? `${formatRupiah(hargaUtama(c)!.harga)}${dict.paket.perDay}` : dict.paket.askPrice}
                     </span>
                   </span>
                 </Link>

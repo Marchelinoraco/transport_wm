@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { adaHarga, golonganMesin, hargaMulai, hargaPaket, paketTersedia } from "./paket";
+import { adaHarga, golonganMesin, hargaMulai, hargaPaket, hargaUtama, paketTersedia } from "./paket";
 import { mobil } from "./test/mobil";
 
 describe("paketTersedia", () => {
@@ -46,5 +46,24 @@ describe("hargaMulai", () => {
   it("tanpa unit berharga hasilnya null, bukan 0", () => {
     expect(hargaMulai([])).toBeNull();
     expect(hargaMulai([mobil({ price_rent: 0 })])).toBeNull();
+  });
+});
+
+describe("hargaUtama", () => {
+  it("Full day bila ada — harga yang dipajang di kartu, banding, dan pesan WhatsApp", () => {
+    expect(hargaUtama(mobil())).toEqual({ harga: 700_000, paket: "full_day" });
+  });
+
+  it("unit lepas kunci saja (mis. Brio/Agya) memakai harga lepas kunci, bukan 'Tanya harga'", () => {
+    const brio = mobil({ price_rent: 0, price_transfer: null, price_overtime: null, price_self_drive: 350_000 });
+    expect(hargaUtama(brio)).toEqual({ harga: 350_000, paket: "self_drive" });
+  });
+
+  it("harga transfer (per trip) tidak dipajang sebagai harga harian", () => {
+    expect(hargaUtama(mobil({ price_rent: 0, price_self_drive: null }))).toBeNull();
+  });
+
+  it("unit tanpa harga sama sekali (mis. White Marlin) hasilnya null", () => {
+    expect(hargaUtama(mobil({ price_rent: 0, price_transfer: null, price_self_drive: null }))).toBeNull();
   });
 });

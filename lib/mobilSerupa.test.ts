@@ -10,7 +10,7 @@ const armada = [
   mobil({ id: 4, price_rent: 1_250_000 }),
   mobil({ id: 5, price_rent: 2_000_000 }),
   mobil({ id: 6, price_rent: 4_000_000 }),
-  mobil({ id: 7, price_rent: 0 }),
+  mobil({ id: 7, price_rent: 0, price_transfer: null, price_self_drive: null }), // tanpa harga sama sekali
 ];
 const id = (cs: { id: number }[]) => cs.map((c) => c.id);
 
@@ -31,6 +31,12 @@ describe("mobilSerupa", () => {
   it("mobil tanpa harga mendapat empat unit termurah yang berharga", () => {
     const kapal = mobil({ id: 13, price_rent: 0, price_transfer: null, price_self_drive: null });
     expect(id(mobilSerupa(kapal, [...armada, kapal]))).toEqual([1, 2, 3, 4]);
+  });
+
+  it("unit lepas kunci saja ikut dibandingkan memakai harga lepas kunci", () => {
+    const brio = mobil({ id: 17, price_rent: 0, price_transfer: null, price_self_drive: 350_000 });
+    expect(id(mobilSerupa(ini, [...armada, brio]))).toEqual([2, 3, 17, 4]);
+    expect(id(mobilSerupa(brio, [...armada, brio]))).toEqual([1, 2, 3, 4]);
   });
 
   it("armada yang hanya berisi mobil itu sendiri menghasilkan daftar kosong", () => {
