@@ -3,8 +3,8 @@ import { Check, MessageCircle } from "lucide-react";
 import type { Block } from "@/lib/blog";
 import { waLink } from "@/lib/whatsapp";
 
-/** Render inline: **tebal** dan [label](/path atau https://...). */
-function renderInline(text: string) {
+/** Render inline: **tebal** dan [label](/path atau https://...). Dipakai juga LandingTemplate. */
+export function renderInline(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
   return parts.map((part, i) => {
     if (!part) return null;

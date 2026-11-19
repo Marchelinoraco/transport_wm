@@ -106,8 +106,19 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             {post.title}
           </h1>
           <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-slate-400">
+            {/* Tanggal yang terlihat ikut dibaca Google untuk cuplikan hasil
+                penelusuran — artikel yang diperbarui menampilkan tanggal update,
+                bukan tanggal terbit yang terkesan basi. */}
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4" /> {formatDate(post.date)}
+              <Calendar className="h-4 w-4" />
+              {post.updated && post.updated !== post.date ? (
+                <>
+                  Diperbarui{" "}
+                  <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+                </>
+              ) : (
+                <time dateTime={post.date}>{formatDate(post.date)}</time>
+              )}
             </span>
             <span className="flex items-center gap-1.5">
               <Clock className="h-4 w-4" /> {post.readingMinutes} menit baca
