@@ -3,18 +3,19 @@
 import { Car } from "@/lib/types";
 import { waLink, formatRupiah } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
-import { adaHarga } from "@/lib/paket";
+import { hargaUtama } from "@/lib/paket";
 import { MessageCircle } from "lucide-react";
 
 export default function TanyaButton({ car }: { car: Car }) {
   const { dict } = useLang();
+  const utama = hargaUtama(car);
 
   const message = `Halo Welcome Manado Transport 👋
 
 Saya ingin menanyakan ketersediaan mobil berikut:
 🚗 *${car.name}*${car.year ? ` (${car.year})` : ""}
 🏷️ Tipe: ${[car.type, car.transmission, car.fuel].filter(Boolean).join(" | ") || "-"}
-💵 Harga sewa: ${adaHarga(car.price_rent) ? `${formatRupiah(car.price_rent)}/hari (full day)` : "mohon info harga"}
+💵 Harga sewa: ${utama ? `${formatRupiah(utama.harga)}/hari (${utama.paket === "full_day" ? "full day" : "lepas kunci"})` : "mohon info harga"}
 
 Apakah mobil ini masih tersedia? Terima kasih.`;
 

@@ -10,7 +10,7 @@ import { Car } from "@/lib/types";
 import { formatRupiah } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { useCompare } from "./CompareProvider";
-import { adaHarga, hargaPaket } from "@/lib/paket";
+import { hargaPaket, hargaUtama } from "@/lib/paket";
 
 const badgeColor: Record<string, string> = {
   POPULER: "bg-red-600 text-white",
@@ -21,6 +21,7 @@ const badgeColor: Record<string, string> = {
 export default function CarCard({ car }: { car: Car }) {
   const { has, toggle, full } = useCompare();
   const { dict } = useLang();
+  const utama = hargaUtama(car);
   const selected   = has(car.id);
   const photoCount = car.images.length;
 
@@ -46,7 +47,10 @@ export default function CarCard({ car }: { car: Car }) {
 
       <Link href={`/mobil/${car.slug}`} className="block">
         {/* ── Gambar ── */}
-        <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
+        {/* Foto armada diseragamkan: studio putih 16:10, mobil di garis lantai yang sama,
+            lencana Welcome Manado tertanam di pojok kanan bawah — jadi bagian bawah foto
+            dibiarkan bersih dan zoom saat hover kecil agar lencana tidak terpotong. */}
+        <div className="relative aspect-[16/10] overflow-hidden border-b border-slate-100 bg-white dark:border-slate-800">
           {car.images[0] ? (
             <>
               <Image
@@ -54,14 +58,12 @@ export default function CarCard({ car }: { car: Car }) {
                 alt={car.year ? `${car.name} ${car.year}` : car.name}
                 fill
                 sizes="(max-width:768px) 100vw, 33vw"
-                className="object-cover transition duration-700 group-hover:scale-110"
+                className="origin-bottom object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
               />
-              {/* Scrim gradasi saat hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
               <span aria-hidden className="kilau kilau-hover absolute inset-0 overflow-hidden" />
             </>
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-slate-400">
+            <div className="flex h-full items-center justify-center bg-slate-100 text-sm text-slate-400 dark:bg-slate-800">
               {dict.compare.noPhoto}
             </div>
           )}
@@ -76,20 +78,6 @@ export default function CarCard({ car }: { car: Car }) {
             {hargaPaket(car, "self_drive") !== null && (
               <span className="flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-slate-700 shadow-sm backdrop-blur-sm dark:bg-slate-900/80 dark:text-slate-200">
                 <KeyRound className="h-3 w-3 text-red-600" /> {dict.paket.self_drive}
-              </span>
-            )}
-          </div>
-
-          {/* Tipe + jumlah foto */}
-          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-            {car.type && (
-              <span className="rounded-lg bg-white/90 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-slate-600 shadow-sm backdrop-blur-sm dark:bg-slate-900/80 dark:text-slate-300">
-                {car.type}
-              </span>
-            )}
-            {photoCount > 0 && (
-              <span className="rounded-lg bg-white/90 px-2.5 py-1 text-[10px] font-bold text-slate-500 shadow-sm backdrop-blur-sm dark:bg-slate-900/80 dark:text-slate-400">
-                {photoCount} {dict.car.photos}
               </span>
             )}
           </div>
@@ -117,6 +105,11 @@ export default function CarCard({ car }: { car: Car }) {
               {statusLabel}
             </span>
           </div>
+          {(car.type || photoCount > 1) && (
+            <p className="mt-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400">
+              {[car.type, photoCount > 1 && `${photoCount} ${dict.car.photos}`].filter(Boolean).join(" · ")}
+            </p>
+          )}
 
           <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs font-medium text-slate-500 dark:text-slate-400">
             {car.year != null && (
@@ -135,9 +128,9 @@ export default function CarCard({ car }: { car: Car }) {
 
           {/* ── Harga (pill merah) + tombol detail ── */}
           <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
-            {adaHarga(car.price_rent) ? (
+            {utama ? (
               <span className="rounded-xl bg-red-600 px-3.5 py-2 text-sm font-black text-white shadow-lg shadow-red-600/20 transition-transform duration-300 group-hover:scale-105">
-                {formatRupiah(car.price_rent)}
+                {formatRupiah(utama.harga)}
                 <span className="ml-0.5 text-[10px] font-bold opacity-80">{dict.paket.perDay}</span>
               </span>
             ) : (
@@ -150,8 +143,10 @@ export default function CarCard({ car }: { car: Car }) {
               {dict.car.detail} →
             </span>
           </div>
-          {adaHarga(car.price_rent) && (
-            <p className="mt-2 text-[11px] font-medium text-slate-400">{dict.paket.full_dayNote}</p>
+          {utama && (
+            <p className="mt-2 text-[11px] font-medium text-slate-400">
+              {utama.paket === "full_day" ? dict.paket.full_dayNote : `${dict.paket.self_drive} · ${dict.paket.self_driveNote}`}
+            </p>
           )}
         </div>
       </Link>

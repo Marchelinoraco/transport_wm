@@ -19,6 +19,18 @@ export function paketTersedia(car: Car): Paket[] {
   return PAKET.filter((p) => hargaPaket(car, p) !== null);
 }
 
+/**
+ * Harga harian yang dipajang untuk satu unit (kartu, banding, mobil serupa, pesan WhatsApp):
+ * Full day bila ada, kalau tidak Lepas kunci (unit lepas kunci saja, mis. Brio/Agya).
+ * Transfer tidak dipakai karena hitungannya per trip, bukan per hari.
+ */
+export function hargaUtama(car: Car): { harga: number; paket: "full_day" | "self_drive" } | null {
+  const fullDay = hargaPaket(car, "full_day");
+  if (fullDay !== null) return { harga: fullDay, paket: "full_day" };
+  const lepasKunci = hargaPaket(car, "self_drive");
+  return lepasKunci !== null ? { harga: lepasKunci, paket: "self_drive" } : null;
+}
+
 export type Golongan = "kecil" | "besar";
 
 export function golonganMesin(cc: number | null): Golongan | null {

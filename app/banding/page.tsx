@@ -7,7 +7,7 @@ import { formatRupiah, waLink } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import SectionHeader from "@/components/SectionHeader";
 import { X, GitCompareArrows, MessageCircle, ArrowLeft, Check, Minus } from "lucide-react";
-import { adaHarga, hargaPaket } from "@/lib/paket";
+import { hargaPaket, hargaUtama } from "@/lib/paket";
 
 export default function BandingPage() {
   const { items, remove, clear } = useCompare();
@@ -47,15 +47,20 @@ export default function BandingPage() {
     },
     {
       label: dict.compare.rentPrice,
-      render: (c) =>
-        adaHarga(c.price_rent) ? (
+      render: (c) => {
+        const utama = hargaUtama(c);
+        return utama ? (
           <span className="font-black text-red-600">
-            {formatRupiah(c.price_rent)}
-            <span className="font-normal text-slate-400">{dict.paket.perDay}</span>
+            {formatRupiah(utama.harga)}
+            <span className="font-normal text-slate-400">
+              {dict.paket.perDay}
+              {utama.paket === "self_drive" && ` · ${dict.paket.self_drive}`}
+            </span>
           </span>
         ) : (
           <span className="text-slate-400">{dict.paket.askPrice}</span>
-        ),
+        );
+      },
     },
     { label: dict.car.year, render: (c) => c.year ?? "—" },
     { label: dict.car.seatsLabel, render: (c) => (c.seats != null ? `${c.seats} ${dict.car.seats}` : "—") },
