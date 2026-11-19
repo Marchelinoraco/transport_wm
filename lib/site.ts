@@ -7,9 +7,22 @@ export const SITE_URL =
 /** Situs utama Welcome Manado (tour & travel). Situs ini khusus transport. */
 export const MAIN_SITE_URL = "https://welcomemanado.com";
 
+// Kontak & profil resmi — dipakai footer DAN structured data, supaya data
+// yang dibaca customer dan yang dibaca Google selalu sama (NAP konsisten).
+export const MAPS_URL = "https://maps.app.goo.gl/sSe6ReKHVfowT2xs9";
+export const EMAIL_UTAMA = "info@welcomemanado.com";
+export const SOSMED_URL = {
+  instagram: "https://instagram.com/welcomemanadotours",
+  facebook: "https://web.facebook.com/welcomemanadowisata/",
+  tiktok: "https://www.tiktok.com/@welcomemanadotours?_r=1&_t=ZS-9650ww50qye",
+} as const;
+
 export const SITE = {
   name: "Welcome Manado Transport",
-  legalName: "Welcome Manado Transport",
+  legalName: "PT. Welcome Manado Wisata",
+  /** Sama dengan alamat di footer (dictionaries.ts) & invoice ERP */
+  streetAddress: "Grha Merdeka, Jl. AA. Maramis No. 17, Kairagi Dua",
+  postalCode: "95254",
   url: SITE_URL,
   /** Deskripsi default untuk metadata & structured data */
   description:
@@ -37,18 +50,23 @@ export const businessJsonLd = {
   "@type": "AutoRental",
   "@id": `${SITE_URL}/#business`,
   name: SITE.name,
+  legalName: SITE.legalName,
   description: SITE.description,
   url: SITE_URL,
   telephone: SITE.telephone,
+  email: EMAIL_UTAMA,
   priceRange: "Rp 300.000 - Rp 4.000.000",
   currenciesAccepted: "IDR",
   image: SITE.ogImage,
   address: {
     "@type": "PostalAddress",
+    streetAddress: SITE.streetAddress,
     addressLocality: SITE.city,
     addressRegion: SITE.region,
+    postalCode: SITE.postalCode,
     addressCountry: SITE.country,
   },
+  hasMap: MAPS_URL,
   geo: {
     "@type": "GeoCoordinates",
     latitude: SITE.geo.lat,
@@ -69,5 +87,12 @@ export const businessJsonLd = {
     opens: "08:00",
     closes: "21:00",
   },
-  sameAs: [`https://wa.me/${SITE.whatsapp}`],
+  // Profil yang mewakili usaha yang sama. Link Google Business Profile
+  // ditambahkan di sini begitu profilnya jadi.
+  sameAs: [SOSMED_URL.instagram, SOSMED_URL.facebook, SOSMED_URL.tiktok],
+  parentOrganization: {
+    "@type": "TravelAgency",
+    name: SITE.legalName,
+    url: MAIN_SITE_URL,
+  },
 };
