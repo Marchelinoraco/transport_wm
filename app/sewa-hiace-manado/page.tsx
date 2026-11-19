@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getCars } from "@/lib/api";
 import LandingTemplate from "@/components/LandingTemplate";
 import { unitHiace, deskripsiHiace } from "@/lib/hiace";
-import { AREA_SEWA, TARIF_PELAYANAN, rp } from "@/lib/tarif-sewa";
+import { paragrafBiayaArea, paragrafPaketDenganSopir } from "@/lib/landing";
 
 export const revalidate = 60;
 
@@ -51,11 +51,11 @@ export default async function Page() {
         },
         {
           heading: "Apa saja yang termasuk dalam sewa Hiace?",
-          body: `Paket **Full day** berlaku sampai 12 jam per hari dan sudah termasuk sopir beserta uang makannya, BBM sampai ${TARIF_PELAYANAN.batasKmPerHari} km per hari, serta parkir sampai ${rp(TARIF_PELAYANAN.batasParkirPerHari)} per hari. Lewat dari 12 jam dikenakan over time per jam. Paket **Transfer** adalah sekali jalan dengan sopir — paling pas untuk menjemput atau mengantar rombongan di Bandara Sam Ratulangi. Tol dan tiket masuk tempat wisata belum termasuk. Hiace hanya disewakan dengan sopir, tidak lepas kunci.`,
+          body: paragrafPaketDenganSopir("Hiace"),
         },
         {
           heading: "Biaya untuk tujuan di luar Kota Manado",
-          body: `Untuk tujuan di luar Kota Manado berlaku **Biaya Area** per hari, misalnya ke ${AREA_SEWA[1].wilayah}. Besarnya tercantum di halaman tiap unit dan dihitung otomatis di form booking, jadi total yang Anda lihat sama dengan yang ditagihkan. Ketentuan lengkapnya ada di [Syarat & Ketentuan](/syarat-ketentuan).`,
+          body: paragrafBiayaArea(),
         },
         {
           heading: "Tujuan rombongan dari Manado",

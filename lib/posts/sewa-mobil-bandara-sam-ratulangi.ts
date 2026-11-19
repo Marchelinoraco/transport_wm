@@ -5,7 +5,7 @@ export const post: BlogPost = {
   title: "Sewa Mobil Bandara Sam Ratulangi Manado: Panduan, Tarif & Tips",
   metaTitle: "Sewa Mobil Bandara Sam Ratulangi Manado — Tarif & Tips 2026",
   description:
-    "Panduan lengkap sewa mobil di Bandara Sam Ratulangi Manado: layanan antar-jemput, lepas kunci, dengan sopir, estimasi tarif per tipe mobil, dan cara pesan cepat via WhatsApp.",
+    "Sewa mobil Bandara Sam Ratulangi Manado: antar-jemput mulai Rp 300 rb sekali jalan, lepas kunci, atau dengan sopir. Tarif per mobil & cara pesan via WhatsApp.",
   excerpt:
     "Baru mendarat di Sam Ratulangi? Ini panduan lengkap sewa mobil dari bandara: pilihan layanan, estimasi tarif per tipe, tujuan populer, dan cara pesan dalam hitungan menit.",
   keywords: [
@@ -100,9 +100,9 @@ export const post: BlogPost = {
       items: [
         "**Pasangan / solo trip:** city car irit BBM seperti [Honda Brio](/mobil/honda-brio) atau [Toyota Agya](/mobil/toyota-agya).",
         "**Keluarga (5–7 orang):** [Toyota Avanza](/mobil/toyota-avanza) atau [Mitsubishi Xpander](/mobil/mitsubishi-xpander) — lega & ekonomis.",
-        "**Perjalanan nyaman / dinas:** [Toyota Innova Zenix](/mobil/toyota-innova-zenix-g), kabin senyap dan empuk.",
-        "**Rombongan (10–14 orang):** [Toyota Hiace Premio](/mobil/toyota-hiace-premio) untuk tur grup ke Bunaken atau Tomohon.",
-        "**Acara spesial / VIP:** [Toyota Alphard](/mobil/toyota-alphard) untuk tamu penting atau pengantin.",
+        "**Perjalanan nyaman / dinas:** [Toyota Innova Zenix](/mobil/toyota-innova-zenix), kabin senyap dan empuk.",
+        "**Rombongan (10–14 orang):** [Toyota Hiace Premio](/mobil/hiace-premio) untuk tur grup ke Bunaken atau Tomohon — lihat juga [sewa Hiace Manado](/sewa-hiace-manado).",
+        "**Acara spesial / VIP:** [Toyota Alphard](/mobil/toyota-alphard) untuk tamu penting atau pengantin — lihat juga [sewa Alphard Manado](/sewa-alphard-manado).",
       ],
     },
     { type: "h2", text: "Cara pesan mobil dari Bandara Sam Ratulangi" },

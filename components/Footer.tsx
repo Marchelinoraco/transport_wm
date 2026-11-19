@@ -73,6 +73,7 @@ export default function Footer() {
     { href: "/sewa-mobil-lepas-kunci-manado", label: dict.footer.svcKey },
     { href: "/rental-mobil-dengan-sopir-manado", label: dict.footer.svcDriver },
     { href: "/sewa-hiace-manado", label: dict.footer.svcHiace },
+    { href: "/sewa-alphard-manado", label: dict.footer.svcAlphard },
   ];
 
   const phoneDisplay = WA_NUMBER.replace(/^62/, "0").replace(
