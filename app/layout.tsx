@@ -10,6 +10,8 @@ import CompareBar from "@/components/CompareBar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { SITE, SITE_URL, businessJsonLd } from "@/lib/site";
+import Analytics from "@/components/Analytics";
+import { GSC_VERIFICATION } from "@/lib/analytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,6 +53,9 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+  // <meta name="google-site-verification"> untuk Search Console — hanya
+  // dipasang bila NEXT_PUBLIC_GSC_VERIFICATION diisi di Vercel.
+  ...(GSC_VERIFICATION ? { verification: { google: GSC_VERIFICATION } } : {}),
 };
 
 export default function RootLayout({
@@ -83,6 +88,7 @@ export default function RootLayout({
                 <Footer />
                 <FloatingChat />
                 <CompareBar />
+                <Analytics />
               </ChatWidgetProvider>
             </CompareProvider>
           </LanguageProvider>

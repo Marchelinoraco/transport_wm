@@ -1,3 +1,5 @@
+import { catatKlikWhatsapp } from "./analytics";
+
 // Nomor resmi Welcome Manado, sama dengan yang tampil di situs utama
 // (client_wm). Disamakan supaya customer tidak menemui dua nomor berbeda.
 // CATATAN: NEXT_PUBLIC_WHATSAPP_NUMBER di server MENANG atas nilai ini —
@@ -11,6 +13,9 @@ export function waLink(message: string) {
 
 export function openWhatsApp(message: string) {
   if (typeof window !== "undefined") {
+    // Dibuka lewat window.open, bukan <a>, jadi pelacak klik di
+    // components/Analytics.tsx tidak melihatnya — dicatat langsung di sini.
+    catatKlikWhatsapp(window.location.pathname);
     window.open(waLink(message), "_blank");
   }
 }
