@@ -3,13 +3,13 @@
 // paling dekat ke halaman 1. Harga selalu dibaca dari data armada (admin),
 // tidak pernah ditulis di sini, supaya halaman ini tidak bisa basi.
 import type { Car } from "./types";
-import { hargaMulai, hargaUtama } from "./paket";
+import { hargaMulai } from "./paket";
 import { rp } from "./tarif-sewa";
+import { unitCocok } from "./landing";
 
 /** Unit Hiace di armada (dikenali dari nama), termurah di depan. */
 export function unitHiace(cars: Car[]): Car[] {
-  const harga = (c: Car) => hargaUtama(c)?.harga ?? Number.POSITIVE_INFINITY;
-  return cars.filter((c) => /hiace/i.test(c.name)).sort((a, b) => harga(a) - harga(b));
+  return unitCocok(cars, /hiace/i);
 }
 
 /** Meta description: menyebut harga Full day termurah bila terbaca, tanpa angka bila tidak. */

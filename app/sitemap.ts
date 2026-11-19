@@ -11,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/sewa-mobil-lepas-kunci-manado",
     "/rental-mobil-dengan-sopir-manado",
     "/sewa-hiace-manado",
+    "/sewa-alphard-manado",
   ];
 
   const staticPages = ["", "/katalog", "/promo", "/banding", "/tentang", "/syarat-ketentuan", "/blog", ...landingPages].map((p) => ({
