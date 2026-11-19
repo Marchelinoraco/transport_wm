@@ -4,6 +4,7 @@ import { Car } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import TrustStrip from "@/components/TrustStrip";
 import ScrollReveal from "@/components/ScrollReveal";
+import { renderInline } from "@/components/BlogContent";
 import { waLink } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site";
 
@@ -16,7 +17,7 @@ export type LandingContent = {
   intro: string;
   /** Poin keunggulan (bullet) */
   highlights: string[];
-  /** Blok konten tambahan untuk kedalaman SEO */
+  /** Blok konten tambahan untuk kedalaman SEO. `body` mendukung **tebal** dan [link](/path). */
   sections: { heading: string; body: string }[];
   /** Mobil yang ditampilkan */
   cars: Car[];
@@ -142,7 +143,7 @@ export default function LandingTemplate(c: LandingContent) {
             <ScrollReveal key={s.heading}>
               <div>
                 <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">{s.heading}</h2>
-                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">{s.body}</p>
+                <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">{renderInline(s.body)}</p>
               </div>
             </ScrollReveal>
           ))}

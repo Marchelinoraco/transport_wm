@@ -3,25 +3,33 @@ import type { BlogPost } from "@/lib/blog";
 export const post: BlogPost = {
   slug: "harga-sewa-mobil-manado-2026",
   title: "Harga Sewa Mobil di Manado 2026 (Daftar Resmi per Unit)",
-  metaTitle: "Harga Sewa Mobil Manado 2026 — Daftar Tarif per Unit",
+  // Search Console 19 Nov 2026: 330 tayangan di posisi ±7 tetapi CTR 1,8% —
+  // judul & deskripsi kini langsung menyebut angka yang dicari orang.
+  // Angka "Mulai Rp 350 Ribu" dijaga test agar selalu sama dengan tabel.
+  metaTitle: "Harga Sewa Mobil Manado 2026: Mulai Rp 350 Ribu/Hari",
   description:
-    "Daftar lengkap kisaran harga sewa mobil di Manado 2026 per tipe & model: city car, MPV, SUV, Hiace, Alphard. Plus faktor harga, simulasi biaya, dan tips dapat tarif termurah.",
+    "Daftar harga resmi sewa mobil Manado (update Nov 2026): Brio/Agya lepas kunci Rp 350 rb/hari, Avanza + sopir Rp 700 rb/hari, Hiace 14 kursi Rp 1,5 jt/hari.",
   excerpt:
     "Berapa biaya sewa mobil di Manado sekarang? Ini daftar tarif harian per model, faktor yang memengaruhi harga, simulasi biaya nyata, dan cara dapat harga terbaik.",
   keywords: [
     "harga sewa mobil manado",
+    "harga sewa mobil di manado",
     "tarif rental mobil manado",
     "biaya sewa mobil manado",
     "sewa mobil manado murah",
     "harga rental mobil manado 2026",
   ],
   date: "2026-05-28",
-  updated: "2026-10-14",
+  updated: "2026-11-19",
   cover: "/images/cars/toyota-avanza.png",
   coverAlt: "Toyota Avanza, pilihan populer rental mobil murah di Manado",
   category: "Tarif & Harga",
   readingMinutes: 7,
   body: [
+    {
+      type: "callout",
+      text: "**Jawaban singkat:** sewa mobil di Manado mulai **Rp 350.000 per hari** untuk city car lepas kunci ([Honda Brio](/mobil/honda-brio), [Toyota Agya](/mobil/toyota-agya)), **Rp 700.000 per hari** untuk [Toyota Avanza](/mobil/toyota-avanza) dengan sopir (Full day 12 jam), dan **Rp 1.500.000 per hari** untuk [Hiace 14 kursi](/sewa-hiace-manado). Rincian semua unit ada di tabel di bawah.",
+    },
     {
       type: "p",
       text: "Salah satu pertanyaan paling sering sebelum menyewa mobil adalah: **\"Berapa harganya?\"** Di Manado, tarif sewa mobil bervariasi tergantung tipe kendaraan, durasi, serta apakah Anda memilih lepas kunci atau dengan sopir. Artikel ini merangkum **kisaran harga sewa mobil di Manado tahun 2026** secara transparan, lengkap dengan simulasi biaya dan tips agar dapat tarif terbaik.",
@@ -37,21 +45,28 @@ export const post: BlogPost = {
     },
     {
       type: "table",
-      caption: "Daftar harga resmi, berlaku sejak 1 Oktober 2026 (Rupiah). — berarti unit tidak disewakan lepas kunci.",
+      caption: "Daftar harga resmi, berlaku sejak 1 Oktober 2026 (Rupiah). — berarti paket itu tidak tersedia untuk unit tersebut.",
       headers: ["Unit", "Full day (12 jam, dengan sopir)", "Transfer sekali jalan", "Lepas kunci / hari", "Over time / jam"],
+      // Salinan harga per unit di admin (api /transportations), dicek 19 Nov 2026.
       rows: [
-        ["Toyota Avanza", "Rp 700.000", "Rp 300.000", "Rp 400.000", "Rp 50.000"],
-        ["Mitsubishi Xpander", "Rp 850.000", "Rp 350.000", "Rp 500.000", "Rp 50.000"],
-        ["Toyota Innova Reborn (2019–2022)", "Rp 1.000.000", "Rp 400.000", "Rp 600.000", "Rp 50.000"],
-        ["Toyota Innova Zenix G (2023)", "Rp 1.250.000", "Rp 500.000", "—", "Rp 50.000"],
-        ["Toyota Innova Zenix Q Captain Seat (2023)", "Rp 1.750.000", "Rp 700.000", "—", "Rp 75.000"],
-        ["Toyota Hiace Commuter 14 pax", "Rp 1.500.000", "Rp 700.000", "—", "Rp 100.000"],
-        ["Toyota Hiace Premio 14 pax (2023)", "Rp 2.000.000", "Rp 800.000", "—", "Rp 100.000"],
-        ["Bus 30 Seat", "Rp 2.300.000", "Rp 1.200.000", "—", "Rp 100.000"],
-        ["Toyota Fortuner (2020–2023)", "Rp 2.500.000", "Rp 1.000.000", "—", "Rp 150.000"],
-        ["Toyota Alphard (2019–2022)", "Rp 3.500.000", "Rp 1.500.000", "—", "Rp 250.000"],
-        ["Toyota Alphard (2022–2026)", "Rp 4.000.000", "Rp 2.500.000", "—", "Rp 300.000"],
+        ["[Honda Brio](/mobil/honda-brio)", "—", "—", "Rp 350.000", "—"],
+        ["[Toyota Agya](/mobil/toyota-agya)", "—", "—", "Rp 350.000", "—"],
+        ["[Toyota Avanza](/mobil/toyota-avanza)", "Rp 700.000", "Rp 300.000", "Rp 400.000", "Rp 50.000"],
+        ["[Mitsubishi Xpander](/mobil/mitsubishi-xpander)", "Rp 850.000", "Rp 350.000", "Rp 500.000", "Rp 50.000"],
+        ["[Toyota Innova Reborn (2019–2022)](/mobil/toyota-innova-reborn)", "Rp 1.000.000", "Rp 400.000", "Rp 600.000", "Rp 50.000"],
+        ["[Toyota Innova Zenix G (2023)](/mobil/toyota-innova-zenix)", "Rp 1.250.000", "Rp 500.000", "—", "Rp 50.000"],
+        ["[Toyota Innova Zenix Q Captain Seat (2023)](/mobil/toyota-innova-zenix-q-captain-seat-2023)", "Rp 1.750.000", "Rp 700.000", "—", "Rp 75.000"],
+        ["[Toyota Hiace Commuter 14 pax](/mobil/hiace-commuter)", "Rp 1.500.000", "Rp 700.000", "—", "Rp 100.000"],
+        ["[Toyota Hiace Premio 14 pax (2023)](/mobil/hiace-premio)", "Rp 2.000.000", "Rp 800.000", "—", "Rp 100.000"],
+        ["[Bus 30 Seat](/mobil/bus-3033-seater)", "Rp 2.300.000", "Rp 1.200.000", "—", "Rp 100.000"],
+        ["[Toyota Fortuner (2020–2023)](/mobil/toyota-fortuner)", "Rp 2.500.000", "Rp 1.000.000", "—", "Rp 150.000"],
+        ["[Toyota Alphard (2019–2022)](/mobil/toyota-alphard)", "Rp 3.500.000", "Rp 1.500.000", "—", "Rp 250.000"],
+        ["[Toyota Alphard (2022–2026)](/mobil/toyota-alphard-2022-2026)", "Rp 4.000.000", "Rp 2.500.000", "—", "Rp 300.000"],
       ],
+    },
+    {
+      type: "p",
+      text: "Pergi rombongan 10–14 orang? Lihat pilihan dan harga di halaman [sewa Hiace Manado](/sewa-hiace-manado). Baru mendarat di Manado? Baca [panduan sewa mobil dari Bandara Sam Ratulangi](/blog/sewa-mobil-bandara-sam-ratulangi) — paket Transfer sekali jalan biasanya paling hemat untuk antar-jemput bandara.",
     },
     { type: "h2", text: "Faktor yang memengaruhi harga sewa" },
     {
@@ -107,7 +122,7 @@ export const post: BlogPost = {
       items: [
         "**Sewa mingguan atau bulanan?** Tanyakan harga khusus via WhatsApp.",
         "**Pesan jauh hari** — hindari tarif tinggi & kehabisan unit saat musim ramai.",
-        "**Pilih mobil sesuai kebutuhan** — city car sudah cukup untuk 2–3 orang, tak perlu MPV.",
+        "**Pilih mobil sesuai kebutuhan** — city car seperti [Honda Brio](/mobil/honda-brio) sudah cukup untuk 2–3 orang, tak perlu MPV.",
         "**Pertimbangkan lepas kunci** bila Anda nyaman menyetir sendiri.",
         "**Tanyakan paket** untuk wisata atau dinas — sering ada harga khusus.",
         "**Bandingkan unit** lewat fitur [bandingkan mobil](/banding) sebelum memutuskan.",
