@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { MoreHorizontal } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import SakelarGelap from "./SakelarGelap";
 
 /**
- * Tombol "⋯" di notch: mode gelap dan Syarat & Ketentuan. Tertutup saat klik
+ * Tombol "⋯" di notch: mode gelap (S&K kini di menu utama). Tertutup saat klik
  * di luar, Esc, atau halaman digulir (menu kecil yang melayang tanpa notch di
  * bawahnya terlihat janggal setelah notch berubah menjadi kaca).
  */
@@ -51,14 +50,6 @@ export default function MenuLainnya() {
         }`}
       >
         <SakelarGelap tabIndex={buka ? 0 : -1} />
-        <Link
-          href="/syarat-ketentuan"
-          tabIndex={buka ? 0 : -1}
-          onClick={() => setBuka(false)}
-          className="block rounded-xl px-3 py-2.5 text-[13px] text-white/85 transition hover:bg-white/[.07]"
-        >
-          {dict.nav.terms}
-        </Link>
       </div>
     </div>
   );

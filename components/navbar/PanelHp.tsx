@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import LanguageSwitcher from "../LanguageSwitcher";
 import SakelarGelap from "./SakelarGelap";
+import { menuUtama } from "@/lib/menuUtama";
 
 /**
  * Panel menu HP yang muncul dari bawah notch (gelap, senada notch). Tertutup saat Esc; pindah halaman ditangani Navbar.
@@ -22,13 +23,7 @@ export default function PanelHp({ buka, onTutup }: { buka: boolean; onTutup: () 
     return () => document.removeEventListener("keydown", esc);
   }, [buka, onTutup]);
 
-  const links = [
-    { href: "/", label: dict.nav.home },
-    { href: "/katalog", label: dict.nav.catalog },
-    { href: "/promo", label: dict.nav.promo },
-    { href: "/blog", label: dict.nav.blog },
-    { href: "/tentang", label: dict.nav.about },
-  ];
+  const links = menuUtama(dict, "panel");
   const aktif = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const tab = buka ? 0 : -1;
 
@@ -59,9 +54,6 @@ export default function PanelHp({ buka, onTutup }: { buka: boolean; onTutup: () 
         <LanguageSwitcher varian="notch" />
       </div>
       <SakelarGelap tabIndex={tab} />
-      <Link href="/syarat-ketentuan" tabIndex={tab} className="block rounded-xl px-3 py-2.5 text-[13px] text-white/85 transition hover:bg-white/[.07]">
-        {dict.nav.terms}
-      </Link>
     </div>
   );
 }

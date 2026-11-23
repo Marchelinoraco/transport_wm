@@ -11,6 +11,7 @@ import Logo from "./Logo";
 import MenuLainnya from "./navbar/MenuLainnya";
 import GarisKilau from "./navbar/GarisKilau";
 import PanelHp from "./navbar/PanelHp";
+import { menuUtama } from "@/lib/menuUtama";
 
 /** Batas gulir: notch hitam hanya ketika halaman di paling atas. */
 const BATAS_GULIR = 24;
@@ -25,13 +26,7 @@ export default function Navbar() {
   const [sorot, setSorot] = useState<{ x: number; w: number; tampak: boolean }>({ x: 0, w: 0, tampak: false });
   const sorotKe = (el: HTMLElement) => setSorot({ x: el.offsetLeft, w: el.offsetWidth, tampak: true });
 
-  const links = [
-    { href: "/", label: dict.nav.home },
-    { href: "/katalog", label: dict.nav.catalog },
-    { href: "/promo", label: dict.nav.promo },
-    { href: "/blog", label: dict.nav.blog },
-    { href: "/tentang", label: dict.nav.about },
-  ];
+  const links = menuUtama(dict, "notch");
   const aktif = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   useEffect(() => {
