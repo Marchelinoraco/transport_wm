@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, CheckCircle2, Loader2, MessageCircle, Pencil } from "lucide-react";
 import { Car } from "@/lib/types";
-import { formatRupiah, openWhatsApp, waLink } from "@/lib/whatsapp";
+import { formatRupiah, openWhatsApp, tambahRef, waLink } from "@/lib/whatsapp";
 import { useLang } from "@/lib/i18n/LanguageProvider";
 import { fill } from "@/lib/i18n/format";
 import { type Paket, adaHarga, paketTersedia } from "@/lib/paket";
@@ -116,6 +116,7 @@ export default function BookingForm({ car, paket, onPaket }: { car: Car; paket: 
 
     setSending(true);
     let ok = false;
+    let idBooking: number | null = null;
     try {
       const res = await fetch(`${API_BASE}/transportation-bookings`, {
         method: "POST",
@@ -123,6 +124,14 @@ export default function BookingForm({ car, paket, onPaket }: { car: Car; paket: 
         body: JSON.stringify(buatPayloadBooking(input, hasil, pemesan)),
       });
       ok = res.ok;
+      if (ok) {
+        // Body yang tidak bisa dibaca tidak boleh menggagalkan alur WhatsApp — pesan tetap dibuka tanpa ref
+        try {
+          idBooking = (await res.json())?.data?.id ?? null;
+        } catch {
+          idBooking = null;
+        }
+      }
     } catch {
       // Booking gagal tersimpan bukan alasan kehilangan lead — tetap lanjut ke WhatsApp
     }
@@ -131,7 +140,7 @@ export default function BookingForm({ car, paket, onPaket }: { car: Car; paket: 
     if (ok) {
       setSaved(true);
       setTimeout(() => {
-        openWhatsApp(pesan);
+        openWhatsApp(tambahRef(pesan, idBooking ? `TRN-${idBooking}` : null));
         setSaved(false);
       }, 1200);
     } else {
