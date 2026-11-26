@@ -20,6 +20,14 @@ export function openWhatsApp(message: string) {
   }
 }
 
+/**
+ * Menambah kode referensi (mis. "TRN-45") di bawah pesan WhatsApp, supaya tim
+ * sales bisa mencocokkan chat dengan booking di ERP. Tanpa ref, pesan apa adanya.
+ */
+export function tambahRef(pesan: string, ref?: string | null) {
+  return ref ? `${pesan}\n\nRef: ${ref}` : pesan;
+}
+
 export function formatRupiah(value?: number | null) {
   if (value == null) return "-";
   return "Rp " + new Intl.NumberFormat("id-ID").format(value);
